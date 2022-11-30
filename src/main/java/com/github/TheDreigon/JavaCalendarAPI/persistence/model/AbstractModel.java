@@ -16,10 +16,11 @@ import java.util.Objects;
  */
 @Getter
 @Setter
+@MappedSuperclass
 public abstract class AbstractModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     @JdbcTypeCode(SqlTypes.INTEGER)
     private Integer id;

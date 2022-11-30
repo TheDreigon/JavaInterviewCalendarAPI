@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "CALENDAR")
+@Table(name = "calendar")
 public class Calendar extends AbstractModel {
 
     @Column(name = "name", nullable = false)

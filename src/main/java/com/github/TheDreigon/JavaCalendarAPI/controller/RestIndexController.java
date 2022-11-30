@@ -1,9 +1,6 @@
 package com.github.TheDreigon.JavaCalendarAPI.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * REST controller responsible for retrieving the API description
@@ -17,7 +14,7 @@ public class RestIndexController {
      *
      * @return the response
      */
-    @RequestMapping(method = RequestMethod.GET, path = {"/", ""})
+    @GetMapping(path = {"/", ""})
     @ResponseBody
     protected ApiVersion showVersion() {
 
