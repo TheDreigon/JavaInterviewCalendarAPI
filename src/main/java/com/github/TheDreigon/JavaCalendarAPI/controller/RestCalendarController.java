@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * REST controller responsible for {@link Calendar} related CRUD operations
  */
-@CrossOrigin(origins = "http://localhost:8081")
+//@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/api/calendars")
 public class RestCalendarController {
@@ -21,13 +21,25 @@ public class RestCalendarController {
     private CalendarService calendarService;
 
     @GetMapping("/")
-    public List<Calendar> getCalendars() {
-        return calendarService.getCalendarList();
+    public ResponseEntity<List<Calendar>> getCalendars() {
+
+        try {
+            calendarService.getCalendarList();
+            return new ResponseEntity<>(calendarService.getCalendarList(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
-    public Calendar getCalendarById(@PathVariable("id") Integer id) {
-        return calendarService.getCalendar(id);
+    public ResponseEntity<Calendar> getCalendarById(@PathVariable("id") Integer id) {
+
+        try {
+            calendarService.getCalendar(id);
+            return new ResponseEntity<>(calendarService.getCalendar(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/")
@@ -35,19 +47,31 @@ public class RestCalendarController {
 
         try {
             calendarService.createCalendar(calendar);
-            return ResponseEntity.ok(calendar);
+            return new ResponseEntity<>(calendar, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/")
-    public Calendar updateCalendar(@RequestBody Calendar calendar) {
-        return calendarService.updateCalendar(calendar);
+    @PutMapping("/{id}")
+    public ResponseEntity<Calendar> updateCalendar(@PathVariable("id") Integer id, @RequestBody Calendar calendar) {
+
+        try {
+            calendarService.updateCalendar(calendar);
+            return new ResponseEntity<>(calendar, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCalendar(@PathVariable("id") Integer id) {
-        calendarService.deleteCalendar(id);
+    public ResponseEntity<HttpStatus> deleteCalendar(@PathVariable("id") Integer id) {
+
+        try {
+            calendarService.deleteCalendar(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
