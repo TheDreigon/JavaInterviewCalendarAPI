@@ -4,6 +4,7 @@ import com.github.TheDreigon.JavaCalendarAPI.persistence.model.Calendar;
 import com.github.TheDreigon.JavaCalendarAPI.persistence.repository.CalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,30 +12,40 @@ import java.util.List;
 public class CalendarServiceImpl implements CalendarService {
 
     @Autowired
-    private CalendarRepository calendarRepository;
+    private CalendarRepository dao;
 
     @Override
     public List<Calendar> getCalendarList() {
-        return calendarRepository.findAll();
+        return dao.findAll();
     }
 
     @Override
     public Calendar getCalendar(Integer id) {
-        return calendarRepository.findById(id).orElse(null);
+        return dao.findById(id).orElse(null);
     }
 
+    @Transactional
     @Override
     public Calendar createCalendar(Calendar calendar) {
-        return calendarRepository.save(calendar);
+        return dao.save(calendar);
     }
 
+    @Transactional
     @Override
     public Calendar updateCalendar(Calendar calendar) {
-        return calendarRepository.save(calendar);
+
+        Calendar calendarFromDB = dao.findById(calendar.getId()).orElse(null);
+        if (calendarFromDB != null) {
+            calendarFromDB.setName(calendar.getName());
+            calendarFromDB.setDescription(calendar.getDescription());
+            return dao.save(calendarFromDB);
+        }
+        return null;
     }
 
+    @Transactional
     @Override
     public void deleteCalendar(Integer id) {
-        calendarRepository.deleteById(id);
+        dao.deleteById(id);
     }
 }
