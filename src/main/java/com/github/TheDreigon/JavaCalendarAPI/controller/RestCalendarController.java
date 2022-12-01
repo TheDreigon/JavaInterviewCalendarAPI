@@ -2,21 +2,28 @@ package com.github.TheDreigon.JavaCalendarAPI.controller;
 
 import com.github.TheDreigon.JavaCalendarAPI.dto.CalendarDto;
 import com.github.TheDreigon.JavaCalendarAPI.dto.converter.CalendarDtoToCalendar;
+import com.github.TheDreigon.JavaCalendarAPI.dto.converter.CalendarToCalendarDto;
 import com.github.TheDreigon.JavaCalendarAPI.persistence.model.Calendar;
 import com.github.TheDreigon.JavaCalendarAPI.service.CalendarService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 /**
  * REST controller responsible for {@link Calendar} related CRUD operations
@@ -24,7 +31,7 @@ import java.util.List;
 //@CrossOrigin(origins = "http://localhost:8080")
 @Slf4j
 @RestController
-@RequestMapping("/api/calendars")
+@RequestMapping("/api/calendar")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Validated
@@ -37,68 +44,143 @@ public class RestCalendarController {
     @Autowired
     private CalendarDtoToCalendar calendarDtoToCalendar;
 
-    @GetMapping("/")
-    public ResponseEntity<List<Calendar>> getCalendars() {
+    @Autowired
+    private CalendarToCalendarDto calendarToCalendarDto;
+
+
+    /**
+     * Retrieves a representation of the list of calendar objects
+     *
+     * @return the response entity
+     */
+    @GetMapping(path = {"/", "", "/all", "/list"})
+    public ResponseEntity<List<CalendarDto>> getCalendars() {
+
+        List<CalendarDto> calendarDtoList = new ArrayList<>();
 
         try {
-            calendarService.getCalendarList();
-            return new ResponseEntity<>(calendarService.getCalendarList(), HttpStatus.OK);
+            for (Calendar calendar : calendarService.getCalendarList()) {
+                CalendarDto calendarDto = calendarToCalendarDto.convert(calendar);
+                calendarDtoList.add(calendarDto);
+            }
+
+            return new ResponseEntity<>(calendarDtoList, HttpStatus.OK);
+
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+     * Retrieves a representation of the given calendar
+     *
+     * @param id the calendar id
+     * @return the response entity
+     */
     @GetMapping("/{id}")
-    public ResponseEntity<Calendar> getCalendarById(@PathVariable("id") Integer id) {
+    public ResponseEntity<CalendarDto> getCalendarById(@PathVariable("id") Integer id) {
+
+        if (calendarService.getCalendar(id) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         try {
-            calendarService.getCalendar(id);
-            return new ResponseEntity<>(calendarService.getCalendar(id), HttpStatus.OK);
+            Calendar calendar = calendarService.getCalendar(id);
+            CalendarDto calendarDto = calendarToCalendarDto.convert(calendar);
+            return new ResponseEntity<>(calendarDto, HttpStatus.OK);
+
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+     * Adds a calendar
+     *
+     * @param calendarDto          the calendar DTO
+     * @param bindingResult        the binding result object
+     * @param uriComponentsBuilder the uri components builder
+     * @return the response entity
+     */
     @PostMapping("/")
-    public ResponseEntity<Calendar> createCalendar(@RequestBody Calendar calendar) {
+    public ResponseEntity<CalendarDto> createCalendar(@Valid @RequestBody CalendarDto calendarDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
+
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         try {
-            calendarService.createCalendar(calendar);
-            return new ResponseEntity<>(calendar, HttpStatus.OK);
+            Calendar savedCalendar = calendarService.createCalendar(calendarDtoToCalendar.convert(calendarDto));
+            CalendarDto resultingCalendarDto = calendarToCalendarDto.convert(savedCalendar);
+
+            assert resultingCalendarDto != null;
+            // get help from the framework building the path for the newly created resource
+            UriComponents uriComponents = uriComponentsBuilder.path("/api/calendar/" + resultingCalendarDto.getId()).build();
+
+            // set headers with the created path
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(uriComponents.toUri());
+
+            return new ResponseEntity<>(headers, HttpStatus.CREATED);
+
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+     * Edits a calendar
+     *
+     * @param calendarDto   the calendar DTO
+     * @param id            the calendar id
+     * @param bindingResult the binding result
+     * @return the response entity
+     */
     @PutMapping("/{id}")
-    //TODO: maybe change to PatchMapping. In case of a PATCH request, we only send the data we want to modify.
-    //TODO: in any case, PUT seems to now be working fine. move on to the next method
-    public ResponseEntity<CalendarDto> updateCalendar(@PathVariable("id") Integer id, @Valid @RequestBody CalendarDto calendarDto, BindingResult bindingResult) {
+    public ResponseEntity<CalendarDto> updateCalendar(@Valid @RequestBody CalendarDto calendarDto, @PathVariable("id") Integer id, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        if (calendarService.getCalendar(id) == null) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (calendarService.getCalendar(id) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         //if (calendarService.getCalendar(id) != null && !calendarDto.getId().equals(id)) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
         calendarDto.setId(id);
 
         try {
-            calendarService.updateCalendar(calendarDtoToCalendar.convert(calendarDto));
-            return new ResponseEntity<>(calendarDto, HttpStatus.OK);
+            Calendar savedCalendar = calendarService.updateCalendar(calendarDtoToCalendar.convert(calendarDto));
+            CalendarDto resultingCalendarDto = calendarToCalendarDto.convert(savedCalendar);
+            return new ResponseEntity<>(resultingCalendarDto, HttpStatus.OK);
 
         } catch (Exception e) {
             log.error(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+     * Deletes a calendar
+     *
+     * @param id the calendar id
+     * @return the response entity
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteCalendar(@PathVariable("id") Integer id) {
+
+        if (calendarService.getCalendar(id) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         try {
             calendarService.deleteCalendar(id);
             return new ResponseEntity<>(HttpStatus.OK);
+
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

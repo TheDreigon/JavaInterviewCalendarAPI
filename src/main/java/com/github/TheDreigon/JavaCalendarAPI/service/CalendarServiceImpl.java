@@ -12,33 +12,33 @@ import java.util.List;
 public class CalendarServiceImpl implements CalendarService {
 
     @Autowired
-    private CalendarRepository dao;
+    private CalendarRepository calendarDao;
 
     @Override
     public List<Calendar> getCalendarList() {
-        return dao.findAll();
+        return calendarDao.findAll();
     }
 
     @Override
     public Calendar getCalendar(Integer id) {
-        return dao.findById(id).orElse(null);
+        return calendarDao.findById(id).orElse(null);
     }
 
     @Transactional
     @Override
     public Calendar createCalendar(Calendar calendar) {
-        return dao.save(calendar);
+        return calendarDao.save(calendar);
     }
 
     @Transactional
     @Override
     public Calendar updateCalendar(Calendar calendar) {
 
-        Calendar calendarFromDB = dao.findById(calendar.getId()).orElse(null);
+        Calendar calendarFromDB = calendarDao.findById(calendar.getId()).orElse(null);
         if (calendarFromDB != null) {
             calendarFromDB.setName(calendar.getName());
             calendarFromDB.setDescription(calendar.getDescription());
-            return dao.save(calendarFromDB);
+            return calendarDao.save(calendarFromDB);
         }
         return null;
     }
@@ -46,6 +46,6 @@ public class CalendarServiceImpl implements CalendarService {
     @Transactional
     @Override
     public void deleteCalendar(Integer id) {
-        dao.deleteById(id);
+        calendarDao.deleteById(id);
     }
 }
