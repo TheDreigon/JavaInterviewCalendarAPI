@@ -23,8 +23,6 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.apache.logging.log4j.ThreadContext.isEmpty;
-
 /**
  * REST controller responsible for {@link Calendar} related CRUD operations
  */
@@ -49,7 +47,7 @@ public class RestCalendarController {
 
 
     /**
-     * Retrieves a representation of the list of calendar objects
+     * Retrieves a representation of the list of calendars
      *
      * @return the response entity
      */
@@ -63,10 +61,10 @@ public class RestCalendarController {
                 CalendarDto calendarDto = calendarToCalendarDto.convert(calendar);
                 calendarDtoList.add(calendarDto);
             }
-
             return new ResponseEntity<>(calendarDtoList, HttpStatus.OK);
 
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -90,6 +88,7 @@ public class RestCalendarController {
             return new ResponseEntity<>(calendarDto, HttpStatus.OK);
 
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -103,7 +102,7 @@ public class RestCalendarController {
      * @return the response entity
      */
     @PostMapping("/")
-    public ResponseEntity<CalendarDto> createCalendar(@Valid @RequestBody CalendarDto calendarDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<CalendarDto> addCalendar(@Valid @RequestBody CalendarDto calendarDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -124,6 +123,7 @@ public class RestCalendarController {
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
 
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -137,7 +137,7 @@ public class RestCalendarController {
      * @return the response entity
      */
     @PutMapping("/{id}")
-    public ResponseEntity<CalendarDto> updateCalendar(@Valid @RequestBody CalendarDto calendarDto, @PathVariable("id") Integer id, BindingResult bindingResult) {
+    public ResponseEntity<CalendarDto> editCalendar(@Valid @RequestBody CalendarDto calendarDto, @PathVariable("id") Integer id, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -146,8 +146,6 @@ public class RestCalendarController {
         if (calendarService.getCalendar(id) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        //if (calendarService.getCalendar(id) != null && !calendarDto.getId().equals(id)) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
         calendarDto.setId(id);
 
@@ -180,6 +178,7 @@ public class RestCalendarController {
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (Exception e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
