@@ -17,6 +17,6 @@ public class CalendarErrorController implements ErrorController {
 
     @RequestMapping(value = PATH)
     public String error() {
-        return "No Content: please try another path";
+        return "No Content: please try another path and/or correct your request body.";
     }
 }

@@ -56,10 +56,15 @@ public class RestCalendarController {
         List<CalendarDto> calendarDtoList = new ArrayList<>();
 
         try {
-            for (Calendar calendar : calendarService.getCalendarList()) {
-                CalendarDto calendarDto = calendarToCalendarDto.convert(calendar);
-                calendarDtoList.add(calendarDto);
+            for (Calendar savedCalendar : calendarService.getCalendarList()) {
+                CalendarDto resultingCalendarDto = calendarToCalendarDto.convert(savedCalendar);
+
+                assert resultingCalendarDto != null;
+                resultingCalendarDto.setId(savedCalendar.getId());
+
+                calendarDtoList.add(resultingCalendarDto);
             }
+
             return new ResponseEntity<>(calendarDtoList, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -84,9 +89,13 @@ public class RestCalendarController {
         }
 
         try {
-            Calendar calendar = calendarService.getCalendar(id);
-            CalendarDto calendarDto = calendarToCalendarDto.convert(calendar);
-            return new ResponseEntity<>(calendarDto, HttpStatus.OK);
+            Calendar savedCalendar = calendarService.getCalendar(id);
+            CalendarDto resultingCalendarDto = calendarToCalendarDto.convert(savedCalendar);
+
+            assert resultingCalendarDto != null;
+            resultingCalendarDto.setId(savedCalendar.getId());
+
+            return new ResponseEntity<>(resultingCalendarDto, HttpStatus.OK);
 
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -116,6 +125,8 @@ public class RestCalendarController {
             CalendarDto resultingCalendarDto = calendarToCalendarDto.convert(savedCalendar);
 
             assert resultingCalendarDto != null;
+            resultingCalendarDto.setId(savedCalendar.getId());
+
             // get help from the framework building the path for the newly created resource
             UriComponents uriComponents = uriComponentsBuilder.path("/api/calendar/" + resultingCalendarDto.getId()).build();
 
@@ -123,7 +134,7 @@ public class RestCalendarController {
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(uriComponents.toUri());
 
-            return new ResponseEntity<>(headers, HttpStatus.CREATED);
+            return new ResponseEntity<>(resultingCalendarDto, headers, HttpStatus.CREATED);
 
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -147,7 +158,6 @@ public class RestCalendarController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         if (calendarService.getCalendar(id) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -157,6 +167,10 @@ public class RestCalendarController {
         try {
             Calendar savedCalendar = calendarService.updateCalendar(calendarDtoToCalendar.convert(calendarDto));
             CalendarDto resultingCalendarDto = calendarToCalendarDto.convert(savedCalendar);
+
+            assert resultingCalendarDto != null;
+            resultingCalendarDto.setId(savedCalendar.getId());
+
             return new ResponseEntity<>(resultingCalendarDto, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -182,6 +196,7 @@ public class RestCalendarController {
 
         try {
             calendarService.deleteCalendar(id);
+
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (Exception e) {
