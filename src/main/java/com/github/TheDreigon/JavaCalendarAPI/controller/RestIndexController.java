@@ -1,12 +1,17 @@
 package com.github.TheDreigon.JavaCalendarAPI.controller;
 
-import org.springframework.web.bind.annotation.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST controller responsible for retrieving the API description
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping({"/api", ""})
 public class RestIndexController {
 
     /**
@@ -20,30 +25,16 @@ public class RestIndexController {
 
         ApiVersion version = new ApiVersion();
         version.setName("JavaCalendarAPI");
-        version.setVersion("v0.1");
+        version.setVersion("v1.0");
 
         return version;
     }
 
+    @Getter
+    @Setter
     private static class ApiVersion {
 
         private String name;
         private String version;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getVersion() {
-            return version;
-        }
-
-        public void setVersion(String version) {
-            this.version = version;
-        }
     }
 }

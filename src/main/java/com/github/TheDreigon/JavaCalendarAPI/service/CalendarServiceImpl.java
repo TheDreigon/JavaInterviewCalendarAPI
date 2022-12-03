@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * REST service responsible for {@link Calendar} related business logic operations
+ */
 @Service
 public class CalendarServiceImpl implements CalendarService {
 

@@ -26,14 +26,12 @@ import java.util.List;
 /**
  * REST controller responsible for {@link Calendar} related CRUD operations
  */
-//@CrossOrigin(origins = "http://localhost:8080")
 @Slf4j
 @RestController
 @RequestMapping("/api/calendar")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Validated
-@RestControllerAdvice
 public class RestCalendarController {
 
     @Autowired
@@ -45,7 +43,6 @@ public class RestCalendarController {
     @Autowired
     private CalendarToCalendarDto calendarToCalendarDto;
 
-
     /**
      * Retrieves a representation of the list of calendars
      *
@@ -53,6 +50,8 @@ public class RestCalendarController {
      */
     @GetMapping(path = {"/", "", "/all", "/list"})
     public ResponseEntity<List<CalendarDto>> getCalendars() {
+
+        log.info("GetAll Method called");
 
         List<CalendarDto> calendarDtoList = new ArrayList<>();
 
@@ -77,6 +76,8 @@ public class RestCalendarController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<CalendarDto> getCalendarById(@PathVariable("id") Integer id) {
+
+        log.info("Get Method called");
 
         if (calendarService.getCalendar(id) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -103,6 +104,8 @@ public class RestCalendarController {
      */
     @PostMapping("/")
     public ResponseEntity<CalendarDto> addCalendar(@Valid @RequestBody CalendarDto calendarDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
+
+        log.info("Post Method called");
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -139,6 +142,8 @@ public class RestCalendarController {
     @PutMapping("/{id}")
     public ResponseEntity<CalendarDto> editCalendar(@Valid @RequestBody CalendarDto calendarDto, @PathVariable("id") Integer id, BindingResult bindingResult) {
 
+        log.info("Put Method called");
+
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -168,6 +173,8 @@ public class RestCalendarController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteCalendar(@PathVariable("id") Integer id) {
+
+        log.info("Delete Method called");
 
         if (calendarService.getCalendar(id) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

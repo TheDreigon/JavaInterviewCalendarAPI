@@ -1,20 +1,14 @@
 package com.github.TheDreigon.JavaCalendarAPI.dto;
 
 import com.github.TheDreigon.JavaCalendarAPI.persistence.model.Calendar;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import javax.validation.constraints.*;
 
 /**
  * The {@link Calendar} data transfer object
  */
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@Data
 public class CalendarDto {
 
     @Null
