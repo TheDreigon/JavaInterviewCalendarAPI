@@ -1,6 +1,7 @@
 package com.github.TheDreigon.JavaCalendarAPI.service;
 
 import com.github.TheDreigon.JavaCalendarAPI.persistence.model.Calendar;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public interface CalendarService {
      * @param calendar the calendar object
      * @return the updated calendar object
      */
+    @Transactional
     Calendar updateCalendar(Calendar calendar);
 
     /**
