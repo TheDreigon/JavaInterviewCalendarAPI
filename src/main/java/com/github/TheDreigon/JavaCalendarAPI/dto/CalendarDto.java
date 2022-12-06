@@ -1,9 +1,8 @@
 package com.github.TheDreigon.JavaCalendarAPI.dto;
 
 import com.github.TheDreigon.JavaCalendarAPI.persistence.model.Calendar;
+import jakarta.validation.constraints.*;
 import lombok.Data;
-
-import javax.validation.constraints.*;
 
 /**
  * The {@link Calendar} data transfer object

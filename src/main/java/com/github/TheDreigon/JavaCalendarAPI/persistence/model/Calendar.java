@@ -19,7 +19,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "calendar")
+@Table(name = "CALENDAR")
 public class Calendar extends AbstractModel {
 
     @Column(name = "name", nullable = false)
