@@ -1,5 +1,5 @@
 # JavaCalendarAPI
-Personal Calendar Java project using Spring Boot and REST endpoints.
+Personal Calendar Java project using SpringBoot and REST endpoints.
 
 ### About
 
@@ -42,7 +42,7 @@ Alternatively, as it is a Spring Boot application, you can use the [Spring Boot 
 mvn spring-boot:run
 ```
 
-Once the application runs you should see something like this:
+Once the application runs, you should see something like this:
 
 ```
 2022-12-03T01:08:46.462Z  INFO 11828 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''

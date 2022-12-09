@@ -22,6 +22,7 @@ public class CalendarToCalendarDto implements Converter<Calendar, CalendarDto> {
 
         CalendarDto calendarDto = new CalendarDto();
 
+        calendarDto.setId(calendar.getId());
         calendarDto.setName(calendar.getName());
         calendarDto.setDescription(calendar.getDescription());
 
