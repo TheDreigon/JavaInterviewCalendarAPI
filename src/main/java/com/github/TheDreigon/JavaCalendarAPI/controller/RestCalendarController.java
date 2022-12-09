@@ -46,7 +46,7 @@ public class RestCalendarController {
      *
      * @return the response entity
      */
-    @GetMapping(path = {"/", "", "/all", "/list"})
+    @GetMapping("/")
     public ResponseEntity<List<CalendarDto>> getCalendars() {
 
         log.info("GetAll Method called");
@@ -56,10 +56,6 @@ public class RestCalendarController {
         try {
             for (Calendar savedCalendar : calendarService.getCalendarList()) {
                 CalendarDto resultingCalendarDto = calendarToCalendarDto.convert(savedCalendar);
-
-                assert resultingCalendarDto != null;
-                resultingCalendarDto.setId(savedCalendar.getId());
-
                 calendarDtoList.add(resultingCalendarDto);
             }
 
@@ -89,9 +85,6 @@ public class RestCalendarController {
         try {
             Calendar savedCalendar = calendarService.getCalendar(id);
             CalendarDto resultingCalendarDto = calendarToCalendarDto.convert(savedCalendar);
-
-            assert resultingCalendarDto != null;
-            resultingCalendarDto.setId(savedCalendar.getId());
 
             return new ResponseEntity<>(resultingCalendarDto, HttpStatus.OK);
 
@@ -123,10 +116,8 @@ public class RestCalendarController {
                 Calendar savedCalendar = calendarService.createCalendar(calendarDtoToCalendar.convert(calendarDto));
                 CalendarDto resultingCalendarDto = calendarToCalendarDto.convert(savedCalendar);
 
-                assert resultingCalendarDto != null;
-                resultingCalendarDto.setId(savedCalendar.getId());
-
                 // get help from the framework building the path for the newly created resource
+                assert resultingCalendarDto != null;
                 UriComponents uriComponents = uriComponentsBuilder.path("/api/calendar/" + resultingCalendarDto.getId()).build();
 
                 // set headers with the created path
@@ -163,14 +154,11 @@ public class RestCalendarController {
 
         } else {
 
-            calendarDto.setId(id);
-
             try {
+                calendarDto.setId(id);
+
                 Calendar savedCalendar = calendarService.updateCalendar(calendarDtoToCalendar.convert(calendarDto));
                 CalendarDto resultingCalendarDto = calendarToCalendarDto.convert(savedCalendar);
-
-                assert resultingCalendarDto != null;
-                resultingCalendarDto.setId(savedCalendar.getId());
 
                 return new ResponseEntity<>(resultingCalendarDto, HttpStatus.OK);
 

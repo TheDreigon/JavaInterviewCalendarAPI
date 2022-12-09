@@ -25,7 +25,7 @@ public class CalendarDtoToCalendar implements Converter<CalendarDto, Calendar> {
     @Override
     public Calendar convert(CalendarDto calendarDto) {
 
-        Calendar calendar = calendarDto.getId() != null ? calendarService.getCalendar(calendarDto.getId()) : new Calendar();
+        Calendar calendar = (calendarDto.getId() != null ? calendarService.getCalendar(calendarDto.getId()) : new Calendar());
 
         calendar.setName(calendarDto.getName());
         calendar.setDescription(calendarDto.getDescription());
