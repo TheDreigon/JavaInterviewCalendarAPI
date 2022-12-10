@@ -30,7 +30,7 @@ public class CalendarServiceTest {
     private CalendarRepository calendarRepository;
 
     @Test
-    public void getCalendarListShouldReturnCalendarList() throws Exception {
+    public void getCalendarListShouldReturnCalendarList() {
 
         Calendar calendar = new Calendar();
         calendar.setName("name");
