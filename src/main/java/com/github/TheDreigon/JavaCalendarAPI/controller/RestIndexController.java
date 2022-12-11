@@ -25,7 +25,7 @@ public class RestIndexController {
 
         ApiVersion version = new ApiVersion();
         version.setName("JavaCalendarAPI");
-        version.setVersion("v1.0");
+        version.setVersion("v2.0");
 
         return version;
     }
