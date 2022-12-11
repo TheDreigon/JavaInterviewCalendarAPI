@@ -20,6 +20,7 @@ public class CalendarServiceImpl implements CalendarService {
     /**
      * @see CalendarService#getCalendarList
      */
+    @Transactional(readOnly = true)
     @Override
     public List<Calendar> getCalendarList() {
         return calendarDao.findAll();
@@ -28,6 +29,7 @@ public class CalendarServiceImpl implements CalendarService {
     /**
      * @see CalendarService#getCalendar(Integer)
      */
+    @Transactional(readOnly = true)
     @Override
     public Calendar getCalendar(Integer id) {
         return calendarDao.findById(id).orElse(null);
