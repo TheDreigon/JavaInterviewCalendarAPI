@@ -118,7 +118,7 @@ public class RestInterviewerController {
 
                 // get help from the framework building the path for the newly created resource
                 assert resultingInterviewerDto != null;
-                UriComponents uriComponents = uriComponentsBuilder.path("/api/interviewer/" + resultingInterviewerDto.getId()).build();
+                UriComponents uriComponents = uriComponentsBuilder.path("/api/interviewers/" + resultingInterviewerDto.getId()).build();
 
                 // set headers with the created path
                 HttpHeaders headers = new HttpHeaders();
