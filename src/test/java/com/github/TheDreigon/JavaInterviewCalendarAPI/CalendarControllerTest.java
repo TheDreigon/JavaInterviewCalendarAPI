@@ -128,7 +128,7 @@ public class CalendarControllerTest {
 
         when(uriComponentsBuilder.path(any())).thenReturn(uriComponentsBuilder);
         when(uriComponentsBuilder.build()).thenReturn(uriComponents);
-        when(uriComponents.toUri()).thenReturn(URI.create("/api/calendar/" + calendar.getId()));
+        when(uriComponents.toUri()).thenReturn(URI.create("/api/calendars/" + calendar.getId()));
 
         this.httpHeaders.setLocation(uriComponents.toUri());
 
@@ -141,7 +141,7 @@ public class CalendarControllerTest {
                 .andExpect(jsonPath("$", aMapWithSize(3)))
                 .andExpect(jsonPath("$.name", is(calendarDto.getName())))
                 .andExpect(jsonPath("$.description", is(calendarDto.getDescription())))
-                .andExpect(redirectedUrlPattern("http://*/api/calendar/" + calendar.getId()));
+                .andExpect(redirectedUrlPattern("http://*/api/calendars/" + calendar.getId()));
     }
 
     @Test
