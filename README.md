@@ -1,5 +1,5 @@
 # JavaCalendarAPI
-Personal Calendar Java project using SpringBoot and REST endpoints.
+Personal Calendar Java project using Spring Boot and REST endpoints.
 
 ### About
 

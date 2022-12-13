@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/calendar")
+@RequestMapping("/api/calendars")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class RestCalendarController {
@@ -118,7 +118,7 @@ public class RestCalendarController {
 
                 // get help from the framework building the path for the newly created resource
                 assert resultingCalendarDto != null;
-                UriComponents uriComponents = uriComponentsBuilder.path("/api/calendar/" + resultingCalendarDto.getId()).build();
+                UriComponents uriComponents = uriComponentsBuilder.path("/api/calendars/" + resultingCalendarDto.getId()).build();
 
                 // set headers with the created path
                 HttpHeaders headers = new HttpHeaders();

@@ -18,7 +18,7 @@ public class CalendarServiceImpl implements CalendarService {
     private CalendarRepository calendarDao;
 
     /**
-     * @see CalendarService#getCalendarList
+     * @see CalendarService#getCalendarList()
      */
     @Transactional(readOnly = true)
     @Override

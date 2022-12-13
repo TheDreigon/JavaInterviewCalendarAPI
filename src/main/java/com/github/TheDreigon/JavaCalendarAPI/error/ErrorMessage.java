@@ -5,5 +5,5 @@ package com.github.TheDreigon.JavaCalendarAPI.error;
  */
 public class ErrorMessage {
 
-    public static final String CALENDAR_NOT_FOUND = "Calendar does not exist";
+    public static final String CALENDAR_NOT_FOUND = "Calendar not found";
 }

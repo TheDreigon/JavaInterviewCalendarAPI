@@ -21,7 +21,7 @@ public class CalendarDto {
 
     @NotNull(message = "Description is mandatory")
     @NotBlank(message = "Description is mandatory")
-    @Size(min = 3, max = 64)
+    @Size(min = 3, max = 128)
     @Pattern(regexp = "[a-zA-Z]+", message = "Description should only use letters")
     private String description;
 }
