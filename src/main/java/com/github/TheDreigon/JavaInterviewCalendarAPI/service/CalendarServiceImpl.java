@@ -1,7 +1,7 @@
-package com.github.TheDreigon.JavaCalendarAPI.service;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.service;
 
-import com.github.TheDreigon.JavaCalendarAPI.persistence.model.Calendar;
-import com.github.TheDreigon.JavaCalendarAPI.persistence.repository.CalendarRepository;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Calendar;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ public class CalendarServiceImpl implements CalendarService {
     private CalendarRepository calendarDao;
 
     /**
-     * @see CalendarService#getCalendarList
+     * @see CalendarService#getCalendarList()
      */
     @Transactional(readOnly = true)
     @Override

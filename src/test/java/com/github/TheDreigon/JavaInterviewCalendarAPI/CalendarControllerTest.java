@@ -1,12 +1,11 @@
-package com.github.TheDreigon.JavaCalendarAPI;
+package com.github.TheDreigon.JavaInterviewCalendarAPI;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.TheDreigon.JavaCalendarAPI.dto.CalendarDto;
-import com.github.TheDreigon.JavaCalendarAPI.dto.converter.CalendarDtoToCalendar;
-import com.github.TheDreigon.JavaCalendarAPI.dto.converter.CalendarToCalendarDto;
-import com.github.TheDreigon.JavaCalendarAPI.persistence.model.Calendar;
-import com.github.TheDreigon.JavaCalendarAPI.persistence.repository.CalendarRepository;
-import com.github.TheDreigon.JavaCalendarAPI.service.CalendarService;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CalendarDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CalendarToCalendarDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Calendar;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CalendarRepository;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.CalendarService;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -54,7 +53,7 @@ public class CalendarControllerTest {
 
     private final File file = new File("src/test/resources/database/init/calendar-valid.json");
 
-    private final String PATH = "/api/calendar";
+    private final String PATH = "/api/calendars";
 
     @Mock
     private CalendarToCalendarDto calendarToCalendarDto;

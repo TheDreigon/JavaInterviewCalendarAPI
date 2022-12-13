@@ -1,6 +1,6 @@
-package com.github.TheDreigon.JavaCalendarAPI.service;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.service;
 
-import com.github.TheDreigon.JavaCalendarAPI.persistence.model.Calendar;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Calendar;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public interface CalendarService {
     Calendar getCalendar(Integer id);
 
     /**
-     * Creates a calendar object for the given calendar ID
+     * Creates a calendar object
      *
      * @param calendar the calendar object
      * @return the created calendar object
@@ -33,7 +33,7 @@ public interface CalendarService {
     Calendar createCalendar(Calendar calendar);
 
     /**
-     * Updates a calendar object for the given calendar ID
+     * Updates a calendar object
      *
      * @param calendar the calendar object
      * @return the updated calendar object

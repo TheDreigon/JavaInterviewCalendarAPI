@@ -1,6 +1,6 @@
-package com.github.TheDreigon.JavaCalendarAPI.dto;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.dto;
 
-import com.github.TheDreigon.JavaCalendarAPI.persistence.model.Calendar;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Calendar;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -21,7 +21,7 @@ public class CalendarDto {
 
     @NotNull(message = "Description is mandatory")
     @NotBlank(message = "Description is mandatory")
-    @Size(min = 3, max = 64)
+    @Size(min = 3, max = 128)
     @Pattern(regexp = "[a-zA-Z]+", message = "Description should only use letters")
     private String description;
 }

@@ -1,7 +1,7 @@
-package com.github.TheDreigon.JavaCalendarAPI.dto.converter;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter;
 
-import com.github.TheDreigon.JavaCalendarAPI.dto.CalendarDto;
-import com.github.TheDreigon.JavaCalendarAPI.persistence.model.Calendar;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CalendarDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Calendar;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

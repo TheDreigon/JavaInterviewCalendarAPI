@@ -1,10 +1,10 @@
-package com.github.TheDreigon.JavaCalendarAPI.controller;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
-import com.github.TheDreigon.JavaCalendarAPI.dto.CalendarDto;
-import com.github.TheDreigon.JavaCalendarAPI.dto.converter.CalendarDtoToCalendar;
-import com.github.TheDreigon.JavaCalendarAPI.dto.converter.CalendarToCalendarDto;
-import com.github.TheDreigon.JavaCalendarAPI.persistence.model.Calendar;
-import com.github.TheDreigon.JavaCalendarAPI.service.CalendarService;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CalendarDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CalendarDtoToCalendar;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CalendarToCalendarDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Calendar;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.CalendarService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/calendar")
+@RequestMapping("/api/calendars")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class RestCalendarController {

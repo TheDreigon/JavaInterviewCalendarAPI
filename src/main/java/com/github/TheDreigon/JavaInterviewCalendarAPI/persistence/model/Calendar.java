@@ -1,4 +1,4 @@
-package com.github.TheDreigon.JavaCalendarAPI.persistence.model;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

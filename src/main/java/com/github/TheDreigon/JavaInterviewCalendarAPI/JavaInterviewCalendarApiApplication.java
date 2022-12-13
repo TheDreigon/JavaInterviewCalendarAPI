@@ -1,12 +1,12 @@
-package com.github.TheDreigon.JavaCalendarAPI;
+package com.github.TheDreigon.JavaInterviewCalendarAPI;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JavaCalendarApiApplication {
+public class JavaInterviewCalendarApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(JavaCalendarApiApplication.class, args);
+        SpringApplication.run(JavaInterviewCalendarApiApplication.class, args);
     }
 }

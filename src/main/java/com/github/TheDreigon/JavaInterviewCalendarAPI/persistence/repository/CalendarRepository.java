@@ -1,6 +1,6 @@
-package com.github.TheDreigon.JavaCalendarAPI.persistence.repository;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository;
 
-import com.github.TheDreigon.JavaCalendarAPI.persistence.model.Calendar;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Calendar;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

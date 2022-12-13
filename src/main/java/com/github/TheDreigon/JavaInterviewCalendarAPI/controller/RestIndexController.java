@@ -1,4 +1,4 @@
-package com.github.TheDreigon.JavaCalendarAPI.controller;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.controller;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +24,7 @@ public class RestIndexController {
     protected ApiVersion showVersion() {
 
         ApiVersion version = new ApiVersion();
-        version.setName("JavaCalendarAPI");
+        version.setName("JavaInterviewCalendarAPI");
         version.setVersion("v2.0");
 
         return version;

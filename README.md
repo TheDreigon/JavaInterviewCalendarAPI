@@ -1,10 +1,10 @@
 # JavaCalendarAPI
-Personal Calendar Java project using SpringBoot and REST endpoints.
+Personal Interview Calendar Java project using Spring Boot and REST endpoints.
 
 ### About
 
-This a simple Java application created using Spring Boot. It's a REST endpoint based app focused on a "Calendar" theme. 
-With simple HTTP requests you can easily consult, create, edit, and even delete your Calendar entities.
+This a simple Java application created using Spring Boot. It's a REST endpoint based app focused on an "Interview Calendar" theme. 
+With simple HTTP requests you can easily consult, create, edit, and even delete your Interview Calendar related entities.
 It uses an in-memory database (H2) and, as such, is volatile. 
 
 ### Software Requirements
@@ -27,12 +27,12 @@ This application is packaged as a jar which already has Tomcat embedded. No Tomc
 
 #### Run the Java jar from the Command-line interface (CLI) 
 
-Open the CLI in the jar file folder and simply run the command "java -jar JavaCalendarAPI-1.0.jar" 
+Open the CLI in the jar file folder and simply run the command "java -jar JavaInterviewCalendarAPI-2.0.jar" 
 (if the port is already being used, you can choose a different port by adding "-port={your_port}" to the above command)
 
 #### Main Method from IDE
 
-You can also execute the `main` method in the `com.github.TheDreigon.JavaCalendarAPI` class from your IDE.
+You can also execute the `main` method in the `com.github.TheDreigon.JavaInterviewCalendarAPI` class from your IDE.
 
 #### Run it as a SpringApplication
 
@@ -46,7 +46,7 @@ Once the application runs, you should see something like this:
 
 ```
 2022-12-03T01:08:46.462Z  INFO 11828 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2022-12-03T01:08:46.490Z  INFO 11828 --- [           main] c.g.T.J.JavaCalendarApiApplication       : Started JavaCalendarApiApplication in 8.219 seconds (process running for 9.049)
+2022-12-03T01:08:46.490Z  INFO 11828 --- [           main] c.g.T.J.JavaInterviewCalendarApiApplication       : Started JavaInterviewCalendarApiApplication in 8.219 seconds (process running for 9.049)
 ```
 
 ### API testing
@@ -57,7 +57,7 @@ To use it, simply:
 * Enter your Postman workspace
 * Enter the API Endpoint where it says, “Enter request URL” (you can create a new request by clicking the "+" sign at the top, near "Search Postman"), 
   select the desired method (GET, POST, PUT, DELETE) for that request, and fill any needed parameter and Body payload 
-  (type is "raw: JSON" and the Calendar object currently only has two properties - `"name":"String"` and `"description":"String"`)
+  (type is "raw: JSON" and the Calendar object (temporary example entity) currently only has two editable properties - `"name": "String"` and `"description": "String"`)
 * Click Send and verify the result
 
 You can even create request collections (left tab) based on the HTTP requests you want to save.

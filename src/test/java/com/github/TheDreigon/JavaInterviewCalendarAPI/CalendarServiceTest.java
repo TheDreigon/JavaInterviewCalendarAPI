@@ -1,9 +1,9 @@
-package com.github.TheDreigon.JavaCalendarAPI;
+package com.github.TheDreigon.JavaInterviewCalendarAPI;
 
-import com.github.TheDreigon.JavaCalendarAPI.persistence.model.Calendar;
-import com.github.TheDreigon.JavaCalendarAPI.persistence.repository.CalendarRepository;
-import com.github.TheDreigon.JavaCalendarAPI.service.CalendarService;
-import com.github.TheDreigon.JavaCalendarAPI.service.CalendarServiceImpl;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Calendar;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CalendarRepository;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.CalendarService;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.CalendarServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
