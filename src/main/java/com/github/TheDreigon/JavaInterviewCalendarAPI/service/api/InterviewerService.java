@@ -49,7 +49,7 @@ public interface InterviewerService {
     void deleteInterviewer(Integer id);
 
     /**
-     * Creates a interviewerAvailability object
+     * Creates an interviewerAvailability object
      *
      * @param interviewerAvailability the interviewerAvailability object
      * @return the created interviewerAvailability object
@@ -57,7 +57,7 @@ public interface InterviewerService {
     InterviewerAvailability createInterviewerAvailability(InterviewerAvailability interviewerAvailability);
 
     /**
-     * Deletes a interviewerAvailability object for the given interviewerAvailability ID
+     * Deletes an interviewerAvailability object for the given interviewerAvailability ID
      *
      * @param id the interviewerAvailability ID
      */
