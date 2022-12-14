@@ -24,12 +24,22 @@ import java.util.Objects;
 public class InterviewerAvailabilitySlot extends AbstractModel {
 
     @ManyToOne
+    @JoinColumn(name = "interviewer", nullable = false)
     private Interviewer interviewer;
 
+    @Column(name = "startDay", nullable = false)
     private Date startDay;
+
+    @Column(name = "endDay", nullable = false)
     private Date endDay;
-    private Date startHour;
-    private Date endHour;
+
+    @Column(name = "startHour", nullable = false)
+    private String startHour;
+
+    @Column(name = "endHour", nullable = false)
+    private String endHour;
+
+    @Column(name = "dayOfWeek", nullable = false)
     private DayOfWeek dayOfWeek;
 
     @Override
