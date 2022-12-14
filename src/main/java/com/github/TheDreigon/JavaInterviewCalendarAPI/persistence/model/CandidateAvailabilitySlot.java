@@ -7,6 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
+import java.time.DayOfWeek;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -23,6 +25,12 @@ public class CandidateAvailabilitySlot extends AbstractModel {
 
     @ManyToOne
     private Candidate candidate;
+
+    private Date startDay;
+    private Date endDay;
+    private Date startHour;
+    private Date endHour;
+    private DayOfWeek dayOfWeek;
 
     @Override
     public boolean equals(Object o) {

@@ -1,6 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.exception;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.error.ErrorMessage;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.error.ErrorMessage;
 
 /**
  * Thrown to indicate that the calendar was not found

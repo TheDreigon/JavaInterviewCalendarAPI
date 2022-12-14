@@ -1,4 +1,4 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI.error;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.exception.error;
 
 /**
  * Error messages to be used throughout the application
