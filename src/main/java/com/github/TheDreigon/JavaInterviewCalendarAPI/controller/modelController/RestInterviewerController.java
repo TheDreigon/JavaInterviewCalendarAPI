@@ -1,5 +1,7 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilitySlotDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilitySlotDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerDtoToInterviewer;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerToInterviewerDto;
@@ -193,5 +195,45 @@ public class RestInterviewerController {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /**
+     * Retrieves a representation of the list of interviewerAvailabilitySlots
+     *
+     * @param id the interviewerAvailabilitySlot id
+     * @return the response entity
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<InterviewerAvailabilitySlotDto> getInterviewerAvailabilitySlotById(@PathVariable("id") Integer id) {
+
+        return null;
+    }
+
+    /**
+     * Adds an interviewerAvailabilitySlot
+     *
+     * @param interviewerAvailabilitySlotDto  the interviewerAvailabilitySlot DTO
+     * @param bindingResult                   the binding result object
+     * @param uriComponentsBuilder            the uri components builder
+     * @return the response entity
+     */
+    @PostMapping("/")
+    public ResponseEntity<InterviewerAvailabilitySlotDto> addInterviewerAvailabilitySlot(@Valid @RequestBody InterviewerAvailabilitySlotDto interviewerAvailabilitySlotDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
+
+
+        return null;
+    }
+
+    /**
+     * Deletes a interviewerAvailabilitySlot
+     *
+     * @param id the interviewerAvailabilitySlot id
+     * @return the response entity
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteInterviewerAvailabilitySlot(@PathVariable("id") Integer id) {
+
+
+        return null;
     }
 }

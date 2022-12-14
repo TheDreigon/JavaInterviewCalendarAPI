@@ -1,5 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilitySlotDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateDtoToCandidate;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateToCandidateDto;
@@ -193,5 +194,45 @@ public class RestCandidateController {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /**
+     * Retrieves a representation of the list of candidateAvailabilitySlots
+     *
+     * @param id the candidateAvailabilitySlot id
+     * @return the response entity
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<CandidateAvailabilitySlotDto> getCandidateAvailabilitySlotById(@PathVariable("id") Integer id) {
+
+        return null;
+    }
+
+    /**
+     * Adds a candidateAvailabilitySlot
+     *
+     * @param candidateAvailabilitySlotDto  the candidateAvailabilitySlot DTO
+     * @param bindingResult                 the binding result object
+     * @param uriComponentsBuilder          the uri components builder
+     * @return the response entity
+     */
+    @PostMapping("/")
+    public ResponseEntity<CandidateAvailabilitySlotDto> addCandidateAvailabilitySlot(@Valid @RequestBody CandidateAvailabilitySlotDto candidateAvailabilitySlotDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
+
+
+        return null;
+    }
+
+    /**
+     * Deletes a candidateAvailabilitySlot
+     *
+     * @param id the candidateAvailabilitySlot id
+     * @return the response entity
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteCandidateAvailabilitySlot(@PathVariable("id") Integer id) {
+
+
+        return null;
     }
 }
