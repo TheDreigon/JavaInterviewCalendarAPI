@@ -29,20 +29,30 @@ public class Interviewer extends AbstractModel {
     private String description;
 
     @OneToMany(
-            // propagate changes on Interviewer entity to InterviewerAvailabilitySchedule entities
+            // propagate changes on Interviewer entity to InterviewerAvailabilitySlot entities
             cascade = {CascadeType.ALL},
 
-            // make sure to remove InterviewerAvailabilitySchedules if unlinked from Interviewer
+            // make sure to remove InterviewerAvailabilitySlots if unlinked from Interviewer
             orphanRemoval = true,
 
-            // use Interviewer foreign key on InterviewerAvailabilitySchedule table to establish
+            // use Interviewer foreign key on InterviewerAvailabilitySlot table to establish
             // the many-to-one relationship instead of a join table
             mappedBy = "interviewer",
 
-            // fetch InterviewerAvailabilitySchedules from database together with Interviewer
+            // fetch InterviewerAvailabilitySlots from database together with Interviewer
             fetch = FetchType.EAGER
     )
-    private List<InterviewerAvailabilitySchedule> interviewerAvailabilityScheduleList = new ArrayList<>();
+    private List<InterviewerAvailabilitySlot> interviewerAvailabilitySlotList = new ArrayList<>();
+
+    public void addInterviewerAvailabilitySlot (InterviewerAvailabilitySlot interviewerAvailabilitySlot) {
+        interviewerAvailabilitySlotList.add(interviewerAvailabilitySlot);
+        interviewerAvailabilitySlot.setInterviewer(this);
+    }
+
+    public void removeInterviewerAvailabilitySlot (InterviewerAvailabilitySlot interviewerAvailabilitySlot) {
+        interviewerAvailabilitySlotList.remove(interviewerAvailabilitySlot);
+        interviewerAvailabilitySlot.setInterviewer(null);
+    }
 
     @Override
     public boolean equals(Object o) {

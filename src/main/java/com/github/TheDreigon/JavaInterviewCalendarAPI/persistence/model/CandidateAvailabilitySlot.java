@@ -10,25 +10,25 @@ import org.hibernate.Hibernate;
 import java.util.Objects;
 
 /**
- * The interviewer availability schedule model entity
+ * The candidate availability slot model entity
  */
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "INTERVIEWER_AVAILABILITY_SCHEDULE")
+@Table(name = "CANDIDATE_AVAILABILITY_SLOT")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class InterviewerAvailabilitySchedule extends AbstractModel {
+public class CandidateAvailabilitySlot extends AbstractModel {
 
     @ManyToOne
-    private Interviewer interviewer;
+    private Candidate candidate;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        InterviewerAvailabilitySchedule that = (InterviewerAvailabilitySchedule) o;
+        CandidateAvailabilitySlot that = (CandidateAvailabilitySlot) o;
         return getId() != null && Objects.equals(getId(), that.getId());
     }
 

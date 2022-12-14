@@ -1,8 +1,11 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.dto;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailabilitySlot;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * The {@link Candidate} data transfer object
@@ -24,4 +27,7 @@ public class CandidateDto {
     @Size(min = 3, max = 128)
     @Pattern(regexp = "[a-zA-Z]+", message = "Description should only use letters")
     private String description;
+
+    @Null
+    private List<CandidateAvailabilitySlot> candidateAvailabilitySlotList;
 }

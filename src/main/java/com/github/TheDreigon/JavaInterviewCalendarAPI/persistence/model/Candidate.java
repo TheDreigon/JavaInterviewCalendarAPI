@@ -29,20 +29,30 @@ public class Candidate extends AbstractModel {
     private String description;
 
     @OneToMany(
-            // propagate changes on Candidate entity to CandidateAvailabilitySchedule entities
+            // propagate changes on Candidate entity to CandidateAvailabilitySlot entities
             cascade = {CascadeType.ALL},
 
-            // make sure to remove CandidateAvailabilitySchedules if unlinked from Candidate
+            // make sure to remove CandidateAvailabilitySlots if unlinked from Candidate
             orphanRemoval = true,
 
-            // use Candidate foreign key on CandidateAvailabilitySchedule table to establish
+            // use Candidate foreign key on CandidateAvailabilitySlot table to establish
             // the many-to-one relationship instead of a join table
             mappedBy = "candidate",
 
-            // fetch CandidateAvailabilitySchedules from database together with Candidate
+            // fetch CandidateAvailabilitySlots from database together with Candidate
             fetch = FetchType.EAGER
     )
-    private List<CandidateAvailabilitySchedule> candidateAvailabilityScheduleList = new ArrayList<>();
+    private List<CandidateAvailabilitySlot> candidateAvailabilitySlotList = new ArrayList<>();
+
+    public void addCandidateAvailabilitySlot(CandidateAvailabilitySlot candidateAvailabilitySlot) {
+        candidateAvailabilitySlotList.add(candidateAvailabilitySlot);
+        candidateAvailabilitySlot.setCandidate(this);
+    }
+
+    public void removeCandidateAvailabilitySlot(CandidateAvailabilitySlot candidateAvailabilitySlot) {
+        candidateAvailabilitySlotList.remove(candidateAvailabilitySlot);
+        candidateAvailabilitySlot.setCandidate(null);
+    }
 
     @Override
     public boolean equals(Object o) {
