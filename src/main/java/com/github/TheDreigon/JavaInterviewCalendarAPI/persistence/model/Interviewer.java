@@ -1,5 +1,7 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.abstractModel.AbstractWorker;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -20,38 +22,33 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "INTERVIEWER")
-public class Interviewer extends AbstractModel {
-
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "description", nullable = false)
-    private String description;
+public class Interviewer extends AbstractWorker {
 
     @OneToMany(
-            // propagate changes on Interviewer entity to InterviewerAvailabilitySlot entities
+            // propagate changes on Interviewer entity to InterviewerAvailability entities
             cascade = {CascadeType.ALL},
 
-            // make sure to remove InterviewerAvailabilitySlots if unlinked from Interviewer
+            // make sure to remove Availabilities if unlinked from Interviewer
             orphanRemoval = true,
 
-            // use Interviewer foreign key on InterviewerAvailabilitySlot table to establish
+            // use Interviewer foreign key on InterviewerAvailability table to establish
             // the many-to-one relationship instead of a join table
             mappedBy = "interviewer",
 
-            // fetch InterviewerAvailabilitySlots from database together with Interviewer
+            // fetch Availabilities from database together with Interviewer
             fetch = FetchType.EAGER
     )
-    private List<InterviewerAvailabilitySlot> interviewerAvailabilitySlotList = new ArrayList<>();
+    @JsonManagedReference
+    private List<InterviewerAvailability> interviewerAvailabilityList = new ArrayList<>();
 
-    public void addInterviewerAvailabilitySlot (InterviewerAvailabilitySlot interviewerAvailabilitySlot) {
-        interviewerAvailabilitySlotList.add(interviewerAvailabilitySlot);
-        interviewerAvailabilitySlot.setInterviewer(this);
+    public void addInterviewerAvailabilitySlot(InterviewerAvailability interviewerAvailability) {
+        interviewerAvailabilityList.add(interviewerAvailability);
+        interviewerAvailability.setInterviewer(this);
     }
 
-    public void removeInterviewerAvailabilitySlot (InterviewerAvailabilitySlot interviewerAvailabilitySlot) {
-        interviewerAvailabilitySlotList.remove(interviewerAvailabilitySlot);
-        interviewerAvailabilitySlot.setInterviewer(null);
+    public void removeInterviewerAvailabilitySlot(InterviewerAvailability interviewerAvailability) {
+        interviewerAvailabilityList.remove(interviewerAvailability);
+        interviewerAvailability.setInterviewer(null);
     }
 
     @Override

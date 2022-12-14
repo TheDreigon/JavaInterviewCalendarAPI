@@ -1,11 +1,11 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilitySlotDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateDtoToCandidate;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateToCandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.service.CandidateService;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -45,7 +45,7 @@ public class RestCandidateController {
     /**
      * Retrieves a representation of the list of candidates
      *
-     * @return the response entity
+     * @return the list of candidates
      */
     @GetMapping("/")
     public ResponseEntity<List<CandidateDto>> getCandidates() {
@@ -72,7 +72,7 @@ public class RestCandidateController {
      * Retrieves a representation of the given candidate
      *
      * @param id the candidate id
-     * @return the response entity
+     * @return the asked candidate
      */
     @GetMapping("/{id}")
     public ResponseEntity<CandidateDto> getCandidateById(@PathVariable("id") Integer id) {
@@ -101,7 +101,7 @@ public class RestCandidateController {
      * @param candidateDto         the candidate DTO
      * @param bindingResult        the binding result object
      * @param uriComponentsBuilder the uri components builder
-     * @return the response entity
+     * @return the added candidate
      */
     @PostMapping("/")
     public ResponseEntity<CandidateDto> addCandidate(@Valid @RequestBody CandidateDto candidateDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
@@ -140,7 +140,7 @@ public class RestCandidateController {
      * @param candidateDto  the candidate DTO
      * @param id            the candidate id
      * @param bindingResult the binding result
-     * @return the response entity
+     * @return the edited candidate
      */
     @PutMapping("/{id}")
     public ResponseEntity<CandidateDto> editCandidate(@Valid @RequestBody CandidateDto candidateDto, BindingResult bindingResult, @PathVariable("id") Integer id) {
@@ -174,7 +174,7 @@ public class RestCandidateController {
      * Deletes a candidate
      *
      * @param id the candidate id
-     * @return the response entity
+     * @return the http confirmation status
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteCandidate(@PathVariable("id") Integer id) {
@@ -197,40 +197,39 @@ public class RestCandidateController {
     }
 
     /**
-     * Retrieves a representation of the list of candidateAvailabilitySlots
+     * Retrieves a representation of the list of candidateAvailabilities
      *
-     * @param id the candidateAvailabilitySlot id
-     * @return the response entity
+     * @return the list of candidateAvailabilities
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<CandidateAvailabilitySlotDto> getCandidateAvailabilitySlotById(@PathVariable("id") Integer id) {
+    @GetMapping("/")
+    public ResponseEntity<List<CandidateAvailabilityDto>> getCandidateAvailabilities() {
 
         return null;
     }
 
     /**
-     * Adds a candidateAvailabilitySlot
+     * Adds a candidateAvailability
      *
-     * @param candidateAvailabilitySlotDto  the candidateAvailabilitySlot DTO
-     * @param bindingResult                 the binding result object
-     * @param uriComponentsBuilder          the uri components builder
-     * @return the response entity
+     * @param candidateAvailabilityDto  the candidateAvailability DTO
+     * @param bindingResult             the binding result object
+     * @param uriComponentsBuilder      the uri components builder
+     * @return the added availability
      */
     @PostMapping("/")
-    public ResponseEntity<CandidateAvailabilitySlotDto> addCandidateAvailabilitySlot(@Valid @RequestBody CandidateAvailabilitySlotDto candidateAvailabilitySlotDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<CandidateAvailabilityDto> addCandidateAvailability(@Valid @RequestBody CandidateAvailabilityDto candidateAvailabilityDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
 
         return null;
     }
 
     /**
-     * Deletes a candidateAvailabilitySlot
+     * Deletes a candidateAvailability
      *
-     * @param id the candidateAvailabilitySlot id
-     * @return the response entity
+     * @param id the candidateAvailabilities id
+     * @return the http confirmation status
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteCandidateAvailabilitySlot(@PathVariable("id") Integer id) {
+    public ResponseEntity<HttpStatus> deleteCandidateAvailability(@PathVariable("id") Integer id) {
 
 
         return null;

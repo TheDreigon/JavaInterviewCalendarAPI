@@ -2,7 +2,7 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.service.InterviewerService;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

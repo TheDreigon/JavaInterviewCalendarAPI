@@ -1,7 +1,9 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI.service;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.InterviewerRepository;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,5 +68,23 @@ public class InterviewerServiceImpl implements InterviewerService {
     @Override
     public void deleteInterviewer(Integer id) {
         interviewerDao.deleteById(id);
+    }
+
+    /**
+     * @see InterviewerService#createInterviewerAvailability(InterviewerAvailability)
+     */
+    @Override
+    public InterviewerAvailability createInterviewerAvailability(InterviewerAvailability interviewerAvailability) {
+
+        return null;
+    }
+
+    /**
+     * @see InterviewerService#deleteInterviewerAvailability(Integer)
+     */
+    @Override
+    public void deleteInterviewerAvailability(Integer id) {
+
+
     }
 }

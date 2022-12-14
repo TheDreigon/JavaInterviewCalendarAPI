@@ -1,12 +1,11 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilitySlotDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilitySlotDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerDtoToInterviewer;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerToInterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.service.InterviewerService;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -46,7 +45,7 @@ public class RestInterviewerController {
     /**
      * Retrieves a representation of the list of interviewers
      *
-     * @return the response entity
+     * @return the list of interviewers
      */
     @GetMapping("/")
     public ResponseEntity<List<InterviewerDto>> getInterviewers() {
@@ -73,7 +72,7 @@ public class RestInterviewerController {
      * Retrieves a representation of the given interviewer
      *
      * @param id the interviewer id
-     * @return the response entity
+     * @return the asked interviewer
      */
     @GetMapping("/{id}")
     public ResponseEntity<InterviewerDto> getInterviewerById(@PathVariable("id") Integer id) {
@@ -97,12 +96,12 @@ public class RestInterviewerController {
     }
 
     /**
-     * Adds a interviewer
+     * Adds an interviewer
      *
      * @param interviewerDto       the interviewer DTO
      * @param bindingResult        the binding result object
      * @param uriComponentsBuilder the uri components builder
-     * @return the response entity
+     * @return the added interviewer
      */
     @PostMapping("/")
     public ResponseEntity<InterviewerDto> addInterviewer(@Valid @RequestBody InterviewerDto interviewerDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
@@ -136,12 +135,12 @@ public class RestInterviewerController {
     }
 
     /**
-     * Edits a interviewer
+     * Edits an interviewer
      *
      * @param interviewerDto the interviewer DTO
      * @param id             the interviewer id
      * @param bindingResult  the binding result
-     * @return the response entity
+     * @return the edited interviewer
      */
     @PutMapping("/{id}")
     public ResponseEntity<InterviewerDto> editInterviewer(@Valid @RequestBody InterviewerDto interviewerDto, BindingResult bindingResult, @PathVariable("id") Integer id) {
@@ -172,10 +171,10 @@ public class RestInterviewerController {
     }
 
     /**
-     * Deletes a interviewer
+     * Deletes an interviewer
      *
      * @param id the interviewer id
-     * @return the response entity
+     * @return the http confirmation status
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteInterviewer(@PathVariable("id") Integer id) {
@@ -197,41 +196,41 @@ public class RestInterviewerController {
         }
     }
 
+
     /**
-     * Retrieves a representation of the list of interviewerAvailabilitySlots
+     * Retrieves a representation of the list of interviewerAvailabilities
      *
-     * @param id the interviewerAvailabilitySlot id
-     * @return the response entity
+     * @return the list of interviewerAvailabilities
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<InterviewerAvailabilitySlotDto> getInterviewerAvailabilitySlotById(@PathVariable("id") Integer id) {
+    @GetMapping("/")
+    public ResponseEntity<List<InterviewerAvailabilityDto>> getInterviewerAvailabilities() {
 
         return null;
     }
 
     /**
-     * Adds an interviewerAvailabilitySlot
+     * Adds an interviewerAvailability
      *
-     * @param interviewerAvailabilitySlotDto  the interviewerAvailabilitySlot DTO
-     * @param bindingResult                   the binding result object
-     * @param uriComponentsBuilder            the uri components builder
-     * @return the response entity
+     * @param interviewerAvailabilityDto  the interviewerAvailability DTO
+     * @param bindingResult             the binding result object
+     * @param uriComponentsBuilder      the uri components builder
+     * @return the added availability
      */
     @PostMapping("/")
-    public ResponseEntity<InterviewerAvailabilitySlotDto> addInterviewerAvailabilitySlot(@Valid @RequestBody InterviewerAvailabilitySlotDto interviewerAvailabilitySlotDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<InterviewerAvailabilityDto> addInterviewerAvailability(@Valid @RequestBody InterviewerAvailabilityDto interviewerAvailabilityDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
 
         return null;
     }
 
     /**
-     * Deletes a interviewerAvailabilitySlot
+     * Deletes an interviewerAvailability
      *
-     * @param id the interviewerAvailabilitySlot id
-     * @return the response entity
+     * @param id the interviewerAvailabilities id
+     * @return the http confirmation status
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteInterviewerAvailabilitySlot(@PathVariable("id") Integer id) {
+    public ResponseEntity<HttpStatus> deleteInterviewerAvailability(@PathVariable("id") Integer id) {
 
 
         return null;

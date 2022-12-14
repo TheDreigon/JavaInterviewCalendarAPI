@@ -1,6 +1,7 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI.service;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.service.api;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 
 import java.util.List;
 
@@ -46,4 +47,19 @@ public interface InterviewerService {
      * @param id the interviewer ID
      */
     void deleteInterviewer(Integer id);
+
+    /**
+     * Creates a interviewerAvailability object
+     *
+     * @param interviewerAvailability the interviewerAvailability object
+     * @return the created interviewerAvailability object
+     */
+    InterviewerAvailability createInterviewerAvailability(InterviewerAvailability interviewerAvailability);
+
+    /**
+     * Deletes a interviewerAvailability object for the given interviewerAvailability ID
+     *
+     * @param id the interviewerAvailability ID
+     */
+    void deleteInterviewerAvailability(Integer id);
 }

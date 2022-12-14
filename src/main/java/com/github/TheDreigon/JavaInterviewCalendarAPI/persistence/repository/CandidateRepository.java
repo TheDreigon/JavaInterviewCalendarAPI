@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * REST repository responsible for {@link Candidate} related database operations
  */
 public interface CandidateRepository extends JpaRepository<Candidate, Integer> {
-
 }

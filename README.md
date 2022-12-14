@@ -56,16 +56,15 @@ Postman is an HTTP client that tests HTTP requests, perfect for a REST API. It w
 To use it, simply:
 * Enter your Postman workspace
 * Enter the API Endpoint where it says, “Enter request URL” (you can create a new request by clicking the "+" sign at the top, near "Search Postman"), 
-  select the desired method (GET, POST, PUT, DELETE) for that request, and fill any needed parameter and Body payload 
-  (type is "raw: JSON" and the Calendar object (temporary example entity) currently only has two editable properties - `"name": "String"` and `"description": "String"`)
+  select the desired method (GET, POST, PUT, DELETE) for that request, and fill any needed parameter and Body payload (type is "raw: JSON")
 * Click Send and verify the result
 
-You can even create request collections (left tab) based on the HTTP requests you want to save.
+You can even create request collections (left sidebar) based on the HTTP requests you want to save.
 
 ### Closing Remarks
 
-While the application is simple for now, it will suffer maintenance and evolution.
+While the application is simple for now, it will suffer maintenance and evolution. Different "pr" branches have different API versions. 
 
 If you have any remarks yourself, feel free to send me a message.
 
-Thank you.
+Thank you

@@ -1,6 +1,6 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.abstractModel;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -12,26 +12,16 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * The candidate availability slot model entity
+ * A generic availability model entity to be used as a base for concrete types of availability models
  */
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Entity
-@Table(name = "CANDIDATE_AVAILABILITY_SLOT")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class CandidateAvailabilitySlot extends AbstractModel {
+public abstract class AbstractAvailability extends AbstractModel {
 
-    @ManyToOne
-    @JoinColumn(name = "candidate", nullable = false)
-    private Candidate candidate;
-
-    @Column(name = "startDay", nullable = false)
-    private Date startDay;
-
-    @Column(name = "endDay", nullable = false)
-    private Date endDay;
+    @Column(name = "dayDate", nullable = false)
+    private Date dayDate;
 
     @Column(name = "startHour", nullable = false)
     private String startHour;
@@ -46,7 +36,7 @@ public class CandidateAvailabilitySlot extends AbstractModel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        CandidateAvailabilitySlot that = (CandidateAvailabilitySlot) o;
+        AbstractAvailability that = (AbstractAvailability) o;
         return getId() != null && Objects.equals(getId(), that.getId());
     }
 

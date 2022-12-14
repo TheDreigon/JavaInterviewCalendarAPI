@@ -1,11 +1,11 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateToCandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CandidateRepository;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.service.CandidateService;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateService;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @DisplayNameGeneration(DisplayNameGenerator.Standard.class)
-public class CandidateControllerTest {
+public class RestCandidateControllerTest {
 
     @MockBean
     private CandidateService candidateService;

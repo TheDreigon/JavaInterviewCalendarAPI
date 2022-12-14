@@ -1,4 +1,4 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.abstractModel;
 
 import jakarta.persistence.*;
 import lombok.Getter;

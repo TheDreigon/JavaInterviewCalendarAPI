@@ -1,5 +1,7 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.abstractModel.AbstractWorker;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -20,38 +22,33 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "CANDIDATE")
-public class Candidate extends AbstractModel {
-
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "description", nullable = false)
-    private String description;
+public class Candidate extends AbstractWorker {
 
     @OneToMany(
-            // propagate changes on Candidate entity to CandidateAvailabilitySlot entities
+            // propagate changes on Candidate entity to CandidateAvailability entities
             cascade = {CascadeType.ALL},
 
-            // make sure to remove CandidateAvailabilitySlots if unlinked from Candidate
+            // make sure to remove CandidateAvailabilities if unlinked from Candidate
             orphanRemoval = true,
 
-            // use Candidate foreign key on CandidateAvailabilitySlot table to establish
+            // use Candidate foreign key on CandidateAvailability table to establish
             // the many-to-one relationship instead of a join table
             mappedBy = "candidate",
 
-            // fetch CandidateAvailabilitySlots from database together with Candidate
+            // fetch CandidateAvailability from database together with Candidate
             fetch = FetchType.EAGER
     )
-    private List<CandidateAvailabilitySlot> candidateAvailabilitySlotList = new ArrayList<>();
+    @JsonManagedReference
+    private List<CandidateAvailability> candidateAvailabilityList = new ArrayList<>();
 
-    public void addCandidateAvailabilitySlot(CandidateAvailabilitySlot candidateAvailabilitySlot) {
-        candidateAvailabilitySlotList.add(candidateAvailabilitySlot);
-        candidateAvailabilitySlot.setCandidate(this);
+    public void addCandidateAvailability(CandidateAvailability candidateAvailability) {
+        candidateAvailabilityList.add(candidateAvailability);
+        candidateAvailability.setCandidate(this);
     }
 
-    public void removeCandidateAvailabilitySlot(CandidateAvailabilitySlot candidateAvailabilitySlot) {
-        candidateAvailabilitySlotList.remove(candidateAvailabilitySlot);
-        candidateAvailabilitySlot.setCandidate(null);
+    public void removeCandidateAvailability(CandidateAvailability candidateAvailability) {
+        candidateAvailabilityList.remove(candidateAvailability);
+        candidateAvailability.setCandidate(null);
     }
 
     @Override

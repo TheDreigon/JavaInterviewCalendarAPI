@@ -1,7 +1,9 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI.service;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CandidateRepository;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,5 +68,23 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public void deleteCandidate(Integer id) {
         candidateDao.deleteById(id);
+    }
+
+    /**
+     * @see CandidateService#createCandidateAvailability(CandidateAvailability)
+     */
+    @Override
+    public CandidateAvailability createCandidateAvailability(CandidateAvailability candidateAvailability) {
+
+        return null;
+    }
+
+    /**
+     * @see CandidateService#deleteCandidateAvailability(Integer)
+     */
+    @Override
+    public void deleteCandidateAvailability(Integer id) {
+
+
     }
 }
