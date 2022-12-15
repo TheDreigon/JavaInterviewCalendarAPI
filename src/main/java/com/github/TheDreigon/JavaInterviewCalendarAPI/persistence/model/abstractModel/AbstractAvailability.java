@@ -23,11 +23,8 @@ public abstract class AbstractAvailability extends AbstractModel {
     @Column(name = "dayDate", nullable = false)
     private Date dayDate;
 
-    @Column(name = "startHour", nullable = false)
-    private String startHour;
-
-    @Column(name = "endHour", nullable = false)
-    private String endHour;
+    @Column(name = "hour", nullable = false)
+    private String hour;
 
     @Column(name = "dayOfWeek", nullable = false)
     private DayOfWeek dayOfWeek;

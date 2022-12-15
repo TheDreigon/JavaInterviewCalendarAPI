@@ -28,13 +28,9 @@ public class CandidateAvailabilityDto {
     //@JsonFormat(pattern = "dd/MM/yyyy")
     private Date dayDate;
 
-    @NotNull(message = "Starting hour is a required field")
-    @Pattern(regexp = "(1[012]|[1-9]):[0-5][0-9](\\\\s)?(?i)(am|pm)", message = "Please enter a regular time format describing only the hours. Military time is not supported")
-    private String startHour;
-
-    @NotNull(message = "Ending hour is a required field")
-    @Pattern(regexp = "(1[012]|[1-9]):[0-5][0-9](\\\\s)?(?i)(am|pm)", message = "Please enter a regular time format describing only the hours. Military time is not supported")
-    private String endHour;
+    @NotNull(message = "Availability hour is a required field")
+    @Pattern(regexp = "(1[012]|[1-9]):[0-5][0-9](\\\\s)?(?i)(am|pm)", message = "Please enter a regular time format (1-12am/pm) describing only the hours. Military time (0h-23h) is not supported")
+    private String hour;
 
     @NotNull(message = "Day of week is a required field")
     @Pattern(regexp = "(?i)(monday|tuesday|wednesday|thursday|friday|saturday|sunday)", message = "Please enter a valid day of week")
