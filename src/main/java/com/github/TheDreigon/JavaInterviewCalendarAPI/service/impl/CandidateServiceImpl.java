@@ -1,7 +1,10 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateDtoToCandidate;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateToCandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CandidateRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +22,18 @@ public class CandidateServiceImpl implements CandidateService {
     @Autowired
     private CandidateRepository candidateDao;
 
+    @Autowired
+    private CandidateDtoToCandidate candidateDtoToCandidate;
+
+    @Autowired
+    private CandidateToCandidateDto candidateToCandidateDto;
+
     /**
      * @see CandidateService#getCandidateList()
      */
     @Transactional(readOnly = true)
     @Override
-    public List<Candidate> getCandidateList() {
+    public List<CandidateDto> getCandidateList() {
         return candidateDao.findAll();
     }
 
@@ -33,29 +42,29 @@ public class CandidateServiceImpl implements CandidateService {
      */
     @Transactional(readOnly = true)
     @Override
-    public Candidate getCandidate(Integer id) {
+    public CandidateDto getCandidate(Integer id) {
         return candidateDao.findById(id).orElse(null);
     }
 
     /**
-     * @see CandidateService#createCandidate(Candidate)
+     * @see CandidateService#createCandidate(CandidateDto)
      */
     @Transactional
     @Override
-    public Candidate createCandidate(Candidate candidate) {
-        return candidateDao.save(candidate);
+    public CandidateDto createCandidate(CandidateDto candidateDto) {
+        return candidateDao.save(candidateDto);
     }
 
     /**
-     * @see CandidateService#updateCandidate(Candidate)
+     * @see CandidateService#updateCandidate(CandidateDto)
      */
     @Transactional
     @Override
-    public Candidate updateCandidate(Candidate candidate) {
-        Candidate candidateFromDB = candidateDao.findById(candidate.getId()).orElse(null);
+    public CandidateDto updateCandidate(CandidateDto candidateDto) {
+        Candidate candidateFromDB = candidateDao.findById(candidateDto.getId()).orElse(null);
         if (candidateFromDB != null) {
-            candidateFromDB.setName(candidate.getName());
-            candidateFromDB.setDescription(candidate.getDescription());
+            candidateFromDB.setName(candidateDto.getName());
+            candidateFromDB.setDescription(candidateDto.getDescription());
             return candidateDao.save(candidateFromDB);
         }
         return null;
@@ -71,10 +80,11 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     /**
-     * @see CandidateService#createCandidateAvailability(CandidateAvailability)
+     * @see CandidateService#createCandidateAvailability(CandidateAvailabilityDto)
      */
+    @Transactional
     @Override
-    public CandidateAvailability createCandidateAvailability(CandidateAvailability candidateAvailability) {
+    public CandidateAvailabilityDto createCandidateAvailability(CandidateAvailabilityDto candidateAvailabilityDto) {
 
         return null;
     }
@@ -82,6 +92,7 @@ public class CandidateServiceImpl implements CandidateService {
     /**
      * @see CandidateService#deleteCandidateAvailability(Integer)
      */
+    @Transactional
     @Override
     public void deleteCandidateAvailability(Integer id) {
 

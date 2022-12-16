@@ -1,7 +1,10 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerDtoToInterviewer;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerToInterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.InterviewerRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +22,18 @@ public class InterviewerServiceImpl implements InterviewerService {
     @Autowired
     private InterviewerRepository interviewerDao;
 
+    @Autowired
+    private InterviewerDtoToInterviewer interviewerDtoToInterviewer;
+
+    @Autowired
+    private InterviewerToInterviewerDto interviewerToInterviewerDto;
+
     /**
      * @see InterviewerService#getInterviewerList()
      */
     @Transactional(readOnly = true)
     @Override
-    public List<Interviewer> getInterviewerList() {
+    public List<InterviewerDto> getInterviewerList() {
         return interviewerDao.findAll();
     }
 
@@ -33,7 +42,7 @@ public class InterviewerServiceImpl implements InterviewerService {
      */
     @Transactional(readOnly = true)
     @Override
-    public Interviewer getInterviewer(Integer id) {
+    public InterviewerDto getInterviewer(Integer id) {
         return interviewerDao.findById(id).orElse(null);
     }
 
@@ -42,8 +51,8 @@ public class InterviewerServiceImpl implements InterviewerService {
      */
     @Transactional
     @Override
-    public Interviewer createInterviewer(Interviewer interviewer) {
-        return interviewerDao.save(interviewer);
+    public InterviewerDto createInterviewer(InterviewerDto interviewerDto) {
+        return interviewerDao.save(interviewerDto);
     }
 
     /**
@@ -51,7 +60,7 @@ public class InterviewerServiceImpl implements InterviewerService {
      */
     @Transactional
     @Override
-    public Interviewer updateInterviewer(Interviewer interviewer) {
+    public InterviewerDto updateInterviewer(InterviewerDto interviewerDto) {
         Interviewer interviewerFromDB = interviewerDao.findById(interviewer.getId()).orElse(null);
         if (interviewerFromDB != null) {
             interviewerFromDB.setName(interviewer.getName());
@@ -71,10 +80,11 @@ public class InterviewerServiceImpl implements InterviewerService {
     }
 
     /**
-     * @see InterviewerService#createInterviewerAvailability(InterviewerAvailability)
+     * @see InterviewerService#createInterviewerAvailability(InterviewerAvailabilityDto)
      */
+    @Transactional
     @Override
-    public InterviewerAvailability createInterviewerAvailability(InterviewerAvailability interviewerAvailability) {
+    public InterviewerAvailabilityDto createInterviewerAvailability(InterviewerAvailabilityDto interviewerAvailabilityDto) {
 
         return null;
     }
@@ -82,6 +92,7 @@ public class InterviewerServiceImpl implements InterviewerService {
     /**
      * @see InterviewerService#deleteInterviewerAvailability(Integer)
      */
+    @Transactional
     @Override
     public void deleteInterviewerAvailability(Integer id) {
 

@@ -2,8 +2,6 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelControlle
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerDtoToInterviewer;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerToInterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,12 +33,6 @@ public class RestInterviewerController {
 
     @Autowired
     private InterviewerService interviewerService;
-
-    @Autowired
-    private InterviewerDtoToInterviewer interviewerDtoToInterviewer;
-
-    @Autowired
-    private InterviewerToInterviewerDto interviewerToInterviewerDto;
 
     /**
      * Retrieves a representation of the list of interviewers

@@ -1,6 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.service.api;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
 
 import java.util.List;
 
@@ -12,15 +12,15 @@ public interface InterviewerAvailabilityService {
     /**
      * Get all interviewerAvailabilities
      *
-     * @return all interviewerAvailabilities
+     * @return all interviewerAvailability data transfer objects
      */
-    List<InterviewerAvailability> getInterviewerAvailabilityList();
+    List<InterviewerAvailabilityDto> getInterviewerAvailabilityList();
 
     /**
      * Retrieves an interviewerAvailability object for the given interviewerAvailability ID
      *
      * @param id the interviewerAvailability ID
-     * @return the interviewerAvailability object
+     * @return the interviewerAvailability data transfer object
      */
-    InterviewerAvailability getInterviewerAvailability(Integer id);
+    InterviewerAvailabilityDto getInterviewerAvailability(Integer id);
 }

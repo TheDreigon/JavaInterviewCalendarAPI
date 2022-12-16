@@ -1,7 +1,7 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.service.api;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
 
 import java.util.List;
 
@@ -13,33 +13,33 @@ public interface InterviewerService {
     /**
      * Get all interviewers
      *
-     * @return all interviewers
+     * @return all interviewer data transfer objects
      */
-    List<Interviewer> getInterviewerList();
+    List<InterviewerDto> getInterviewerList();
 
     /**
-     * Retrieves an interviewer object for the given interviewer ID
+     * Retrieves an interviewer data transfer object for the given interviewer ID
      *
      * @param id the interviewer ID
-     * @return the interviewer object
+     * @return the interviewer data transfer object
      */
-    Interviewer getInterviewer(Integer id);
+    InterviewerDto getInterviewer(Integer id);
 
     /**
      * Creates an interviewer object
      *
-     * @param interviewer the interviewer object
-     * @return the created interviewer object
+     * @param interviewerDto the interviewer data transfer object
+     * @return the created interviewer data transfer object
      */
-    Interviewer createInterviewer(Interviewer interviewer);
+    InterviewerDto createInterviewer(InterviewerDto interviewerDto);
 
     /**
      * Updates an interviewer object
      *
-     * @param interviewer the interviewer object
-     * @return the updated interviewer object
+     * @param interviewerDto the interviewer data transfer object
+     * @return the updated interviewer data transfer object
      */
-    Interviewer updateInterviewer(Interviewer interviewer);
+    InterviewerDto updateInterviewer(InterviewerDto interviewerDto);
 
     /**
      * Deletes an interviewer object for the given interviewer ID
@@ -51,10 +51,10 @@ public interface InterviewerService {
     /**
      * Creates an interviewerAvailability object
      *
-     * @param interviewerAvailability the interviewerAvailability object
-     * @return the created interviewerAvailability object
+     * @param interviewerAvailabilityDto the interviewerAvailability data transfer object
+     * @return the created interviewerAvailability data transfer object
      */
-    InterviewerAvailability createInterviewerAvailability(InterviewerAvailability interviewerAvailability);
+    InterviewerAvailabilityDto createInterviewerAvailability(InterviewerAvailabilityDto interviewerAvailabilityDto);
 
     /**
      * Deletes an interviewerAvailability object for the given interviewerAvailability ID

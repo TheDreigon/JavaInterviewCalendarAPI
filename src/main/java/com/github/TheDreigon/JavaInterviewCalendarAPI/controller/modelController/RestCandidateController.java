@@ -2,8 +2,6 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelControlle
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateDtoToCandidate;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateToCandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,12 +33,6 @@ public class RestCandidateController {
 
     @Autowired
     private CandidateService candidateService;
-
-    @Autowired
-    private CandidateDtoToCandidate candidateDtoToCandidate;
-
-    @Autowired
-    private CandidateToCandidateDto candidateToCandidateDto;
 
     /**
      * Retrieves a representation of the list of candidates
@@ -210,9 +202,9 @@ public class RestCandidateController {
     /**
      * Adds a candidateAvailability
      *
-     * @param candidateAvailabilityDto  the candidateAvailability DTO
-     * @param bindingResult             the binding result object
-     * @param uriComponentsBuilder      the uri components builder
+     * @param candidateAvailabilityDto the candidateAvailability DTO
+     * @param bindingResult            the binding result object
+     * @param uriComponentsBuilder     the uri components builder
      * @return the added availability
      */
     @PostMapping("/")

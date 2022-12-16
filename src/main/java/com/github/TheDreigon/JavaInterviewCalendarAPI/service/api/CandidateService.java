@@ -1,7 +1,7 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.service.api;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
 
 import java.util.List;
 
@@ -13,33 +13,33 @@ public interface CandidateService {
     /**
      * Get all candidates
      *
-     * @return all candidates
+     * @return all candidate data transfer objects
      */
-    List<Candidate> getCandidateList();
+    List<CandidateDto> getCandidateList();
 
     /**
-     * Retrieves a candidate object for the given candidate ID
+     * Retrieves a candidate data transfer object for the given candidate ID
      *
      * @param id the candidate ID
-     * @return the candidate object
+     * @return the candidate data transfer object
      */
-    Candidate getCandidate(Integer id);
+    CandidateDto getCandidate(Integer id);
 
     /**
      * Creates a candidate object
      *
-     * @param candidate the candidate object
-     * @return the created candidate object
+     * @param candidateDto the candidate data transfer object
+     * @return the created candidate data transfer object
      */
-    Candidate createCandidate(Candidate candidate);
+    CandidateDto createCandidate(CandidateDto candidateDto);
 
     /**
      * Updates a candidate object
      *
-     * @param candidate the candidate object
-     * @return the updated candidate object
+     * @param candidateDto the candidate data transfer object
+     * @return the updated candidate data transfer object
      */
-    Candidate updateCandidate(Candidate candidate);
+    CandidateDto updateCandidate(CandidateDto candidateDto);
 
     /**
      * Deletes a candidate object for the given candidate ID
@@ -51,10 +51,10 @@ public interface CandidateService {
     /**
      * Creates a candidateAvailability object
      *
-     * @param candidateAvailability the candidateAvailability object
-     * @return the created candidateAvailability object
+     * @param candidateAvailabilityDto the candidateAvailability data transfer object
+     * @return the created candidateAvailability data transfer object
      */
-    CandidateAvailability createCandidateAvailability(CandidateAvailability candidateAvailability);
+    CandidateAvailabilityDto createCandidateAvailability(CandidateAvailabilityDto candidateAvailabilityDto);
 
     /**
      * Deletes a candidateAvailability object for the given candidateAvailability ID
