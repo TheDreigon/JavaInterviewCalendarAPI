@@ -1,34 +1,25 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.AbstractAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateAvailabilityDtoToCandidateAvailability;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateAvailabilityToCandidateAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerAvailabilityDtoToInterviewerAvailability;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerAvailabilityToInterviewerAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.abstractModel.AbstractAvailability;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateService;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerService;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateAvailabilityService;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerAvailabilityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * REST controller responsible for {@link AbstractAvailability} related CRUD operations
@@ -41,22 +32,10 @@ import java.util.List;
 public class RestAvailabilityController {
 
     @Autowired
-    private CandidateService candidateService;
+    private CandidateAvailabilityService candidateAvailabilityService;
 
     @Autowired
-    private InterviewerService interviewerService;
-
-    @Autowired
-    private CandidateAvailabilityToCandidateAvailabilityDto candidateAvailabilityToCandidateAvailabilityDto;
-
-    @Autowired
-    private CandidateAvailabilityDtoToCandidateAvailability candidateAvailabilityDtoToCandidateAvailability;
-
-    @Autowired
-    private InterviewerAvailabilityToInterviewerAvailabilityDto interviewerAvailabilityToInterviewerAvailabilityDto;
-
-    @Autowired
-    private InterviewerAvailabilityDtoToInterviewerAvailability interviewerAvailabilityDtoToInterviewerAvailability;
+    private InterviewerAvailabilityService interviewerAvailabilityService;
 
     /**
      * Retrieves a representation of the list of all candidate and interviewer availabilities
@@ -64,11 +43,22 @@ public class RestAvailabilityController {
      * @return the list of availabilities
      */
     @GetMapping("/")
-    public ResponseEntity<List<? extends AbstractAvailability>> getAllAvailabilities() {
+    public ResponseEntity<List<? extends AbstractAvailabilityDto>> getAllAvailabilities() {
 
         log.info("Availability - GetAll Method called - Candidates and Interviewers");
 
+        try {
+            List<CandidateAvailabilityDto> candidateAvailabilityDtoList = new ArrayList<>(candidateAvailabilityService.getCandidateAvailabilityList());
+            List<InterviewerAvailabilityDto> interviewerAvailabilityDtoList = new ArrayList<>(interviewerAvailabilityService.getInterviewerAvailabilityList());
 
+            List<? extends AbstractAvailabilityDto> availabilityDtoList = Stream.concat(candidateAvailabilityDtoList.stream(), interviewerAvailabilityDtoList.stream()).toList();
+
+            return new ResponseEntity<>(availabilityDtoList, HttpStatus.OK);
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -79,13 +69,12 @@ public class RestAvailabilityController {
     @GetMapping("/candidates/")
     public ResponseEntity<List<CandidateAvailabilityDto>> getCandidateAvailabilities() {
 
-
         log.info("CandidateAvailability - GetAll Method called");
 
         try {
-            List<CandidateDto> candidateDtoList = new ArrayList<>(candidateService.getCandidateList());
+            List<CandidateAvailabilityDto> candidateAvailabilityDtoList = new ArrayList<>(candidateAvailabilityService.getCandidateAvailabilityList());
 
-            return new ResponseEntity<>(candidateDtoList, HttpStatus.OK);
+            return new ResponseEntity<>(candidateAvailabilityDtoList, HttpStatus.OK);
 
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -101,13 +90,12 @@ public class RestAvailabilityController {
     @GetMapping("/interviewers/")
     public ResponseEntity<List<InterviewerAvailabilityDto>> getInterviewerAvailabilities() {
 
-
         log.info("InterviewerAvailability - GetAll Method called");
 
         try {
-            List<InterviewerDto> interviewerDtoList = new ArrayList<>(interviewerService.getInterviewerList());
+            List<InterviewerAvailabilityDto> interviewerAvailabilityDtoList = new ArrayList<>(interviewerAvailabilityService.getInterviewerAvailabilityList());
 
-            return new ResponseEntity<>(interviewerDtoList, HttpStatus.OK);
+            return new ResponseEntity<>(interviewerAvailabilityDtoList, HttpStatus.OK);
 
         } catch (Exception e) {
             log.error(e.getMessage());

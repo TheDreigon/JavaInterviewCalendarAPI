@@ -2,10 +2,15 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateAvailabilityDtoToCandidateAvailability;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateAvailabilityToCandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateDtoToCandidate;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateToCandidateDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CandidateAvailabilityRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CandidateRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +31,19 @@ public class CandidateServiceImpl implements CandidateService {
     private CandidateRepository candidateDao;
 
     @Autowired
+    private CandidateAvailabilityRepository candidateAvailabilityDao;
+
+    @Autowired
     private CandidateDtoToCandidate candidateDtoToCandidate;
 
     @Autowired
     private CandidateToCandidateDto candidateToCandidateDto;
+
+    @Autowired
+    private CandidateAvailabilityDtoToCandidateAvailability candidateAvailabilityDtoToCandidateAvailability;
+
+    @Autowired
+    private CandidateAvailabilityToCandidateAvailabilityDto candidateAvailabilityToCandidateAvailabilityDto;
 
     /**
      * @see CandidateService#getCandidateList()
@@ -105,16 +119,22 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public CandidateAvailabilityDto createCandidateAvailability(CandidateAvailabilityDto candidateAvailabilityDto) {
 
-        return null;
+        CandidateAvailability createdCandidateAvailability = candidateAvailabilityDao.save(
+                Objects.requireNonNull(candidateAvailabilityDtoToCandidateAvailability.convert(candidateAvailabilityDto)));
+
+        return candidateAvailabilityToCandidateAvailabilityDto.convert(createdCandidateAvailability);
     }
 
     /**
-     * @see CandidateService#deleteCandidateAvailability(Integer)
+     * @see CandidateService#deleteCandidateAvailability(Integer, Integer)
      */
     @Transactional
     @Override
-    public void deleteCandidateAvailability(Integer id) {
+    public void deleteCandidateAvailability(Integer cId, Integer caId) throws CandidateNotFoundException, AvailabilityNotFoundException {
 
+        candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
+        candidateAvailabilityDao.findById(caId).orElseThrow(AvailabilityNotFoundException::new);
 
+        candidateDao.deleteById(caId);
     }
 }

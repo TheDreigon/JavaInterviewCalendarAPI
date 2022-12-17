@@ -2,6 +2,7 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelControlle
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateService;
@@ -181,6 +182,7 @@ public class RestCandidateController {
     /**
      * Adds a candidateAvailability
      *
+     * @param cId                      the candidate id
      * @param candidateAvailabilityDto the candidateAvailability DTO
      * @param bindingResult            the binding result object
      * @param uriComponentsBuilder     the uri components builder
@@ -190,7 +192,6 @@ public class RestCandidateController {
     public ResponseEntity<CandidateAvailabilityDto> addCandidateAvailability(@PathVariable("cId") Integer cId, @Valid @RequestBody CandidateAvailabilityDto candidateAvailabilityDto,
                                                                              BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
-
         log.info("CandidateAvailability - Post Method called");
 
         if (bindingResult.hasErrors()) {
@@ -199,16 +200,16 @@ public class RestCandidateController {
         } else {
 
             try {
-                CandidateDto createdCandidateDto = candidateService.createCandidate(candidateDto);
+                CandidateAvailabilityDto createdCandidateAvailabilityDto = candidateService.createCandidateAvailability(candidateAvailabilityDto);
 
                 // get help from the framework building the path for the newly created resource
-                UriComponents uriComponents = uriComponentsBuilder.path("/api/candidates/" + createdCandidateDto.getId()).build();
+                UriComponents uriComponents = uriComponentsBuilder.path("/api/candidates/" + cId + "/availabilities/" + createdCandidateAvailabilityDto.getId()).build();
 
                 // set headers with the created path
                 HttpHeaders headers = new HttpHeaders();
                 headers.setLocation(uriComponents.toUri());
 
-                return new ResponseEntity<>(createdCandidateDto, headers, HttpStatus.CREATED);
+                return new ResponseEntity<>(createdCandidateAvailabilityDto, headers, HttpStatus.CREATED);
 
             } catch (Exception e) {
                 log.error(e.getMessage());
@@ -220,21 +221,21 @@ public class RestCandidateController {
     /**
      * Deletes a candidateAvailability
      *
-     * @param id the candidateAvailabilities id
+     * @param cId the candidate id
+     * @param caId the candidateAvailability id
      * @return the http confirmation status
      */
     @DeleteMapping("/{cId}/availabilities/{caId}")
     public ResponseEntity<HttpStatus> deleteCandidateAvailability(@PathVariable("cId") Integer cId, @PathVariable("caId") Integer caId) {
 
-
         log.info("CandidateAvailability - Delete Method called");
 
         try {
-            candidateService.deleteCandidate(id);
+            candidateService.deleteCandidateAvailability(cId, caId);
 
             return new ResponseEntity<>(HttpStatus.OK);
 
-        } catch (CandidateNotFoundException e) {
+        } catch (AvailabilityNotFoundException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

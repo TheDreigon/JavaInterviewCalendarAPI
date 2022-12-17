@@ -1,8 +1,8 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerService;
@@ -191,7 +191,6 @@ public class RestInterviewerController {
     public ResponseEntity<InterviewerAvailabilityDto> addInterviewerAvailability(@PathVariable("iId") Integer iId, @Valid @RequestBody InterviewerAvailabilityDto interviewerAvailabilityDto,
                                                                                  BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
-
         log.info("InterviewerAvailability - Post Method called");
 
         if (bindingResult.hasErrors()) {
@@ -200,16 +199,16 @@ public class RestInterviewerController {
         } else {
 
             try {
-                InterviewerDto createdInterviewerDto = interviewerService.createInterviewer(interviewerDto);
+                InterviewerAvailabilityDto createdInterviewerAvailabilityDto = interviewerService.createInterviewerAvailability(interviewerAvailabilityDto);
 
                 // get help from the framework building the path for the newly created resource
-                UriComponents uriComponents = uriComponentsBuilder.path("/api/interviewers/" + createdInterviewerDto.getId()).build();
+                UriComponents uriComponents = uriComponentsBuilder.path("/api/candidates/" + iId + "/availabilities/" + createdInterviewerAvailabilityDto.getId()).build();
 
                 // set headers with the created path
                 HttpHeaders headers = new HttpHeaders();
                 headers.setLocation(uriComponents.toUri());
 
-                return new ResponseEntity<>(createdInterviewerDto, headers, HttpStatus.CREATED);
+                return new ResponseEntity<>(createdInterviewerAvailabilityDto, headers, HttpStatus.CREATED);
 
             } catch (Exception e) {
                 log.error(e.getMessage());
@@ -221,21 +220,21 @@ public class RestInterviewerController {
     /**
      * Deletes an interviewerAvailability
      *
-     * @param id the interviewerAvailabilities id
+     * @param iId the interviewer id
+     * @param iaId the interviewerAvailability id
      * @return the http confirmation status
      */
     @DeleteMapping("/{iId}/availabilities/{iaId}")
-    public ResponseEntity<HttpStatus> deleteInterviewerAvailability(@PathVariable("iId") Integer iId, @PathVariable("iaI") Integer iaI) {
-
+    public ResponseEntity<HttpStatus> deleteInterviewerAvailability(@PathVariable("iId") Integer iId, @PathVariable("iaId") Integer iaId) {
 
         log.info("InterviewerAvailability - Delete Method called");
 
         try {
-            interviewerService.deleteInterviewer(id);
+            interviewerService.deleteInterviewerAvailability(iId, iaId);
 
             return new ResponseEntity<>(HttpStatus.OK);
 
-        } catch (InterviewerNotFoundException e) {
+        } catch (AvailabilityNotFoundException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

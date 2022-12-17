@@ -3,6 +3,7 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateAvailabilityDtoToCandidateAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateAvailabilityToCandidateAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CandidateAvailabilityRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateAvailabilityService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ import java.util.List;
 public class CandidateAvailabilityServiceImpl implements CandidateAvailabilityService {
 
     @Autowired
-    private CandidateAvailabilityRepository candidateAvailabilityRepository;
+    private CandidateAvailabilityRepository candidateAvailabilityDao;
 
     @Autowired
     private CandidateAvailabilityDtoToCandidateAvailability candidateAvailabilityDtoToCandidateAvailability;
@@ -33,7 +35,14 @@ public class CandidateAvailabilityServiceImpl implements CandidateAvailabilitySe
     @Transactional(readOnly = true)
     @Override
     public List<CandidateAvailabilityDto> getCandidateAvailabilityList() {
-        return null;
+
+        List<CandidateAvailabilityDto> candidateAvailabilityDtoList = new ArrayList<>();
+
+        for (CandidateAvailability candidateAvailability : candidateAvailabilityDao.findAll()) {
+            candidateAvailabilityDtoList.add(candidateAvailabilityToCandidateAvailabilityDto.convert(candidateAvailability));
+        }
+
+        return candidateAvailabilityDtoList;
     }
 
     /**
@@ -41,7 +50,10 @@ public class CandidateAvailabilityServiceImpl implements CandidateAvailabilitySe
      */
     @Transactional(readOnly = true)
     @Override
-    public CandidateAvailabilityDto getCandidateAvailability(Integer id) {
-        return null;
+    public CandidateAvailabilityDto getCandidateAvailability(Integer id) throws AvailabilityNotFoundException {
+
+        CandidateAvailability retrievedCandidateAvailability = candidateAvailabilityDao.findById(id).orElseThrow(AvailabilityNotFoundException::new);
+
+        return candidateAvailabilityToCandidateAvailabilityDto.convert(retrievedCandidateAvailability);
     }
 }

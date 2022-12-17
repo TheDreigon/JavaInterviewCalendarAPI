@@ -1,6 +1,7 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.service.api;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 
 import java.util.List;
 
@@ -22,5 +23,5 @@ public interface CandidateAvailabilityService {
      * @param id the candidateAvailability ID
      * @return the candidateAvailability data transfer object
      */
-    CandidateAvailabilityDto getCandidateAvailability(Integer id);
+    CandidateAvailabilityDto getCandidateAvailability(Integer id) throws AvailabilityNotFoundException;
 }

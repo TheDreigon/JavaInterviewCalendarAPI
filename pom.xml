@@ -112,11 +112,6 @@
             <version>23.0.0</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>commons-validator</groupId>
-            <artifactId>commons-validator</artifactId>
-            <version>1.7</version>
-        </dependency>
     </dependencies>
 
     <build>

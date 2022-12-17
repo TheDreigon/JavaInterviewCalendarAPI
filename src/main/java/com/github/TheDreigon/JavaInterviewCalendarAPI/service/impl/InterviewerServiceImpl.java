@@ -2,10 +2,15 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerAvailabilityDtoToInterviewerAvailability;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerAvailabilityToInterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerDtoToInterviewer;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerToInterviewerDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.InterviewerAvailabilityRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.InterviewerRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +31,19 @@ public class InterviewerServiceImpl implements InterviewerService {
     private InterviewerRepository interviewerDao;
 
     @Autowired
+    private InterviewerAvailabilityRepository interviewerAvailabilityDao;
+
+    @Autowired
     private InterviewerDtoToInterviewer interviewerDtoToInterviewer;
 
     @Autowired
     private InterviewerToInterviewerDto interviewerToInterviewerDto;
+
+    @Autowired
+    private InterviewerAvailabilityDtoToInterviewerAvailability interviewerAvailabilityDtoToInterviewerAvailability;
+
+    @Autowired
+    private InterviewerAvailabilityToInterviewerAvailabilityDto interviewerAvailabilityToInterviewerAvailabilityDto;
 
     /**
      * @see InterviewerService#getInterviewerList()
@@ -105,16 +119,22 @@ public class InterviewerServiceImpl implements InterviewerService {
     @Override
     public InterviewerAvailabilityDto createInterviewerAvailability(InterviewerAvailabilityDto interviewerAvailabilityDto) {
 
+        InterviewerAvailability createdInterviewerAvailability = interviewerAvailabilityDao.save(
+                Objects.requireNonNull(interviewerAvailabilityDtoToInterviewerAvailability.convert(interviewerAvailabilityDto)));
 
+        return interviewerAvailabilityToInterviewerAvailabilityDto.convert(createdInterviewerAvailability);
     }
 
     /**
-     * @see InterviewerService#deleteInterviewerAvailability(Integer)
+     * @see InterviewerService#deleteInterviewerAvailability(Integer, Integer)
      */
     @Transactional
     @Override
-    public void deleteInterviewerAvailability(Integer id) {
+    public void deleteInterviewerAvailability(Integer iId, Integer iaId) throws InterviewerNotFoundException, AvailabilityNotFoundException {
 
+        interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
+        interviewerAvailabilityDao.findById(iaId).orElseThrow(AvailabilityNotFoundException::new);
 
+        interviewerDao.deleteById(iaId);
     }
 }

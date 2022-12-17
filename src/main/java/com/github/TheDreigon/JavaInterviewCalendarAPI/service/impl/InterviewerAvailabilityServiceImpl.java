@@ -3,6 +3,7 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerAvailabilityDtoToInterviewerAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerAvailabilityToInterviewerAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.InterviewerAvailabilityRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerAvailabilityService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ import java.util.List;
 public class InterviewerAvailabilityServiceImpl implements InterviewerAvailabilityService {
 
     @Autowired
-    private InterviewerAvailabilityRepository interviewerAvailabilityRepository;
+    private InterviewerAvailabilityRepository interviewerAvailabilityDao;
 
     @Autowired
     private InterviewerAvailabilityDtoToInterviewerAvailability interviewerAvailabilityDtoToInterviewerAvailability;
@@ -33,7 +35,14 @@ public class InterviewerAvailabilityServiceImpl implements InterviewerAvailabili
     @Transactional(readOnly = true)
     @Override
     public List<InterviewerAvailabilityDto> getInterviewerAvailabilityList() {
-        return null;
+
+        List<InterviewerAvailabilityDto> interviewerAvailabilityDtoList = new ArrayList<>();
+
+        for (InterviewerAvailability interviewerAvailability : interviewerAvailabilityDao.findAll()) {
+            interviewerAvailabilityDtoList.add(interviewerAvailabilityToInterviewerAvailabilityDto.convert(interviewerAvailability));
+        }
+
+        return interviewerAvailabilityDtoList;
     }
 
     /**
@@ -41,7 +50,10 @@ public class InterviewerAvailabilityServiceImpl implements InterviewerAvailabili
      */
     @Transactional(readOnly = true)
     @Override
-    public InterviewerAvailabilityDto getInterviewerAvailability(Integer id) {
-        return null;
+    public InterviewerAvailabilityDto getInterviewerAvailability(Integer id) throws AvailabilityNotFoundException {
+
+        InterviewerAvailability retrievedInterviewerAvailability = interviewerAvailabilityDao.findById(id).orElseThrow(AvailabilityNotFoundException::new);
+
+        return interviewerAvailabilityToInterviewerAvailabilityDto.convert(retrievedInterviewerAvailability);
     }
 }
