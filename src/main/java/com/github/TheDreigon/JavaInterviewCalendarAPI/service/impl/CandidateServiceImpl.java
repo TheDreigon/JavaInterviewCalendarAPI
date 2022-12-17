@@ -4,6 +4,7 @@ import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityD
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateDtoToCandidate;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateToCandidateDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CandidateRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateService;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * REST service responsible for {@link Candidate} related business logic operations
@@ -34,7 +37,14 @@ public class CandidateServiceImpl implements CandidateService {
     @Transactional(readOnly = true)
     @Override
     public List<CandidateDto> getCandidateList() {
-        return candidateDao.findAll();
+
+        List<CandidateDto> candidateDtoList = new ArrayList<>();
+
+        for (Candidate candidate : candidateDao.findAll()) {
+            candidateDtoList.add(candidateToCandidateDto.convert(candidate));
+        }
+
+        return candidateDtoList;
     }
 
     /**
@@ -42,8 +52,11 @@ public class CandidateServiceImpl implements CandidateService {
      */
     @Transactional(readOnly = true)
     @Override
-    public CandidateDto getCandidate(Integer id) {
-        return candidateDao.findById(id).orElse(null);
+    public CandidateDto getCandidate(Integer id) throws CandidateNotFoundException {
+
+        Candidate retrievedCandidate = candidateDao.findById(id).orElseThrow(CandidateNotFoundException::new);
+
+        return candidateToCandidateDto.convert(retrievedCandidate);
     }
 
     /**
@@ -52,22 +65,25 @@ public class CandidateServiceImpl implements CandidateService {
     @Transactional
     @Override
     public CandidateDto createCandidate(CandidateDto candidateDto) {
-        return candidateDao.save(candidateDto);
+
+        Candidate createdCandidate = candidateDao.save(Objects.requireNonNull(candidateDtoToCandidate.convert(candidateDto)));
+
+        return candidateToCandidateDto.convert(createdCandidate);
     }
 
     /**
-     * @see CandidateService#updateCandidate(CandidateDto)
+     * @see CandidateService#updateCandidate(CandidateDto, Integer)
      */
     @Transactional
     @Override
-    public CandidateDto updateCandidate(CandidateDto candidateDto) {
-        Candidate candidateFromDB = candidateDao.findById(candidateDto.getId()).orElse(null);
-        if (candidateFromDB != null) {
-            candidateFromDB.setName(candidateDto.getName());
-            candidateFromDB.setDescription(candidateDto.getDescription());
-            return candidateDao.save(candidateFromDB);
-        }
-        return null;
+    public CandidateDto updateCandidate(CandidateDto candidateDto, Integer id) throws CandidateNotFoundException {
+
+        Candidate retrievedCandidate = candidateDao.findById(id).orElseThrow(CandidateNotFoundException::new);
+
+        retrievedCandidate.setName(candidateDto.getName());
+        retrievedCandidate.setDescription(candidateDto.getDescription());
+
+        return candidateToCandidateDto.convert(candidateDao.save((retrievedCandidate)));
     }
 
     /**
@@ -75,7 +91,10 @@ public class CandidateServiceImpl implements CandidateService {
      */
     @Transactional
     @Override
-    public void deleteCandidate(Integer id) {
+    public void deleteCandidate(Integer id) throws CandidateNotFoundException {
+
+        candidateDao.findById(id).orElseThrow(CandidateNotFoundException::new);
+
         candidateDao.deleteById(id);
     }
 

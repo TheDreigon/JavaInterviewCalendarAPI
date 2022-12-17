@@ -1,7 +1,9 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerService;
 import lombok.extern.slf4j.Slf4j;
@@ -42,15 +44,10 @@ public class RestInterviewerController {
     @GetMapping("/")
     public ResponseEntity<List<InterviewerDto>> getInterviewers() {
 
-        log.info("GetAll Method called");
-
-        List<InterviewerDto> interviewerDtoList = new ArrayList<>();
+        log.info("Interviewer - GetAll Method called");
 
         try {
-            for (Interviewer savedInterviewer : interviewerService.getInterviewerList()) {
-                InterviewerDto resultingInterviewerDto = interviewerToInterviewerDto.convert(savedInterviewer);
-                interviewerDtoList.add(resultingInterviewerDto);
-            }
+            List<InterviewerDto> interviewerDtoList = new ArrayList<>(interviewerService.getInterviewerList());
 
             return new ResponseEntity<>(interviewerDtoList, HttpStatus.OK);
 
@@ -69,17 +66,15 @@ public class RestInterviewerController {
     @GetMapping("/{id}")
     public ResponseEntity<InterviewerDto> getInterviewerById(@PathVariable("id") Integer id) {
 
-        log.info("Get Method called");
-
-        if (interviewerService.getInterviewer(id) == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        log.info("Interviewer - Get Method called");
 
         try {
-            Interviewer savedInterviewer = interviewerService.getInterviewer(id);
-            InterviewerDto resultingInterviewerDto = interviewerToInterviewerDto.convert(savedInterviewer);
+            InterviewerDto interviewerDto = interviewerService.getInterviewer(id);
+            return new ResponseEntity<>(interviewerDto, HttpStatus.OK);
 
-            return new ResponseEntity<>(resultingInterviewerDto, HttpStatus.OK);
+        } catch (InterviewerNotFoundException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -98,7 +93,7 @@ public class RestInterviewerController {
     @PostMapping("/")
     public ResponseEntity<InterviewerDto> addInterviewer(@Valid @RequestBody InterviewerDto interviewerDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
-        log.info("Post Method called");
+        log.info("Interviewer - Post Method called");
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -106,18 +101,16 @@ public class RestInterviewerController {
         } else {
 
             try {
-                Interviewer savedInterviewer = interviewerService.createInterviewer(interviewerDtoToInterviewer.convert(interviewerDto));
-                InterviewerDto resultingInterviewerDto = interviewerToInterviewerDto.convert(savedInterviewer);
+                InterviewerDto createdInterviewerDto = interviewerService.createInterviewer(interviewerDto);
 
                 // get help from the framework building the path for the newly created resource
-                assert resultingInterviewerDto != null;
-                UriComponents uriComponents = uriComponentsBuilder.path("/api/interviewers/" + resultingInterviewerDto.getId()).build();
+                UriComponents uriComponents = uriComponentsBuilder.path("/api/interviewers/" + createdInterviewerDto.getId()).build();
 
                 // set headers with the created path
                 HttpHeaders headers = new HttpHeaders();
                 headers.setLocation(uriComponents.toUri());
 
-                return new ResponseEntity<>(resultingInterviewerDto, headers, HttpStatus.CREATED);
+                return new ResponseEntity<>(createdInterviewerDto, headers, HttpStatus.CREATED);
 
             } catch (Exception e) {
                 log.error(e.getMessage());
@@ -137,23 +130,21 @@ public class RestInterviewerController {
     @PutMapping("/{id}")
     public ResponseEntity<InterviewerDto> editInterviewer(@Valid @RequestBody InterviewerDto interviewerDto, BindingResult bindingResult, @PathVariable("id") Integer id) {
 
-        log.info("Put Method called");
+        log.info("Interviewer - Put Method called");
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        } else if (interviewerService.getInterviewer(id) == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
         } else {
 
             try {
-                interviewerDto.setId(id);
+                InterviewerDto editedInterviewerDto = interviewerService.updateInterviewer(interviewerDto, id);
 
-                Interviewer savedInterviewer = interviewerService.updateInterviewer(interviewerDtoToInterviewer.convert(interviewerDto));
-                InterviewerDto resultingInterviewerDto = interviewerToInterviewerDto.convert(savedInterviewer);
+                return new ResponseEntity<>(editedInterviewerDto, HttpStatus.OK);
 
-                return new ResponseEntity<>(resultingInterviewerDto, HttpStatus.OK);
+            } catch (InterviewerNotFoundException e) {
+                log.error(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
             } catch (Exception e) {
                 log.error(e.getMessage());
@@ -171,33 +162,21 @@ public class RestInterviewerController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteInterviewer(@PathVariable("id") Integer id) {
 
-        log.info("Delete Method called");
-
-        if (interviewerService.getInterviewer(id) == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        log.info("Interviewer - Delete Method called");
 
         try {
             interviewerService.deleteInterviewer(id);
 
             return new ResponseEntity<>(HttpStatus.OK);
 
+        } catch (InterviewerNotFoundException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-
-    /**
-     * Retrieves a representation of the list of interviewerAvailabilities
-     *
-     * @return the list of interviewerAvailabilities
-     */
-    @GetMapping("/")
-    public ResponseEntity<List<InterviewerAvailabilityDto>> getInterviewerAvailabilities() {
-
-        return null;
     }
 
     /**
@@ -208,11 +187,35 @@ public class RestInterviewerController {
      * @param uriComponentsBuilder      the uri components builder
      * @return the added availability
      */
-    @PostMapping("/")
-    public ResponseEntity<InterviewerAvailabilityDto> addInterviewerAvailability(@Valid @RequestBody InterviewerAvailabilityDto interviewerAvailabilityDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
+    @PostMapping("/{iId}/availabilities/")
+    public ResponseEntity<InterviewerAvailabilityDto> addInterviewerAvailability(@PathVariable("iId") Integer iId, @Valid @RequestBody InterviewerAvailabilityDto interviewerAvailabilityDto,
+                                                                                 BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
 
-        return null;
+        log.info("InterviewerAvailability - Post Method called");
+
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        } else {
+
+            try {
+                InterviewerDto createdInterviewerDto = interviewerService.createInterviewer(interviewerDto);
+
+                // get help from the framework building the path for the newly created resource
+                UriComponents uriComponents = uriComponentsBuilder.path("/api/interviewers/" + createdInterviewerDto.getId()).build();
+
+                // set headers with the created path
+                HttpHeaders headers = new HttpHeaders();
+                headers.setLocation(uriComponents.toUri());
+
+                return new ResponseEntity<>(createdInterviewerDto, headers, HttpStatus.CREATED);
+
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
     }
 
     /**
@@ -221,10 +224,24 @@ public class RestInterviewerController {
      * @param id the interviewerAvailabilities id
      * @return the http confirmation status
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteInterviewerAvailability(@PathVariable("id") Integer id) {
+    @DeleteMapping("/{iId}/availabilities/{iaId}")
+    public ResponseEntity<HttpStatus> deleteInterviewerAvailability(@PathVariable("iId") Integer iId, @PathVariable("iaI") Integer iaI) {
 
 
-        return null;
+        log.info("InterviewerAvailability - Delete Method called");
+
+        try {
+            interviewerService.deleteInterviewer(id);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (InterviewerNotFoundException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

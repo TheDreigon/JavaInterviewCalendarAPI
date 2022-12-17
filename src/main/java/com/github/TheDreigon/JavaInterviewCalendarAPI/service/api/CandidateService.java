@@ -2,6 +2,7 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.service.api;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public interface CandidateService {
      * @param id the candidate ID
      * @return the candidate data transfer object
      */
-    CandidateDto getCandidate(Integer id);
+    CandidateDto getCandidate(Integer id) throws CandidateNotFoundException;
 
     /**
      * Creates a candidate object
@@ -37,16 +38,17 @@ public interface CandidateService {
      * Updates a candidate object
      *
      * @param candidateDto the candidate data transfer object
+     * @param id the candidate ID
      * @return the updated candidate data transfer object
      */
-    CandidateDto updateCandidate(CandidateDto candidateDto);
+    CandidateDto updateCandidate(CandidateDto candidateDto, Integer id) throws CandidateNotFoundException;
 
     /**
      * Deletes a candidate object for the given candidate ID
      *
      * @param id the candidate ID
      */
-    void deleteCandidate(Integer id);
+    void deleteCandidate(Integer id) throws CandidateNotFoundException;
 
     /**
      * Creates a candidateAvailability object

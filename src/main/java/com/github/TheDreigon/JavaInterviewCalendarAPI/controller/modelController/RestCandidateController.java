@@ -2,6 +2,7 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelControlle
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateService;
 import lombok.extern.slf4j.Slf4j;
@@ -42,15 +43,10 @@ public class RestCandidateController {
     @GetMapping("/")
     public ResponseEntity<List<CandidateDto>> getCandidates() {
 
-        log.info("GetAll Method called");
-
-        List<CandidateDto> candidateDtoList = new ArrayList<>();
+        log.info("Candidate - GetAll Method called");
 
         try {
-            for (Candidate savedCandidate : candidateService.getCandidateList()) {
-                CandidateDto resultingCandidateDto = candidateToCandidateDto.convert(savedCandidate);
-                candidateDtoList.add(resultingCandidateDto);
-            }
+            List<CandidateDto> candidateDtoList = new ArrayList<>(candidateService.getCandidateList());
 
             return new ResponseEntity<>(candidateDtoList, HttpStatus.OK);
 
@@ -69,17 +65,15 @@ public class RestCandidateController {
     @GetMapping("/{id}")
     public ResponseEntity<CandidateDto> getCandidateById(@PathVariable("id") Integer id) {
 
-        log.info("Get Method called");
-
-        if (candidateService.getCandidate(id) == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        log.info("Candidate - Get Method called");
 
         try {
-            Candidate savedCandidate = candidateService.getCandidate(id);
-            CandidateDto resultingCandidateDto = candidateToCandidateDto.convert(savedCandidate);
+            CandidateDto candidateDto = candidateService.getCandidate(id);
+            return new ResponseEntity<>(candidateDto, HttpStatus.OK);
 
-            return new ResponseEntity<>(resultingCandidateDto, HttpStatus.OK);
+        } catch (CandidateNotFoundException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -98,7 +92,7 @@ public class RestCandidateController {
     @PostMapping("/")
     public ResponseEntity<CandidateDto> addCandidate(@Valid @RequestBody CandidateDto candidateDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
-        log.info("Post Method called");
+        log.info("Candidate - Post Method called");
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -106,18 +100,16 @@ public class RestCandidateController {
         } else {
 
             try {
-                Candidate savedCandidate = candidateService.createCandidate(candidateDtoToCandidate.convert(candidateDto));
-                CandidateDto resultingCandidateDto = candidateToCandidateDto.convert(savedCandidate);
+                CandidateDto createdCandidateDto = candidateService.createCandidate(candidateDto);
 
                 // get help from the framework building the path for the newly created resource
-                assert resultingCandidateDto != null;
-                UriComponents uriComponents = uriComponentsBuilder.path("/api/candidates/" + resultingCandidateDto.getId()).build();
+                UriComponents uriComponents = uriComponentsBuilder.path("/api/candidates/" + createdCandidateDto.getId()).build();
 
                 // set headers with the created path
                 HttpHeaders headers = new HttpHeaders();
                 headers.setLocation(uriComponents.toUri());
 
-                return new ResponseEntity<>(resultingCandidateDto, headers, HttpStatus.CREATED);
+                return new ResponseEntity<>(createdCandidateDto, headers, HttpStatus.CREATED);
 
             } catch (Exception e) {
                 log.error(e.getMessage());
@@ -137,23 +129,21 @@ public class RestCandidateController {
     @PutMapping("/{id}")
     public ResponseEntity<CandidateDto> editCandidate(@Valid @RequestBody CandidateDto candidateDto, BindingResult bindingResult, @PathVariable("id") Integer id) {
 
-        log.info("Put Method called");
+        log.info("Candidate - Put Method called");
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        } else if (candidateService.getCandidate(id) == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
         } else {
 
             try {
-                candidateDto.setId(id);
+                CandidateDto editedCandidateDto = candidateService.updateCandidate(candidateDto, id);
 
-                Candidate savedCandidate = candidateService.updateCandidate(candidateDtoToCandidate.convert(candidateDto));
-                CandidateDto resultingCandidateDto = candidateToCandidateDto.convert(savedCandidate);
+                return new ResponseEntity<>(editedCandidateDto, HttpStatus.OK);
 
-                return new ResponseEntity<>(resultingCandidateDto, HttpStatus.OK);
+            } catch (CandidateNotFoundException e) {
+                log.error(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
             } catch (Exception e) {
                 log.error(e.getMessage());
@@ -171,32 +161,21 @@ public class RestCandidateController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteCandidate(@PathVariable("id") Integer id) {
 
-        log.info("Delete Method called");
-
-        if (candidateService.getCandidate(id) == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        log.info("Candidate - Delete Method called");
 
         try {
             candidateService.deleteCandidate(id);
 
             return new ResponseEntity<>(HttpStatus.OK);
 
+        } catch (CandidateNotFoundException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    /**
-     * Retrieves a representation of the list of candidateAvailabilities
-     *
-     * @return the list of candidateAvailabilities
-     */
-    @GetMapping("/")
-    public ResponseEntity<List<CandidateAvailabilityDto>> getCandidateAvailabilities() {
-
-        return null;
     }
 
     /**
@@ -207,11 +186,35 @@ public class RestCandidateController {
      * @param uriComponentsBuilder     the uri components builder
      * @return the added availability
      */
-    @PostMapping("/")
-    public ResponseEntity<CandidateAvailabilityDto> addCandidateAvailability(@Valid @RequestBody CandidateAvailabilityDto candidateAvailabilityDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
+    @PostMapping("/{cId}/availabilities/")
+    public ResponseEntity<CandidateAvailabilityDto> addCandidateAvailability(@PathVariable("cId") Integer cId, @Valid @RequestBody CandidateAvailabilityDto candidateAvailabilityDto,
+                                                                             BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
 
-        return null;
+        log.info("CandidateAvailability - Post Method called");
+
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        } else {
+
+            try {
+                CandidateDto createdCandidateDto = candidateService.createCandidate(candidateDto);
+
+                // get help from the framework building the path for the newly created resource
+                UriComponents uriComponents = uriComponentsBuilder.path("/api/candidates/" + createdCandidateDto.getId()).build();
+
+                // set headers with the created path
+                HttpHeaders headers = new HttpHeaders();
+                headers.setLocation(uriComponents.toUri());
+
+                return new ResponseEntity<>(createdCandidateDto, headers, HttpStatus.CREATED);
+
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
     }
 
     /**
@@ -220,10 +223,24 @@ public class RestCandidateController {
      * @param id the candidateAvailabilities id
      * @return the http confirmation status
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteCandidateAvailability(@PathVariable("id") Integer id) {
+    @DeleteMapping("/{cId}/availabilities/{caId}")
+    public ResponseEntity<HttpStatus> deleteCandidateAvailability(@PathVariable("cId") Integer cId, @PathVariable("caId") Integer caId) {
 
 
-        return null;
+        log.info("CandidateAvailability - Delete Method called");
+
+        try {
+            candidateService.deleteCandidate(id);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (CandidateNotFoundException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

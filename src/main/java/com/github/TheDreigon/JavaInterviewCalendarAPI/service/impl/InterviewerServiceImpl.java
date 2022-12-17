@@ -4,6 +4,7 @@ import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilit
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerDtoToInterviewer;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerToInterviewerDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.InterviewerRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerService;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * REST service responsible for {@link Interviewer} related business logic operations
@@ -34,7 +37,14 @@ public class InterviewerServiceImpl implements InterviewerService {
     @Transactional(readOnly = true)
     @Override
     public List<InterviewerDto> getInterviewerList() {
-        return interviewerDao.findAll();
+
+        List<InterviewerDto> interviewerDtoList = new ArrayList<>();
+
+        for (Interviewer interviewer : interviewerDao.findAll()) {
+            interviewerDtoList.add(interviewerToInterviewerDto.convert(interviewer));
+        }
+
+        return interviewerDtoList;
     }
 
     /**
@@ -42,32 +52,38 @@ public class InterviewerServiceImpl implements InterviewerService {
      */
     @Transactional(readOnly = true)
     @Override
-    public InterviewerDto getInterviewer(Integer id) {
-        return interviewerDao.findById(id).orElse(null);
+    public InterviewerDto getInterviewer(Integer id) throws InterviewerNotFoundException {
+
+        Interviewer retrievedInterviewer = interviewerDao.findById(id).orElseThrow(InterviewerNotFoundException::new);
+
+        return interviewerToInterviewerDto.convert(retrievedInterviewer);
     }
 
     /**
-     * @see InterviewerService#createInterviewer(Interviewer)
+     * @see InterviewerService#createInterviewer(InterviewerDto)
      */
     @Transactional
     @Override
     public InterviewerDto createInterviewer(InterviewerDto interviewerDto) {
-        return interviewerDao.save(interviewerDto);
+
+        Interviewer createdInterviewer = interviewerDao.save(Objects.requireNonNull(interviewerDtoToInterviewer.convert(interviewerDto)));
+
+        return interviewerToInterviewerDto.convert(createdInterviewer);
     }
 
     /**
-     * @see InterviewerService#updateInterviewer(Interviewer)
+     * @see InterviewerService#updateInterviewer(InterviewerDto, Integer)
      */
     @Transactional
     @Override
-    public InterviewerDto updateInterviewer(InterviewerDto interviewerDto) {
-        Interviewer interviewerFromDB = interviewerDao.findById(interviewer.getId()).orElse(null);
-        if (interviewerFromDB != null) {
-            interviewerFromDB.setName(interviewer.getName());
-            interviewerFromDB.setDescription(interviewer.getDescription());
-            return interviewerDao.save(interviewerFromDB);
-        }
-        return null;
+    public InterviewerDto updateInterviewer(InterviewerDto interviewerDto, Integer id) throws InterviewerNotFoundException {
+
+        Interviewer retrievedInterviewer = interviewerDao.findById(id).orElseThrow(InterviewerNotFoundException::new);
+
+        retrievedInterviewer.setName(interviewerDto.getName());
+        retrievedInterviewer.setDescription(interviewerDto.getDescription());
+
+        return interviewerToInterviewerDto.convert(interviewerDao.save((retrievedInterviewer)));
     }
 
     /**
@@ -75,7 +91,10 @@ public class InterviewerServiceImpl implements InterviewerService {
      */
     @Transactional
     @Override
-    public void deleteInterviewer(Integer id) {
+    public void deleteInterviewer(Integer id) throws InterviewerNotFoundException {
+
+        interviewerDao.findById(id).orElseThrow(InterviewerNotFoundException::new);
+
         interviewerDao.deleteById(id);
     }
 
@@ -86,7 +105,7 @@ public class InterviewerServiceImpl implements InterviewerService {
     @Override
     public InterviewerAvailabilityDto createInterviewerAvailability(InterviewerAvailabilityDto interviewerAvailabilityDto) {
 
-        return null;
+
     }
 
     /**

@@ -7,4 +7,5 @@ public class ErrorMessage {
 
     public static final String CANDIDATE_NOT_FOUND = "Candidate not found";
     public static final String INTERVIEWER_NOT_FOUND = "Interviewer not found";
+    public static final String AVAILABILITY_NOT_FOUND = "Availability not found";
 }
