@@ -199,7 +199,7 @@ public class RestInterviewerController {
         } else {
 
             try {
-                InterviewerAvailabilityDto createdInterviewerAvailabilityDto = interviewerService.createInterviewerAvailability(interviewerAvailabilityDto);
+                InterviewerAvailabilityDto createdInterviewerAvailabilityDto = interviewerService.createInterviewerAvailability(iId, interviewerAvailabilityDto);
 
                 // get help from the framework building the path for the newly created resource
                 UriComponents uriComponents = uriComponentsBuilder.path("/api/candidates/" + iId + "/availabilities/" + createdInterviewerAvailabilityDto.getId()).build();

@@ -39,6 +39,7 @@ public interface InterviewerService {
      * Updates an interviewer object
      *
      * @param interviewerDto the interviewer data transfer object
+     * @param id             the interviewer ID
      * @return the updated interviewer data transfer object
      */
     InterviewerDto updateInterviewer(InterviewerDto interviewerDto, Integer id) throws InterviewerNotFoundException;
@@ -53,10 +54,11 @@ public interface InterviewerService {
     /**
      * Creates an interviewerAvailability object
      *
+     * @param iId                        the interviewer ID
      * @param interviewerAvailabilityDto the interviewerAvailability data transfer object
      * @return the created interviewerAvailability data transfer object
      */
-    InterviewerAvailabilityDto createInterviewerAvailability(InterviewerAvailabilityDto interviewerAvailabilityDto);
+    InterviewerAvailabilityDto createInterviewerAvailability(Integer iId, InterviewerAvailabilityDto interviewerAvailabilityDto) throws InterviewerNotFoundException;
 
     /**
      * Deletes an interviewerAvailability object for the given interviewer and interviewerAvailability ID

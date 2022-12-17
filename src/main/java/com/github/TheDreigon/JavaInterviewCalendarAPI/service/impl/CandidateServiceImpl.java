@@ -113,14 +113,16 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     /**
-     * @see CandidateService#createCandidateAvailability(CandidateAvailabilityDto)
+     * @see CandidateService#createCandidateAvailability(Integer, CandidateAvailabilityDto)
      */
     @Transactional
     @Override
-    public CandidateAvailabilityDto createCandidateAvailability(CandidateAvailabilityDto candidateAvailabilityDto) {
+    public CandidateAvailabilityDto createCandidateAvailability(Integer cId, CandidateAvailabilityDto candidateAvailabilityDto) throws CandidateNotFoundException {
 
         CandidateAvailability createdCandidateAvailability = candidateAvailabilityDao.save(
                 Objects.requireNonNull(candidateAvailabilityDtoToCandidateAvailability.convert(candidateAvailabilityDto)));
+
+        (candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new)).addCandidateAvailability(createdCandidateAvailability);
 
         return candidateAvailabilityToCandidateAvailabilityDto.convert(createdCandidateAvailability);
     }

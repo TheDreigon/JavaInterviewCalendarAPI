@@ -113,14 +113,16 @@ public class InterviewerServiceImpl implements InterviewerService {
     }
 
     /**
-     * @see InterviewerService#createInterviewerAvailability(InterviewerAvailabilityDto)
+     * @see InterviewerService#createInterviewerAvailability(Integer, InterviewerAvailabilityDto)
      */
     @Transactional
     @Override
-    public InterviewerAvailabilityDto createInterviewerAvailability(InterviewerAvailabilityDto interviewerAvailabilityDto) {
+    public InterviewerAvailabilityDto createInterviewerAvailability(Integer iId, InterviewerAvailabilityDto interviewerAvailabilityDto) throws InterviewerNotFoundException {
 
         InterviewerAvailability createdInterviewerAvailability = interviewerAvailabilityDao.save(
                 Objects.requireNonNull(interviewerAvailabilityDtoToInterviewerAvailability.convert(interviewerAvailabilityDto)));
+
+        (interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new)).addInterviewerAvailabilitySlot(createdInterviewerAvailability);
 
         return interviewerAvailabilityToInterviewerAvailabilityDto.convert(createdInterviewerAvailability);
     }

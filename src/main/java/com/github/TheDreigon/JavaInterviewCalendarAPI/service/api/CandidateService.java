@@ -39,7 +39,7 @@ public interface CandidateService {
      * Updates a candidate object
      *
      * @param candidateDto the candidate data transfer object
-     * @param id the candidate ID
+     * @param id           the candidate ID
      * @return the updated candidate data transfer object
      */
     CandidateDto updateCandidate(CandidateDto candidateDto, Integer id) throws CandidateNotFoundException;
@@ -54,10 +54,11 @@ public interface CandidateService {
     /**
      * Creates a candidateAvailability object
      *
+     * @param cId                      the candidate ID
      * @param candidateAvailabilityDto the candidateAvailability data transfer object
      * @return the created candidateAvailability data transfer object
      */
-    CandidateAvailabilityDto createCandidateAvailability(CandidateAvailabilityDto candidateAvailabilityDto);
+    CandidateAvailabilityDto createCandidateAvailability(Integer cId, CandidateAvailabilityDto candidateAvailabilityDto) throws CandidateNotFoundException;
 
     /**
      * Deletes a candidateAvailability object for the given candidate and candidateAvailability ID

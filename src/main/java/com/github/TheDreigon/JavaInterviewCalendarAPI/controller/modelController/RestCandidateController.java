@@ -200,7 +200,7 @@ public class RestCandidateController {
         } else {
 
             try {
-                CandidateAvailabilityDto createdCandidateAvailabilityDto = candidateService.createCandidateAvailability(candidateAvailabilityDto);
+                CandidateAvailabilityDto createdCandidateAvailabilityDto = candidateService.createCandidateAvailability(cId, candidateAvailabilityDto);
 
                 // get help from the framework building the path for the newly created resource
                 UriComponents uriComponents = uriComponentsBuilder.path("/api/candidates/" + cId + "/availabilities/" + createdCandidateAvailabilityDto.getId()).build();
