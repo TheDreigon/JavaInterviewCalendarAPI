@@ -1,6 +1,7 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.abstractModel;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -8,7 +9,7 @@ import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import java.time.DayOfWeek;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -18,10 +19,11 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@MappedSuperclass
 public abstract class AbstractAvailability extends AbstractModel {
 
     @Column(name = "dayDate", nullable = false)
-    private Date dayDate;
+    private LocalDate dayDate;
 
     @Column(name = "hour", nullable = false)
     private String hour;

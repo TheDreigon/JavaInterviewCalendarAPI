@@ -25,7 +25,7 @@ public class CandidateAvailabilityDtoToCandidateAvailability implements Converte
     @Override
     public CandidateAvailability convert(CandidateAvailabilityDto candidateCandidateAvailabilityDto) {
 
-        CandidateAvailability candidateCandidateAvailability = (candidateCandidateAvailabilityDto.getId() != null ? candidateAvailabilityService.getCandidateAvailability(candidateCandidateAvailabilityDto.getId()) : new CandidateAvailability());
+        CandidateAvailability candidateCandidateAvailability = new CandidateAvailability();
 
         //candidateCandidateAvailability.setName(candidateCandidateAvailabilityDto.getName());
         //candidateCandidateAvailability.setDescription(candidateCandidateAvailabilityDto.getDescription());

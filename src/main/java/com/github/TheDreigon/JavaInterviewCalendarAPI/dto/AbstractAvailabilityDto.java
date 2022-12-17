@@ -1,5 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +10,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.DayOfWeek;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * The {@link CandidateAvailability} and {@link InterviewerAvailability} data transfer objects superclass
@@ -22,8 +23,8 @@ public abstract class AbstractAvailabilityDto {
 
     @NotNull(message = "Date of availability day is a required field")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    //@JsonFormat(pattern = "dd/MM/yyyy")
-    private Date dayDate;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dayDate;
 
     @NotNull(message = "Availability hour is a required field")
     @Pattern(regexp = "(1[012]|[1-9]):[0-5][0-9](\\\\s)?(?i)(am|pm)", message = "Please enter a regular time format (1-12am/pm) describing only the hours. Military time (0h-23h) is not supported")

@@ -2,8 +2,6 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +10,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class InterviewerDtoToInterviewer implements Converter<InterviewerDto, Interviewer> {
-
-    @Autowired
-    private InterviewerService interviewerService;
 
     /**
      * Converts the interviewer DTO into an interviewer model object
@@ -25,7 +20,7 @@ public class InterviewerDtoToInterviewer implements Converter<InterviewerDto, In
     @Override
     public Interviewer convert(InterviewerDto interviewerDto) {
 
-        Interviewer interviewer = (interviewerDto.getId() != null ? interviewerService.getInterviewer(interviewerDto.getId()) : new Interviewer());
+        Interviewer interviewer = new Interviewer();
 
         interviewer.setName(interviewerDto.getName());
         interviewer.setDescription(interviewerDto.getDescription());

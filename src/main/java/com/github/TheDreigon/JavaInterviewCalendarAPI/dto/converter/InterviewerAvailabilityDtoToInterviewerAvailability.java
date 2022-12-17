@@ -25,7 +25,7 @@ public class InterviewerAvailabilityDtoToInterviewerAvailability implements Conv
     @Override
     public InterviewerAvailability convert(InterviewerAvailabilityDto interviewerAvailabilityDto) {
 
-        InterviewerAvailability interviewerAvailability = (interviewerAvailabilityDto.getId() != null ? interviewerAvailabilityService.getInterviewerAvailability(interviewerAvailabilityDto.getId()) : new InterviewerAvailability());
+        InterviewerAvailability interviewerAvailability = new InterviewerAvailability();
 
         //interviewerAvailability.setName(interviewerAvailabilityDto.getName());
         //interviewerAvailability.setDescription(interviewerAvailabilityDto.getDescription());
