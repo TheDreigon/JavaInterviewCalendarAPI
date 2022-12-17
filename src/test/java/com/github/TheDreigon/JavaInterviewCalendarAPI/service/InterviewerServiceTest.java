@@ -32,6 +32,7 @@ public class InterviewerServiceTest {
     @Mock
     private InterviewerRepository interviewerRepository;
 
+    /*
     @Test
     public void getInterviewerListShouldReturnInterviewerList() {
 
@@ -113,4 +114,6 @@ public class InterviewerServiceTest {
 
         verify(interviewerRepository, times(1)).deleteById(interviewer.getId());
     }
+
+     */
 }

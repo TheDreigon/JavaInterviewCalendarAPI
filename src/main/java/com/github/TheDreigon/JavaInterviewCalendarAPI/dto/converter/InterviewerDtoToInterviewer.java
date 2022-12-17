@@ -24,6 +24,7 @@ public class InterviewerDtoToInterviewer implements Converter<InterviewerDto, In
 
         interviewer.setName(interviewerDto.getName());
         interviewer.setDescription(interviewerDto.getDescription());
+        interviewer.setInterviewerAvailabilityList(interviewerDto.getInterviewerAvailabilityList());
 
         return interviewer;
     }

@@ -23,8 +23,10 @@ public class CandidateAvailabilityToCandidateAvailabilityDto implements Converte
         CandidateAvailabilityDto candidateAvailabilityDto = new CandidateAvailabilityDto();
 
         candidateAvailabilityDto.setId(candidateAvailability.getId());
-        //candidateAvailabilityDto.setName(candidateAvailability.getName());
-        //candidateAvailabilityDto.setDescription(candidateAvailability.getDescription());
+        candidateAvailabilityDto.setCandidate(candidateAvailability.getCandidate());
+        candidateAvailabilityDto.setDayDate(candidateAvailability.getDayDate());
+        candidateAvailabilityDto.setHour(candidateAvailability.getHour());
+        candidateAvailabilityDto.setDayOfWeek(candidateAvailability.getDayOfWeek());
 
         return candidateAvailabilityDto;
     }

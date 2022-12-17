@@ -25,6 +25,7 @@ public class CandidateToCandidateDto implements Converter<Candidate, CandidateDt
         candidateDto.setId(candidate.getId());
         candidateDto.setName(candidate.getName());
         candidateDto.setDescription(candidate.getDescription());
+        candidateDto.setCandidateAvailabilityList(candidate.getCandidateAvailabilityList());
 
         return candidateDto;
     }
