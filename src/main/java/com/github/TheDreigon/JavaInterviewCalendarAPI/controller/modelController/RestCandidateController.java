@@ -211,6 +211,10 @@ public class RestCandidateController {
 
                 return new ResponseEntity<>(createdCandidateAvailabilityDto, headers, HttpStatus.CREATED);
 
+            } catch (CandidateNotFoundException e) {
+                log.error(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
             } catch (Exception e) {
                 log.error(e.getMessage());
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

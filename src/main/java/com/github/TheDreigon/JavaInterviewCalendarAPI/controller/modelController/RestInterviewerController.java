@@ -210,6 +210,10 @@ public class RestInterviewerController {
 
                 return new ResponseEntity<>(createdInterviewerAvailabilityDto, headers, HttpStatus.CREATED);
 
+            } catch (InterviewerNotFoundException e) {
+                log.error(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
             } catch (Exception e) {
                 log.error(e.getMessage());
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

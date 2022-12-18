@@ -25,8 +25,8 @@ public abstract class AbstractAvailability extends AbstractModel {
     @Column(name = "dayDate", nullable = false)
     private LocalDate dayDate;
 
-    @Column(name = "hour", nullable = false)
-    private String hour;
+    @Column(name = "availableHour", nullable = false)
+    private String availableHour;
 
     @Column(name = "dayOfWeek", nullable = false)
     private DayOfWeek dayOfWeek;

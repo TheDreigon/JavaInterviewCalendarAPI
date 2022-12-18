@@ -1,25 +1,15 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.service;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.InterviewerRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerService;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl.InterviewerServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)

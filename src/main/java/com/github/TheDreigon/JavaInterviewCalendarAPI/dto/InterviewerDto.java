@@ -1,7 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.dto;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -29,5 +28,5 @@ public class InterviewerDto {
     private String description;
 
     @Null
-    private List<InterviewerAvailability> interviewerAvailabilityList;
+    private List<InterviewerAvailabilityDto> interviewerAvailabilityDtoList;
 }

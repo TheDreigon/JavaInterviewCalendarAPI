@@ -24,7 +24,7 @@ public class CandidateAvailabilityDtoToCandidateAvailability implements Converte
 
         candidateAvailability.setCandidate(candidateAvailabilityDto.getCandidate());
         candidateAvailability.setDayDate(candidateAvailabilityDto.getDayDate());
-        candidateAvailability.setHour(candidateAvailabilityDto.getHour());
+        candidateAvailability.setAvailableHour(candidateAvailabilityDto.getAvailableHour());
         candidateAvailability.setDayOfWeek(candidateAvailabilityDto.getDayOfWeek());
 
         return candidateAvailability;

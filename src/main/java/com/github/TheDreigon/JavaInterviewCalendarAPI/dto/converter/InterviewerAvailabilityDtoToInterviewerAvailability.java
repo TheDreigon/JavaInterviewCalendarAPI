@@ -24,7 +24,7 @@ public class InterviewerAvailabilityDtoToInterviewerAvailability implements Conv
 
         interviewerAvailability.setInterviewer(interviewerAvailabilityDto.getInterviewer());
         interviewerAvailability.setDayDate(interviewerAvailabilityDto.getDayDate());
-        interviewerAvailability.setHour(interviewerAvailabilityDto.getHour());
+        interviewerAvailability.setAvailableHour(interviewerAvailabilityDto.getAvailableHour());
         interviewerAvailability.setDayOfWeek(interviewerAvailabilityDto.getDayOfWeek());
 
         return interviewerAvailability;

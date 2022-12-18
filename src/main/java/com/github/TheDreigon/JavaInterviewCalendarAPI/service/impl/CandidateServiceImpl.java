@@ -80,6 +80,7 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public CandidateDto createCandidate(CandidateDto candidateDto) {
 
+        candidateDto.setCandidateAvailabilityDtoList(new ArrayList<>());
         Candidate createdCandidate = candidateDao.save(Objects.requireNonNull(candidateDtoToCandidate.convert(candidateDto)));
 
         return candidateToCandidateDto.convert(createdCandidate);

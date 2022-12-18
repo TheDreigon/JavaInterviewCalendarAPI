@@ -1,40 +1,24 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateToCandidateDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CandidateRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateService;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.File;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.hamcrest.Matchers.aMapWithSize;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
