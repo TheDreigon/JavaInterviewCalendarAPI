@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -29,7 +28,7 @@ public abstract class AbstractAvailability extends AbstractModel {
     private String availableHour;
 
     @Column(name = "dayOfWeek", nullable = false)
-    private DayOfWeek dayOfWeek;
+    private String dayOfWeek;
 
     @Override
     public boolean equals(Object o) {

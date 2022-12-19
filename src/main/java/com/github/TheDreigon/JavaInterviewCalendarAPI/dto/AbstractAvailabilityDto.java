@@ -9,7 +9,6 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 /**
@@ -27,10 +26,10 @@ public abstract class AbstractAvailabilityDto {
     private LocalDate dayDate;
 
     @NotNull(message = "Available hour is a required field")
-    @Pattern(regexp = "(1[012]|[1-9]):[0-5][0-9](\\\\s)?(?i)(am|pm)", message = "Please enter a regular time format (1-12am/pm) describing only the hours. Military time (0h-23h) is not supported")
+    @Pattern(regexp = "(1[012]|[1-9])(\\\\s)?(?i)(am|pm)", message = "Please enter a regular time format (1-12am/pm) describing only the hours, no spaces. Military time (0h-23h) is not supported")
     private String availableHour;
 
     @NotNull(message = "Day of week is a required field")
     @Pattern(regexp = "(?i)(monday|tuesday|wednesday|thursday|friday|saturday|sunday)", message = "Please enter a valid day of week")
-    private DayOfWeek dayOfWeek;
+    private String dayOfWeek;
 }

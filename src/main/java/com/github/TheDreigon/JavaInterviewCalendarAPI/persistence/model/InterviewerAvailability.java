@@ -27,7 +27,8 @@ public class InterviewerAvailability extends AbstractAvailability {
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "interviewer", nullable = false)
+    //@JoinColumn(name = "interviewer", nullable = false)
+    @JoinColumn(name = "interviewer")
     private Interviewer interviewer;
 
     @Override
