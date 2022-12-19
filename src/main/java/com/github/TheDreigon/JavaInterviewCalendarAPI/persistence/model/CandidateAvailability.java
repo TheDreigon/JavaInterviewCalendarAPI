@@ -27,7 +27,6 @@ public class CandidateAvailability extends AbstractAvailability {
 
     @ManyToOne
     @JsonBackReference
-    //@JoinColumn(name = "candidate", nullable = false)
     @JoinColumn(name = "candidate")
     private Candidate candidate;
 

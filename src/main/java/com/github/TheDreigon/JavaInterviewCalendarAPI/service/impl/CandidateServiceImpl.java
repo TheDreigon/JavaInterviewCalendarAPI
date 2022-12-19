@@ -80,7 +80,6 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public CandidateDto createCandidate(CandidateDto candidateDto) {
 
-        candidateDto.setCandidateAvailabilityDtoList(new ArrayList<>());
         Candidate createdCandidate = candidateDao.save(Objects.requireNonNull(candidateDtoToCandidate.convert(candidateDto)));
 
         return candidateToCandidateDto.convert(createdCandidate);
@@ -98,7 +97,7 @@ public class CandidateServiceImpl implements CandidateService {
         retrievedCandidate.setName(candidateDto.getName());
         retrievedCandidate.setDescription(candidateDto.getDescription());
 
-        return candidateToCandidateDto.convert(candidateDao.save((retrievedCandidate)));
+        return candidateToCandidateDto.convert(candidateDao.save(retrievedCandidate));
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.AvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.List;
 public class CandidateToCandidateDto implements Converter<Candidate, CandidateDto> {
 
     @Autowired
-    private CandidateAvailabilityToCandidateAvailabilityDto candidateAvailabilityToCandidateAvailabilityDto;
+    private CandidateAvailabilityToAvailabilityDto candidateAvailabilityToAvailabilityDto;
 
     /**
      * Converts the candidate model object into a candidate DTO
@@ -34,9 +34,9 @@ public class CandidateToCandidateDto implements Converter<Candidate, CandidateDt
         candidateDto.setName(candidate.getName());
         candidateDto.setDescription(candidate.getDescription());
 
-        List<CandidateAvailabilityDto> candidateAvailabilityDtoList = new ArrayList<>();
-        candidate.getCandidateAvailabilityList().forEach(e -> candidateAvailabilityDtoList.add(candidateAvailabilityToCandidateAvailabilityDto.convert(e)));
-        candidateDto.setCandidateAvailabilityDtoList(candidateAvailabilityDtoList);
+        List<AvailabilityDto> availabilityDtoList = new ArrayList<>();
+        candidate.getCandidateAvailabilityList().forEach(e -> availabilityDtoList.add(candidateAvailabilityToAvailabilityDto.convert(e)));
+        candidateDto.setAvailabilityDtoList(availabilityDtoList);
 
         return candidateDto;
     }

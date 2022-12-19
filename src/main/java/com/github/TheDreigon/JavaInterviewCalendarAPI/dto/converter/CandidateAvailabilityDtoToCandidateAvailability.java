@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class CandidateAvailabilityDtoToCandidateAvailability implements Converter<CandidateAvailabilityDto, CandidateAvailability> {
 
     /**
-     * Converts the candidateCandidateAvailability DTO into an candidateCandidateAvailability model object
+     * Converts the candidateCandidateAvailability DTO into a candidateCandidateAvailability model object
      *
      * @param candidateAvailabilityDto the candidateCandidateAvailability DTO to convert
      * @return the candidateCandidateAvailability
@@ -21,8 +21,6 @@ public class CandidateAvailabilityDtoToCandidateAvailability implements Converte
     public CandidateAvailability convert(CandidateAvailabilityDto candidateAvailabilityDto) {
 
         CandidateAvailability candidateAvailability = new CandidateAvailability();
-
-        candidateAvailability.setCandidate(candidateAvailabilityDto.getCandidate());
 
         candidateAvailability.setDayDate(candidateAvailabilityDto.getDayDate());
         candidateAvailability.setAvailableHour(candidateAvailabilityDto.getAvailableHour());

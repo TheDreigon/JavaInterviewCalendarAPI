@@ -2,6 +2,7 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class InterviewerAvailabilityToInterviewerAvailabilityDto implements Converter<InterviewerAvailability, InterviewerAvailabilityDto> {
+
+    @Autowired
+    private InterviewerToInterviewerDtoNoList interviewerToInterviewerDtoNoList;
 
     /**
      * Converts the interviewerAvailability model object into an interviewerAvailability DTO
@@ -24,7 +28,7 @@ public class InterviewerAvailabilityToInterviewerAvailabilityDto implements Conv
 
         interviewerAvailabilityDto.setId(interviewerAvailability.getId());
 
-        interviewerAvailabilityDto.setInterviewer(interviewerAvailability.getInterviewer());
+        interviewerAvailabilityDto.setInterviewerDtoNoList(interviewerToInterviewerDtoNoList.convert(interviewerAvailability.getInterviewer()));
         interviewerAvailabilityDto.setDayDate(interviewerAvailability.getDayDate());
         interviewerAvailabilityDto.setAvailableHour(interviewerAvailability.getAvailableHour());
         interviewerAvailabilityDto.setDayOfWeek(interviewerAvailability.getDayOfWeek());

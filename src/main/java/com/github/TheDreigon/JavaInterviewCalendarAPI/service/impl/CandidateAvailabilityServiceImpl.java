@@ -1,7 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateAvailabilityDtoToCandidateAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateAvailabilityToCandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
@@ -27,9 +26,6 @@ public class CandidateAvailabilityServiceImpl implements CandidateAvailabilitySe
 
     @Autowired
     private CandidateRepository candidateDao;
-
-    @Autowired
-    private CandidateAvailabilityDtoToCandidateAvailability candidateAvailabilityDtoToCandidateAvailability;
 
     @Autowired
     private CandidateAvailabilityToCandidateAvailabilityDto candidateAvailabilityToCandidateAvailabilityDto;

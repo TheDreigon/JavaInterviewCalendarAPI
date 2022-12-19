@@ -12,10 +12,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 /**
- * The {@link CandidateAvailability} and {@link InterviewerAvailability} data transfer objects superclass
+ * A more generic {@link CandidateAvailability} and {@link InterviewerAvailability} data transfer object superclass
  */
 @Data
-public abstract class AbstractAvailabilityDto {
+public class AvailabilityDto {
 
     @Null
     private Integer id;

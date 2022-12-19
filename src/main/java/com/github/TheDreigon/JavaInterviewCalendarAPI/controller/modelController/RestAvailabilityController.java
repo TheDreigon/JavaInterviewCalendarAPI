@@ -1,6 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.AbstractAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.AvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.abstractModel.AbstractAvailability;
@@ -43,7 +43,7 @@ public class RestAvailabilityController {
      * @return the list of availabilities
      */
     @GetMapping("/")
-    public ResponseEntity<List<? extends AbstractAvailabilityDto>> getAllAvailabilities() {
+    public ResponseEntity<List<? extends AvailabilityDto>> getAllAvailabilities() {
 
         log.info("Availability - GetAll Method called - Candidates and Interviewers");
 
@@ -51,7 +51,7 @@ public class RestAvailabilityController {
             List<CandidateAvailabilityDto> candidateAvailabilityDtoList = new ArrayList<>(candidateAvailabilityService.getCandidateAvailabilityList());
             List<InterviewerAvailabilityDto> interviewerAvailabilityDtoList = new ArrayList<>(interviewerAvailabilityService.getInterviewerAvailabilityList());
 
-            List<? extends AbstractAvailabilityDto> availabilityDtoList = Stream.concat(candidateAvailabilityDtoList.stream(), interviewerAvailabilityDtoList.stream()).toList();
+            List<? extends AvailabilityDto> availabilityDtoList = Stream.concat(candidateAvailabilityDtoList.stream(), interviewerAvailabilityDtoList.stream()).toList();
 
             return new ResponseEntity<>(availabilityDtoList, HttpStatus.OK);
 

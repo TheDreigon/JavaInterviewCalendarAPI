@@ -4,13 +4,11 @@ import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidat
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
-import java.util.List;
-
 /**
- * The {@link Candidate} data transfer object
+ * The {@link Candidate} data transfer object but with no availability list
  */
 @Data
-public class CandidateDto {
+public class CandidateDtoNoAvailability {
 
     @Null
     private Integer id;
@@ -26,7 +24,4 @@ public class CandidateDto {
     @Size(min = 3, max = 128)
     @Pattern(regexp = "[a-zA-Z]+", message = "Description should only use letters")
     private String description;
-
-    @Null
-    private List<AvailabilityDto> availabilityDtoList;
 }
