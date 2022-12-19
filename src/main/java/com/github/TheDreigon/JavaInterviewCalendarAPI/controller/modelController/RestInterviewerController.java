@@ -5,6 +5,7 @@ import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerAvailabilityService;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class RestInterviewerController {
 
     @Autowired
     private InterviewerService interviewerService;
+
+    @Autowired
+    private InterviewerAvailabilityService interviewerAvailabilityService;
 
     /**
      * Retrieves a representation of the list of interviewers
@@ -180,12 +184,38 @@ public class RestInterviewerController {
     }
 
     /**
+     * Retrieves a representation of the given interviewerAvailability
+     *
+     * @param iId the interviewer id
+     * @param iaId the interviewerAvailability id
+     * @return the asked interviewerAvailability
+     */
+    @GetMapping("/{cId}/availabilities/{caId}")
+    public ResponseEntity<InterviewerAvailabilityDto> getInterviewerAvailabilityById(@PathVariable("iId") Integer iId, @PathVariable("iaId") Integer iaId) {
+
+        log.info("CandidateAvailability - Get Method called");
+
+        try {
+            InterviewerAvailabilityDto interviewerAvailabilityDto = interviewerAvailabilityService.getInterviewerAvailability(iId, iaId);
+            return new ResponseEntity<>(interviewerAvailabilityDto, HttpStatus.OK);
+
+        } catch (InterviewerNotFoundException | AvailabilityNotFoundException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Adds an interviewerAvailability
      *
      * @param interviewerAvailabilityDto  the interviewerAvailability DTO
      * @param bindingResult             the binding result object
      * @param uriComponentsBuilder      the uri components builder
-     * @return the added availability
+     * @return the added interviewerAvailability
      */
     @PostMapping("/{iId}/availabilities/")
     public ResponseEntity<InterviewerAvailabilityDto> addInterviewerAvailability(@PathVariable("iId") Integer iId, @Valid @RequestBody InterviewerAvailabilityDto interviewerAvailabilityDto,
@@ -238,7 +268,7 @@ public class RestInterviewerController {
 
             return new ResponseEntity<>(HttpStatus.OK);
 
-        } catch (AvailabilityNotFoundException e) {
+        } catch (InterviewerNotFoundException | AvailabilityNotFoundException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

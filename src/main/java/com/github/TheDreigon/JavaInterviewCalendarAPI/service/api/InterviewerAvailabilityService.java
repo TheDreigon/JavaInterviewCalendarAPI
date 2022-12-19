@@ -2,6 +2,7 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.service.api;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
 
 import java.util.List;
 
@@ -20,8 +21,9 @@ public interface InterviewerAvailabilityService {
     /**
      * Retrieves an interviewerAvailability object for the given interviewerAvailability ID
      *
-     * @param id the interviewerAvailability ID
+     * @param iId the interviewer ID
+     * @param iaId the interviewerAvailability ID
      * @return the interviewerAvailability data transfer object
      */
-    InterviewerAvailabilityDto getInterviewerAvailability(Integer id) throws AvailabilityNotFoundException;
+    InterviewerAvailabilityDto getInterviewerAvailability(Integer iId, Integer iaId) throws InterviewerNotFoundException, AvailabilityNotFoundException;
 }

@@ -4,8 +4,10 @@ import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilit
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerAvailabilityDtoToInterviewerAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.InterviewerAvailabilityToInterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.InterviewerAvailabilityRepository;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.InterviewerRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerAvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ public class InterviewerAvailabilityServiceImpl implements InterviewerAvailabili
 
     @Autowired
     private InterviewerAvailabilityRepository interviewerAvailabilityDao;
+
+    @Autowired
+    private InterviewerRepository interviewerDao;
 
     @Autowired
     private InterviewerAvailabilityDtoToInterviewerAvailability interviewerAvailabilityDtoToInterviewerAvailability;
@@ -46,13 +51,14 @@ public class InterviewerAvailabilityServiceImpl implements InterviewerAvailabili
     }
 
     /**
-     * @see InterviewerAvailabilityService#getInterviewerAvailability(Integer) 
+     * @see InterviewerAvailabilityService#getInterviewerAvailability(Integer, Integer)
      */
     @Transactional(readOnly = true)
     @Override
-    public InterviewerAvailabilityDto getInterviewerAvailability(Integer id) throws AvailabilityNotFoundException {
+    public InterviewerAvailabilityDto getInterviewerAvailability(Integer iId, Integer iaId) throws InterviewerNotFoundException, AvailabilityNotFoundException {
 
-        InterviewerAvailability retrievedInterviewerAvailability = interviewerAvailabilityDao.findById(id).orElseThrow(AvailabilityNotFoundException::new);
+        interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
+        InterviewerAvailability retrievedInterviewerAvailability = interviewerAvailabilityDao.findById(iaId).orElseThrow(AvailabilityNotFoundException::new);
 
         return interviewerAvailabilityToInterviewerAvailabilityDto.convert(retrievedInterviewerAvailability);
     }

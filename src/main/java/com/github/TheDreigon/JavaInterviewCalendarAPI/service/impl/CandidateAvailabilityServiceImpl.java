@@ -4,8 +4,10 @@ import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityD
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateAvailabilityDtoToCandidateAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateAvailabilityToCandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CandidateAvailabilityRepository;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CandidateRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateAvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ public class CandidateAvailabilityServiceImpl implements CandidateAvailabilitySe
 
     @Autowired
     private CandidateAvailabilityRepository candidateAvailabilityDao;
+
+    @Autowired
+    private CandidateRepository candidateDao;
 
     @Autowired
     private CandidateAvailabilityDtoToCandidateAvailability candidateAvailabilityDtoToCandidateAvailability;
@@ -46,13 +51,14 @@ public class CandidateAvailabilityServiceImpl implements CandidateAvailabilitySe
     }
 
     /**
-     * @see CandidateAvailabilityService#getCandidateAvailability(Integer)
+     * @see CandidateAvailabilityService#getCandidateAvailability(Integer, Integer)
      */
     @Transactional(readOnly = true)
     @Override
-    public CandidateAvailabilityDto getCandidateAvailability(Integer id) throws AvailabilityNotFoundException {
+    public CandidateAvailabilityDto getCandidateAvailability(Integer cId, Integer caId) throws CandidateNotFoundException, AvailabilityNotFoundException {
 
-        CandidateAvailability retrievedCandidateAvailability = candidateAvailabilityDao.findById(id).orElseThrow(AvailabilityNotFoundException::new);
+        candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
+        CandidateAvailability retrievedCandidateAvailability = candidateAvailabilityDao.findById(caId).orElseThrow(AvailabilityNotFoundException::new);
 
         return candidateAvailabilityToCandidateAvailabilityDto.convert(retrievedCandidateAvailability);
     }

@@ -5,6 +5,7 @@ import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateAvailabilityService;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class RestCandidateController {
 
     @Autowired
     private CandidateService candidateService;
+
+    @Autowired
+    private CandidateAvailabilityService candidateAvailabilityService;
 
     /**
      * Retrieves a representation of the list of candidates
@@ -180,6 +184,32 @@ public class RestCandidateController {
     }
 
     /**
+     * Retrieves a representation of the given candidateAvailability
+     *
+     * @param cId the candidate id
+     * @param caId the candidateAvailability id
+     * @return the asked candidateAvailability
+     */
+    @GetMapping("/{cId}/availabilities/{caId}")
+    public ResponseEntity<CandidateAvailabilityDto> getCandidateAvailabilityById(@PathVariable("cId") Integer cId, @PathVariable("caId") Integer caId) {
+
+        log.info("CandidateAvailability - Get Method called");
+
+        try {
+            CandidateAvailabilityDto candidateAvailabilityDto = candidateAvailabilityService.getCandidateAvailability(cId, caId);
+            return new ResponseEntity<>(candidateAvailabilityDto, HttpStatus.OK);
+
+        } catch (CandidateNotFoundException | AvailabilityNotFoundException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Adds a candidateAvailability
      *
      * @param cId                      the candidate id
@@ -239,7 +269,7 @@ public class RestCandidateController {
 
             return new ResponseEntity<>(HttpStatus.OK);
 
-        } catch (AvailabilityNotFoundException e) {
+        } catch (CandidateNotFoundException | AvailabilityNotFoundException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
