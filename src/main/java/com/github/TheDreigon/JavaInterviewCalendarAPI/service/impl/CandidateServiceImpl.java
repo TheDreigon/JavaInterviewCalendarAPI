@@ -1,11 +1,11 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateAvailabilityDtoToCandidateAvailability;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateAvailabilityToCandidateAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateDtoToCandidate;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateToCandidateDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate.CandidateAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate.CandidateDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.candidate.CandidateAvailabilityDtoToCandidateAvailability;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.candidate.CandidateAvailabilityToCandidateAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.candidate.CandidateDtoToCandidate;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.candidate.CandidateToCandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;

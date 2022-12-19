@@ -1,14 +1,16 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI.dto;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.dto.interviewer;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
+import java.util.List;
+
 /**
- * The {@link Interviewer} data transfer object but with no availability list
+ * The {@link Interviewer} data transfer object
  */
 @Data
-public class InterviewerDtoNoList {
+public class InterviewerDto {
 
     @Null
     private Integer id;
@@ -24,4 +26,7 @@ public class InterviewerDtoNoList {
     @Size(min = 3, max = 128)
     @Pattern(regexp = "[a-zA-Z]+", message = "Description should only use letters")
     private String description;
+
+    @Null
+    private List<InterviewerAvailabilityDto> interviewerAvailabilityDtoList;
 }

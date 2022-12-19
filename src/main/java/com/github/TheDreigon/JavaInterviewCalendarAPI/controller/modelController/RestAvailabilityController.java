@@ -1,8 +1,8 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.AvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.InterviewerAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate.CandidateAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.interviewer.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.abstractModel.AbstractAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateAvailabilityService;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.InterviewerAvailabilityService;

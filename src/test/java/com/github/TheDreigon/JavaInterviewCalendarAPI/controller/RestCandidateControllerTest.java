@@ -1,7 +1,7 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter.CandidateToCandidateDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.candidate.CandidateToCandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CandidateRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateService;
 import org.junit.jupiter.api.DisplayNameGeneration;

@@ -1,14 +1,14 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI.dto;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.dto.interviewer;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
 /**
- * The {@link Candidate} data transfer object but with no availability list
+ * The {@link Interviewer} data transfer object but with no availability list
  */
 @Data
-public class CandidateDtoNoAvailability {
+public class InterviewerDtoNoList {
 
     @Null
     private Integer id;

@@ -1,6 +1,6 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.converter.candidate;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.CandidateDtoNoAvailability;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate.CandidateDtoNoAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI.dto.converter;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.converter.candidate;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.AvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;
