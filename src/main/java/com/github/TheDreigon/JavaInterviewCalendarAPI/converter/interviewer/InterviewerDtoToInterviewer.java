@@ -32,10 +32,7 @@ public class InterviewerDtoToInterviewer implements Converter<InterviewerDto, In
 
         interviewer.setName(interviewerDto.getName());
         interviewer.setDescription(interviewerDto.getDescription());
-
-        List<InterviewerAvailability> interviewerAvailabilityList = new ArrayList<>();
-        interviewerDto.getInterviewerAvailabilityDtoList().forEach(e -> interviewerAvailabilityList.add(interviewerAvailabilityDtoToCandidateAvailability.convert(e)));
-        interviewer.setInterviewerAvailabilityList(interviewerAvailabilityList);
+        interviewer.setInterviewerAvailabilityList(new ArrayList<>());
 
         return interviewer;
     }

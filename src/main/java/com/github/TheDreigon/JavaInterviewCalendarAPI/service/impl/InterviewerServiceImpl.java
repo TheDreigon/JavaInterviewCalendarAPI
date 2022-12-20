@@ -80,7 +80,7 @@ public class InterviewerServiceImpl implements InterviewerService {
     @Override
     public InterviewerDto createInterviewer(InterviewerDto interviewerDto) {
 
-        interviewerDto.setInterviewerAvailabilityDtoList(new ArrayList<>());
+        interviewerDto.setAvailabilityDtoList(new ArrayList<>());
         Interviewer createdInterviewer = interviewerDao.save(Objects.requireNonNull(interviewerDtoToInterviewer.convert(interviewerDto)));
 
         return interviewerToInterviewerDto.convert(createdInterviewer);

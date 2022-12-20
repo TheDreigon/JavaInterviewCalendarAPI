@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class InterviewerAvailabilityToInterviewerAvailabilityDto implements Converter<InterviewerAvailability, InterviewerAvailabilityDto> {
 
     @Autowired
-    private InterviewerToInterviewerDtoNoList interviewerToInterviewerDtoNoList;
+    private InterviewerToInterviewerDtoNoAvailability interviewerToInterviewerDtoNoAvailability;
 
     /**
      * Converts the interviewerAvailability model object into an interviewerAvailability DTO
@@ -28,7 +28,7 @@ public class InterviewerAvailabilityToInterviewerAvailabilityDto implements Conv
 
         interviewerAvailabilityDto.setId(interviewerAvailability.getId());
 
-        interviewerAvailabilityDto.setInterviewerDtoNoList(interviewerToInterviewerDtoNoList.convert(interviewerAvailability.getInterviewer()));
+        interviewerAvailabilityDto.setInterviewerDtoNoAvailability(interviewerToInterviewerDtoNoAvailability.convert(interviewerAvailability.getInterviewer()));
         interviewerAvailabilityDto.setDayDate(interviewerAvailability.getDayDate());
         interviewerAvailabilityDto.setAvailableHour(interviewerAvailability.getAvailableHour());
         interviewerAvailabilityDto.setDayOfWeek(interviewerAvailability.getDayOfWeek());

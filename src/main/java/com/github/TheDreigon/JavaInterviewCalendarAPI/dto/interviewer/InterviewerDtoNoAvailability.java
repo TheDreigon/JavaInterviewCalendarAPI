@@ -8,7 +8,7 @@ import lombok.Data;
  * The {@link Interviewer} data transfer object but with no availability list
  */
 @Data
-public class InterviewerDtoNoList {
+public class InterviewerDtoNoAvailability {
 
     @Null
     private Integer id;

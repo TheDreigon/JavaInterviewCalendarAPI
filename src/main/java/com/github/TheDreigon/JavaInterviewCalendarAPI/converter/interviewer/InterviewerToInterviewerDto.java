@@ -1,5 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.converter.interviewer;
 
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.AvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.interviewer.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.interviewer.InterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
@@ -17,7 +18,7 @@ import java.util.List;
 public class InterviewerToInterviewerDto implements Converter<Interviewer, InterviewerDto> {
 
     @Autowired
-    private InterviewerAvailabilityToInterviewerAvailabilityDto interviewerAvailabilityToInterviewerAvailabilityDto;
+    private InterviewerAvailabilityToAvailabilityDto interviewerAvailabilityToAvailabilityDto;
 
     /**
      * Converts the interviewer model object into an interviewer DTO
@@ -34,9 +35,9 @@ public class InterviewerToInterviewerDto implements Converter<Interviewer, Inter
         interviewerDto.setName(interviewer.getName());
         interviewerDto.setDescription(interviewer.getDescription());
 
-        List<InterviewerAvailabilityDto> interviewerAvailabilityDtoList = new ArrayList<>();
-        interviewer.getInterviewerAvailabilityList().forEach(e -> interviewerAvailabilityDtoList.add(interviewerAvailabilityToInterviewerAvailabilityDto.convert(e)));
-        interviewerDto.setInterviewerAvailabilityDtoList(interviewerAvailabilityDtoList);
+        List<AvailabilityDto> availabilityDtoList = new ArrayList<>();
+        interviewer.getInterviewerAvailabilityList().forEach(e -> availabilityDtoList.add(interviewerAvailabilityToAvailabilityDto.convert(e)));
+        interviewerDto.setAvailabilityDtoList(availabilityDtoList);
 
         return interviewerDto;
     }

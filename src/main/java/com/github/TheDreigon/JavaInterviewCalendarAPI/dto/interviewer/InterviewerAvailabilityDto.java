@@ -14,5 +14,5 @@ import lombok.EqualsAndHashCode;
 public class InterviewerAvailabilityDto extends AvailabilityDto {
 
     @Null
-    private InterviewerDtoNoList interviewerDtoNoList;
+    private InterviewerDtoNoAvailability interviewerDtoNoAvailability;
 }
