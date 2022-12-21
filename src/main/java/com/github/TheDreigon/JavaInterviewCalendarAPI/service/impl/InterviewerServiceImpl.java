@@ -9,9 +9,6 @@ import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.interviewer.Interviewe
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityInterviewerMismatchException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.InterviewerAvailabilityRepository;
