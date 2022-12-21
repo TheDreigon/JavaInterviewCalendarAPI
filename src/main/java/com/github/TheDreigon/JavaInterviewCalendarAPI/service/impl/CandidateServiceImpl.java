@@ -6,6 +6,7 @@ import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.candidate.Candid
 import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.candidate.CandidateToCandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate.CandidateDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityCandidateMismatchException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
@@ -115,7 +116,7 @@ public class CandidateServiceImpl implements CandidateService {
     /**
      * @see CandidateService#getCandidateAvailabilities(Integer)
      */
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<CandidateAvailabilityDto> getCandidateAvailabilities(Integer cId) throws CandidateNotFoundException {
 
@@ -152,11 +153,20 @@ public class CandidateServiceImpl implements CandidateService {
      */
     @Transactional
     @Override
-    public void deleteCandidateAvailability(Integer cId, Integer caId) throws CandidateNotFoundException, AvailabilityNotFoundException {
+    public void deleteCandidateAvailability(Integer cId, Integer caId)
+            throws CandidateNotFoundException, AvailabilityNotFoundException, AvailabilityCandidateMismatchException {
 
-        candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
+        Candidate candidate = candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
         candidateAvailabilityDao.findById(caId).orElseThrow(AvailabilityNotFoundException::new);
 
-        candidateDao.deleteById(caId);
+        for (CandidateAvailability candidateAvailability : candidate.getCandidateAvailabilityList()) {
+            if (Objects.equals(candidateAvailability.getId(), caId)) {
+
+                candidateDao.deleteById(caId);
+
+            } else {
+                throw new AvailabilityCandidateMismatchException();
+            }
+        }
     }
 }

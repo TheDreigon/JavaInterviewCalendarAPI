@@ -2,8 +2,10 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.availability.CandidateAvailabilityToCandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.CandidateAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityCandidateMismatchException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CandidateAvailabilityRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.CandidateRepository;
@@ -13,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * REST service responsible for {@link CandidateAvailability} related business logic operations
@@ -51,12 +55,22 @@ public class CandidateAvailabilityServiceImpl implements CandidateAvailabilitySe
      */
     @Transactional(readOnly = true)
     @Override
-    public CandidateAvailabilityDto getCandidateAvailability(Integer cId, Integer caId) throws CandidateNotFoundException, AvailabilityNotFoundException {
+    public CandidateAvailabilityDto getCandidateAvailability(Integer cId, Integer caId) throws CandidateNotFoundException, AvailabilityNotFoundException, AvailabilityCandidateMismatchException {
 
-        candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
+        Candidate candidate = candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
         CandidateAvailability retrievedCandidateAvailability = candidateAvailabilityDao.findById(caId).orElseThrow(AvailabilityNotFoundException::new);
 
-        return candidateAvailabilityToCandidateAvailabilityDto.convert(retrievedCandidateAvailability);
+        for (CandidateAvailability candidateAvailability : candidate.getCandidateAvailabilityList()) {
+            if (Objects.equals(candidateAvailability.getId(), caId)) {
+
+                return candidateAvailabilityToCandidateAvailabilityDto.convert(retrievedCandidateAvailability);
+
+            } else {
+                throw new AvailabilityCandidateMismatchException();
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -65,15 +79,25 @@ public class CandidateAvailabilityServiceImpl implements CandidateAvailabilitySe
     @Transactional
     @Override
     public CandidateAvailabilityDto updateCandidateAvailability(Integer cId, Integer caId, CandidateAvailabilityDto candidateAvailabilityDto)
-            throws CandidateNotFoundException, AvailabilityNotFoundException {
+            throws CandidateNotFoundException, AvailabilityNotFoundException, AvailabilityCandidateMismatchException {
 
-        candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
+        Candidate candidate = candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
         CandidateAvailability retrievedCandidateAvailability = candidateAvailabilityDao.findById(caId).orElseThrow(AvailabilityNotFoundException::new);
 
-        retrievedCandidateAvailability.setDayDate(candidateAvailabilityDto.getDayDate());
-        retrievedCandidateAvailability.setAvailableHour(candidateAvailabilityDto.getAvailableHour());
-        retrievedCandidateAvailability.setDayOfWeek(candidateAvailabilityDto.getDayOfWeek());
+        for (CandidateAvailability candidateAvailability : candidate.getCandidateAvailabilityList()) {
+            if (Objects.equals(candidateAvailability.getId(), caId)) {
 
-        return candidateAvailabilityToCandidateAvailabilityDto.convert(candidateAvailabilityDao.save(retrievedCandidateAvailability));
+                retrievedCandidateAvailability.setDayDate(candidateAvailabilityDto.getDayDate());
+                retrievedCandidateAvailability.setAvailableHour(candidateAvailabilityDto.getAvailableHour());
+                retrievedCandidateAvailability.setDayOfWeek(candidateAvailabilityDto.getDayOfWeek());
+
+                return candidateAvailabilityToCandidateAvailabilityDto.convert(candidateAvailabilityDao.save(retrievedCandidateAvailability));
+
+            } else {
+                throw new AvailabilityCandidateMismatchException();
+            }
+        }
+
+        return candidateAvailabilityDto;
     }
 }

@@ -3,8 +3,9 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.availability.InterviewerAvailabilityDtoToInterviewerAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.availability.InterviewerAvailabilityToInterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.InterviewerAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.*;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.*;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.InterviewerAvailabilityRepository;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.InterviewerRepository;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * REST service responsible for {@link InterviewerAvailability} related business logic operations
@@ -55,12 +57,23 @@ public class InterviewerAvailabilityServiceImpl implements InterviewerAvailabili
      */
     @Transactional(readOnly = true)
     @Override
-    public InterviewerAvailabilityDto getInterviewerAvailability(Integer iId, Integer iaId) throws InterviewerNotFoundException, AvailabilityNotFoundException {
+    public InterviewerAvailabilityDto getInterviewerAvailability(Integer iId, Integer iaId)
+            throws InterviewerNotFoundException, AvailabilityNotFoundException, AvailabilityInterviewerMismatchException {
 
-        interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
+        Interviewer interviewer = interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
         InterviewerAvailability retrievedInterviewerAvailability = interviewerAvailabilityDao.findById(iaId).orElseThrow(AvailabilityNotFoundException::new);
 
-        return interviewerAvailabilityToInterviewerAvailabilityDto.convert(retrievedInterviewerAvailability);
+        for (InterviewerAvailability interviewerAvailability : interviewer.getInterviewerAvailabilityList()) {
+            if (Objects.equals(interviewerAvailability.getId(), iaId)) {
+
+                return interviewerAvailabilityToInterviewerAvailabilityDto.convert(retrievedInterviewerAvailability);
+
+            } else {
+                throw new AvailabilityInterviewerMismatchException();
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -68,16 +81,26 @@ public class InterviewerAvailabilityServiceImpl implements InterviewerAvailabili
      */
     @Transactional
     @Override
-    public InterviewerAvailabilityDto updateInterviewerAvailability(Integer iId, Integer iaId, InterviewerAvailabilityDto interviewerAvailabilityDto) 
-            throws InterviewerNotFoundException, AvailabilityNotFoundException {
+    public InterviewerAvailabilityDto updateInterviewerAvailability(Integer iId, Integer iaId, InterviewerAvailabilityDto interviewerAvailabilityDto)
+            throws InterviewerNotFoundException, AvailabilityNotFoundException, AvailabilityInterviewerMismatchException {
 
-        interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
+        Interviewer interviewer = interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
         InterviewerAvailability retrievedInterviewerAvailability = interviewerAvailabilityDao.findById(iaId).orElseThrow(AvailabilityNotFoundException::new);
 
-        retrievedInterviewerAvailability.setDayDate(interviewerAvailabilityDto.getDayDate());
-        retrievedInterviewerAvailability.setAvailableHour(interviewerAvailabilityDto.getAvailableHour());
-        retrievedInterviewerAvailability.setDayOfWeek(interviewerAvailabilityDto.getDayOfWeek());
+        for (InterviewerAvailability interviewerAvailability : interviewer.getInterviewerAvailabilityList()) {
+            if (Objects.equals(interviewerAvailability.getId(), iaId)) {
 
-        return interviewerAvailabilityToInterviewerAvailabilityDto.convert(interviewerAvailabilityDao.save(retrievedInterviewerAvailability));
+                retrievedInterviewerAvailability.setDayDate(interviewerAvailabilityDto.getDayDate());
+                retrievedInterviewerAvailability.setAvailableHour(interviewerAvailabilityDto.getAvailableHour());
+                retrievedInterviewerAvailability.setDayOfWeek(interviewerAvailabilityDto.getDayOfWeek());
+
+                return interviewerAvailabilityToInterviewerAvailabilityDto.convert(interviewerAvailabilityDao.save(retrievedInterviewerAvailability));
+
+            } else {
+                throw new AvailabilityInterviewerMismatchException();
+            }
+        }
+
+        return interviewerAvailabilityDto;
     }
 }

@@ -1,6 +1,8 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.InterviewerAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityCandidateMismatchException;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityInterviewerMismatchException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
@@ -102,7 +104,7 @@ public class RestInterviewerAvailabilityController {
             InterviewerAvailabilityDto interviewerAvailabilityDto = interviewerAvailabilityService.getInterviewerAvailability(iId, iaId);
             return new ResponseEntity<>(interviewerAvailabilityDto, HttpStatus.OK);
 
-        } catch (InterviewerNotFoundException | AvailabilityNotFoundException e) {
+        } catch (InterviewerNotFoundException | AvailabilityNotFoundException | AvailabilityInterviewerMismatchException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -180,7 +182,7 @@ public class RestInterviewerAvailabilityController {
 
                 return new ResponseEntity<>(editedInterviewerAvailabilityDto, HttpStatus.OK);
 
-            } catch (InterviewerNotFoundException | AvailabilityNotFoundException e) {
+            } catch (InterviewerNotFoundException | AvailabilityNotFoundException | AvailabilityInterviewerMismatchException e) {
                 log.error(e.getMessage());
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -208,7 +210,7 @@ public class RestInterviewerAvailabilityController {
 
             return new ResponseEntity<>(HttpStatus.OK);
 
-        } catch (InterviewerNotFoundException | AvailabilityNotFoundException e) {
+        } catch (InterviewerNotFoundException | AvailabilityNotFoundException | AvailabilityInterviewerMismatchException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

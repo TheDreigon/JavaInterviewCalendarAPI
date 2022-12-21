@@ -6,8 +6,12 @@ import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.interviewer.Inte
 import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.interviewer.InterviewerToInterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.interviewer.InterviewerDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityInterviewerMismatchException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.repository.InterviewerAvailabilityRepository;
@@ -116,7 +120,7 @@ public class InterviewerServiceImpl implements InterviewerService {
     /**
      * @see InterviewerService#getInterviewerAvailabilities(Integer) 
      */
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<InterviewerAvailabilityDto> getInterviewerAvailabilities(Integer iId) throws InterviewerNotFoundException {
 
@@ -153,11 +157,20 @@ public class InterviewerServiceImpl implements InterviewerService {
      */
     @Transactional
     @Override
-    public void deleteInterviewerAvailability(Integer iId, Integer iaId) throws InterviewerNotFoundException, AvailabilityNotFoundException {
+    public void deleteInterviewerAvailability(Integer iId, Integer iaId)
+            throws InterviewerNotFoundException, AvailabilityNotFoundException, AvailabilityInterviewerMismatchException {
 
-        interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
+        Interviewer interviewer = interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
         interviewerAvailabilityDao.findById(iaId).orElseThrow(AvailabilityNotFoundException::new);
 
-        interviewerDao.deleteById(iaId);
+        for (InterviewerAvailability interviewerAvailability : interviewer.getInterviewerAvailabilityList()) {
+            if (Objects.equals(interviewerAvailability.getId(), iaId)) {
+
+                interviewerDao.deleteById(iaId);
+
+            } else {
+                throw new AvailabilityInterviewerMismatchException();
+            }
+        }
     }
 }
