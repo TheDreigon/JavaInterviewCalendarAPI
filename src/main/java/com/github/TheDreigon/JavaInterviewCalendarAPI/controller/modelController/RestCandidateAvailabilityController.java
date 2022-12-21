@@ -76,6 +76,10 @@ public class RestCandidateAvailabilityController {
 
             return new ResponseEntity<>(candidateAvailabilityDtoList, HttpStatus.OK);
 
+        } catch (CandidateNotFoundException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -176,7 +180,7 @@ public class RestCandidateAvailabilityController {
 
                 return new ResponseEntity<>(editedCandidateAvailabilityDto, HttpStatus.OK);
 
-            } catch (CandidateNotFoundException e) {
+            } catch (CandidateNotFoundException | AvailabilityNotFoundException e) {
                 log.error(e.getMessage());
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

@@ -14,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DisplayNameGeneration(DisplayNameGenerator.Standard.class)
-public class CandidateServiceTest {
+public class CandidateServiceImplTest {
 
     @InjectMocks
     private CandidateService candidateService = new CandidateServiceImpl();

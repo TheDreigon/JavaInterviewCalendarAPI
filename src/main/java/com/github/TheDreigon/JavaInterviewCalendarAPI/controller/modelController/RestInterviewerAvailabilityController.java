@@ -76,6 +76,10 @@ public class RestInterviewerAvailabilityController {
 
             return new ResponseEntity<>(interviewerAvailabilityDtoList, HttpStatus.OK);
 
+        } catch (InterviewerNotFoundException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -176,7 +180,7 @@ public class RestInterviewerAvailabilityController {
 
                 return new ResponseEntity<>(editedInterviewerAvailabilityDto, HttpStatus.OK);
 
-            } catch (InterviewerNotFoundException e) {
+            } catch (InterviewerNotFoundException | AvailabilityNotFoundException e) {
                 log.error(e.getMessage());
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
