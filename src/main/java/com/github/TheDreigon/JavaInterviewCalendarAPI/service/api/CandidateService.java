@@ -40,7 +40,7 @@ public interface CandidateService {
      * Updates a candidate object
      *
      * @param cId           the candidate id
-     * @param candidateDto the candidate data transfer object
+     * @param candidateDto  the candidate data transfer object
      * @return the updated candidate data transfer object
      */
     CandidateDto updateCandidate(Integer cId, CandidateDto candidateDto) throws CandidateNotFoundException;

@@ -40,7 +40,7 @@ public interface InterviewerService {
      * Updates an interviewer object
      *
      * @param iId             the interviewer id
-     * @param interviewerDto the interviewer data transfer object
+     * @param interviewerDto  the interviewer data transfer object
      * @return the updated interviewer data transfer object
      */
     InterviewerDto updateInterviewer(Integer iId, InterviewerDto interviewerDto) throws InterviewerNotFoundException;
