@@ -1,8 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate.CandidateDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.service.api.CandidateAvailabilityService;
@@ -174,102 +172,6 @@ public class RestCandidateController {
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (CandidateNotFoundException e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /**
-     * Retrieves a representation of the given candidateAvailability
-     *
-     * @param cId the candidate id
-     * @param caId the candidateAvailability id
-     * @return the asked candidateAvailability
-     */
-    @GetMapping("/{cId}/availabilities/{caId}")
-    public ResponseEntity<CandidateAvailabilityDto> getCandidateAvailabilityById(@PathVariable("cId") Integer cId, @PathVariable("caId") Integer caId) {
-
-        log.info("CandidateAvailability - Get Method called");
-
-        try {
-            CandidateAvailabilityDto candidateAvailabilityDto = candidateAvailabilityService.getCandidateAvailability(cId, caId);
-            return new ResponseEntity<>(candidateAvailabilityDto, HttpStatus.OK);
-
-        } catch (CandidateNotFoundException | AvailabilityNotFoundException e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /**
-     * Adds a candidateAvailability
-     *
-     * @param cId                      the candidate id
-     * @param candidateAvailabilityDto the candidateAvailability DTO
-     * @param bindingResult            the binding result object
-     * @param uriComponentsBuilder     the uri components builder
-     * @return the added availability
-     */
-    @PostMapping("/{cId}/availabilities/")
-    public ResponseEntity<CandidateAvailabilityDto> addCandidateAvailability(@PathVariable("cId") Integer cId, @Valid @RequestBody CandidateAvailabilityDto candidateAvailabilityDto,
-                                                                             BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
-
-        log.info("CandidateAvailability - Post Method called");
-
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        } else {
-
-            try {
-                CandidateAvailabilityDto createdCandidateAvailabilityDto = candidateService.createCandidateAvailability(cId, candidateAvailabilityDto);
-
-                // get help from the framework building the path for the newly created resource
-                UriComponents uriComponents = uriComponentsBuilder.path("/api/candidates/" + cId + "/availabilities/" + createdCandidateAvailabilityDto.getId()).build();
-
-                // set headers with the created path
-                HttpHeaders headers = new HttpHeaders();
-                headers.setLocation(uriComponents.toUri());
-
-                return new ResponseEntity<>(createdCandidateAvailabilityDto, headers, HttpStatus.CREATED);
-
-            } catch (CandidateNotFoundException e) {
-                log.error(e.getMessage());
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-    }
-
-    /**
-     * Deletes a candidateAvailability
-     *
-     * @param cId the candidate id
-     * @param caId the candidateAvailability id
-     * @return the http confirmation status
-     */
-    @DeleteMapping("/{cId}/availabilities/{caId}")
-    public ResponseEntity<HttpStatus> deleteCandidateAvailability(@PathVariable("cId") Integer cId, @PathVariable("caId") Integer caId) {
-
-        log.info("CandidateAvailability - Delete Method called");
-
-        try {
-            candidateService.deleteCandidateAvailability(cId, caId);
-
-            return new ResponseEntity<>(HttpStatus.OK);
-
-        } catch (CandidateNotFoundException | AvailabilityNotFoundException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

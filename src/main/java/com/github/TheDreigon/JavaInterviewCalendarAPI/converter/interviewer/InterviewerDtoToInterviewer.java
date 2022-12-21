@@ -2,13 +2,11 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.converter.interviewer;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.interviewer.InterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A {@link Converter} implementation, responsible for {@link InterviewerDto} to {@link Interviewer} type conversion
