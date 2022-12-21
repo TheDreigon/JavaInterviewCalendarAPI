@@ -1,10 +1,10 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.interviewer.InterviewerAvailabilityDtoToInterviewerAvailability;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.interviewer.InterviewerAvailabilityToInterviewerAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.availability.InterviewerAvailabilityDtoToInterviewerAvailability;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.availability.InterviewerAvailabilityToInterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.interviewer.InterviewerDtoToInterviewer;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.interviewer.InterviewerToInterviewerDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.interviewer.InterviewerAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.interviewer.InterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;

@@ -1,4 +1,4 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI.dto;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;

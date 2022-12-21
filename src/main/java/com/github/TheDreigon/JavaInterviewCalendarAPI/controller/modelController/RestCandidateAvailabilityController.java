@@ -1,6 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate.CandidateAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;
@@ -60,10 +60,13 @@ public class RestCandidateAvailabilityController {
         }
     }
 
+    ////all availabilities for a given user
+
+
     /**
      * Retrieves a representation of the given candidateAvailability
      *
-     * @param cId the candidate id
+     * @param cId  the candidate id
      * @param caId the candidateAvailability id
      * @return the asked candidateAvailability
      */
@@ -130,9 +133,45 @@ public class RestCandidateAvailabilityController {
     }
 
     /**
+     * Edits a candidateAvailability
+     *
+     * @param cId                      the candidate id
+     * @param candidateAvailabilityDto the candidateAvailability DTO
+     * @param caId                     the candidateAvailability id
+     * @param bindingResult            the binding result
+     * @return the edited candidateAvailability
+     */
+    @PutMapping("/{cId}/availabilities/{caId}")
+    public ResponseEntity<CandidateAvailabilityDto> editCandidateAvailability(@PathVariable("cId") Integer cId, @PathVariable("caId") Integer caId,
+                                                                              @Valid @RequestBody CandidateAvailabilityDto candidateAvailabilityDto, BindingResult bindingResult) {
+
+        log.info("CandidateAvailability - Put Method called");
+
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        } else {
+
+            try {
+                CandidateAvailabilityDto editedCandidateAvailabilityDto = candidateAvailabilityService.updateCandidateAvailability(cId, caId, candidateAvailabilityDto);
+
+                return new ResponseEntity<>(editedCandidateAvailabilityDto, HttpStatus.OK);
+
+            } catch (CandidateNotFoundException e) {
+                log.error(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+    }
+
+    /**
      * Deletes a candidateAvailability
      *
-     * @param cId the candidate id
+     * @param cId  the candidate id
      * @param caId the candidateAvailability id
      * @return the http confirmation status
      */

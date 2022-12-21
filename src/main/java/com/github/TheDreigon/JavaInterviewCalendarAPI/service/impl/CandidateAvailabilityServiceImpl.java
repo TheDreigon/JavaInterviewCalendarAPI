@@ -1,7 +1,7 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.candidate.CandidateAvailabilityToCandidateAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate.CandidateAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.availability.CandidateAvailabilityToCandidateAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;
@@ -57,5 +57,22 @@ public class CandidateAvailabilityServiceImpl implements CandidateAvailabilitySe
         CandidateAvailability retrievedCandidateAvailability = candidateAvailabilityDao.findById(caId).orElseThrow(AvailabilityNotFoundException::new);
 
         return candidateAvailabilityToCandidateAvailabilityDto.convert(retrievedCandidateAvailability);
+    }
+
+    /**
+     * @see CandidateAvailabilityService#updateCandidateAvailability(Integer, Integer, CandidateAvailabilityDto)
+     */
+    @Override
+    public CandidateAvailabilityDto updateCandidateAvailability(Integer cId, Integer caId, CandidateAvailabilityDto candidateAvailabilityDto)
+            throws CandidateNotFoundException, AvailabilityNotFoundException {
+
+        candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
+        CandidateAvailability retrievedCandidateAvailability = candidateAvailabilityDao.findById(caId).orElseThrow(AvailabilityNotFoundException::new);
+
+        retrievedCandidateAvailability.setDayDate(candidateAvailabilityDto.getDayDate());
+        retrievedCandidateAvailability.setAvailableHour(candidateAvailabilityDto.getAvailableHour());
+        retrievedCandidateAvailability.setDayOfWeek(candidateAvailabilityDto.getDayOfWeek());
+
+        return candidateAvailabilityToCandidateAvailabilityDto.convert(candidateAvailabilityDao.save(retrievedCandidateAvailability));
     }
 }

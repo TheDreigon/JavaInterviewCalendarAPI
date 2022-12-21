@@ -1,6 +1,6 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.AvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate.CandidateDtoNoAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;
 import jakarta.validation.constraints.Null;
 import lombok.Data;

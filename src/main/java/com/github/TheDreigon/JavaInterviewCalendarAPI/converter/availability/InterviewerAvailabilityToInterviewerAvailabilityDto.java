@@ -1,6 +1,7 @@
-package com.github.TheDreigon.JavaInterviewCalendarAPI.converter.interviewer;
+package com.github.TheDreigon.JavaInterviewCalendarAPI.converter.availability;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.interviewer.InterviewerAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.interviewer.InterviewerToInterviewerDtoNoAvailability;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;

@@ -1,6 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.service.api;
 
-import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate.CandidateAvailabilityDto;
+import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate.CandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
