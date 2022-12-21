@@ -66,9 +66,9 @@ public class CandidateServiceImpl implements CandidateService {
      */
     @Transactional(readOnly = true)
     @Override
-    public CandidateDto getCandidate(Integer id) throws CandidateNotFoundException {
+    public CandidateDto getCandidate(Integer cId) throws CandidateNotFoundException {
 
-        Candidate retrievedCandidate = candidateDao.findById(id).orElseThrow(CandidateNotFoundException::new);
+        Candidate retrievedCandidate = candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
 
         return candidateToCandidateDto.convert(retrievedCandidate);
     }
@@ -86,13 +86,13 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     /**
-     * @see CandidateService#updateCandidate(CandidateDto, Integer)
+     * @see CandidateService#updateCandidate(Integer, CandidateDto)
      */
     @Transactional
     @Override
-    public CandidateDto updateCandidate(CandidateDto candidateDto, Integer id) throws CandidateNotFoundException {
+    public CandidateDto updateCandidate(Integer cId, CandidateDto candidateDto) throws CandidateNotFoundException {
 
-        Candidate retrievedCandidate = candidateDao.findById(id).orElseThrow(CandidateNotFoundException::new);
+        Candidate retrievedCandidate = candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
 
         retrievedCandidate.setName(candidateDto.getName());
         retrievedCandidate.setDescription(candidateDto.getDescription());
@@ -105,11 +105,31 @@ public class CandidateServiceImpl implements CandidateService {
      */
     @Transactional
     @Override
-    public void deleteCandidate(Integer id) throws CandidateNotFoundException {
+    public void deleteCandidate(Integer cId) throws CandidateNotFoundException {
 
-        candidateDao.findById(id).orElseThrow(CandidateNotFoundException::new);
+        candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
 
-        candidateDao.deleteById(id);
+        candidateDao.deleteById(cId);
+    }
+
+    /**
+     * @see CandidateService#getCandidateAvailabilities(Integer)
+     */
+    @Transactional
+    @Override
+    public List<CandidateAvailabilityDto> getCandidateAvailabilities(Integer cId) throws CandidateNotFoundException {
+
+        candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
+
+        List<CandidateAvailabilityDto> candidateAvailabilityDtoList = new ArrayList<>();
+
+        for (CandidateAvailability candidateAvailability : candidateAvailabilityDao.findAll()) {
+            if (Objects.equals(candidateAvailability.getCandidate().getId(), cId)) {
+                candidateAvailabilityDtoList.add(candidateAvailabilityToCandidateAvailabilityDto.convert(candidateAvailability));
+            }
+        }
+
+        return candidateAvailabilityDtoList;
     }
 
     /**

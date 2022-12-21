@@ -62,16 +62,16 @@ public class RestInterviewerController {
     /**
      * Retrieves a representation of the given interviewer
      *
-     * @param id the interviewer id
+     * @param iId the interviewer id
      * @return the asked interviewer
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<InterviewerDto> getInterviewerById(@PathVariable("id") Integer id) {
+    @GetMapping("/{iId}")
+    public ResponseEntity<InterviewerDto> getInterviewerById(@PathVariable("iId") Integer iId) {
 
         log.info("Interviewer - Get Method called");
 
         try {
-            InterviewerDto interviewerDto = interviewerService.getInterviewer(id);
+            InterviewerDto interviewerDto = interviewerService.getInterviewer(iId);
             return new ResponseEntity<>(interviewerDto, HttpStatus.OK);
 
         } catch (InterviewerNotFoundException e) {
@@ -124,13 +124,13 @@ public class RestInterviewerController {
     /**
      * Edits an interviewer
      *
+     * @param iId             the interviewer id
      * @param interviewerDto the interviewer DTO
-     * @param id             the interviewer id
      * @param bindingResult  the binding result
      * @return the edited interviewer
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<InterviewerDto> editInterviewer(@Valid @RequestBody InterviewerDto interviewerDto, BindingResult bindingResult, @PathVariable("id") Integer id) {
+    @PutMapping("/{iId}")
+    public ResponseEntity<InterviewerDto> editInterviewer(@PathVariable("iId") Integer iId, @Valid @RequestBody InterviewerDto interviewerDto, BindingResult bindingResult) {
 
         log.info("Interviewer - Put Method called");
 
@@ -140,7 +140,7 @@ public class RestInterviewerController {
         } else {
 
             try {
-                InterviewerDto editedInterviewerDto = interviewerService.updateInterviewer(interviewerDto, id);
+                InterviewerDto editedInterviewerDto = interviewerService.updateInterviewer(iId, interviewerDto);
 
                 return new ResponseEntity<>(editedInterviewerDto, HttpStatus.OK);
 
@@ -158,16 +158,16 @@ public class RestInterviewerController {
     /**
      * Deletes an interviewer
      *
-     * @param id the interviewer id
+     * @param iId the interviewer id
      * @return the http confirmation status
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteInterviewer(@PathVariable("id") Integer id) {
+    @DeleteMapping("/{iId}")
+    public ResponseEntity<HttpStatus> deleteInterviewer(@PathVariable("iId") Integer iId) {
 
         log.info("Interviewer - Delete Method called");
 
         try {
-            interviewerService.deleteInterviewer(id);
+            interviewerService.deleteInterviewer(iId);
 
             return new ResponseEntity<>(HttpStatus.OK);
 

@@ -18,23 +18,20 @@ public interface InterviewerAvailabilityService {
      */
     List<InterviewerAvailabilityDto> getInterviewerAvailabilityList();
 
-    ////all availabilities for a given user
-
-
     /**
-     * Retrieves an interviewerAvailability object for the given interviewerAvailability ID
+     * Retrieves an interviewerAvailability object for the given interviewerAvailability id
      *
-     * @param iId  the interviewer ID
-     * @param iaId the interviewerAvailability ID
+     * @param iId  the interviewer id
+     * @param iaId the interviewerAvailability id
      * @return the interviewerAvailability data transfer object
      */
     InterviewerAvailabilityDto getInterviewerAvailability(Integer iId, Integer iaId) throws InterviewerNotFoundException, AvailabilityNotFoundException;
 
     /**
-     * Updates an interviewerAvailability object for the given candidate and interviewerAvailability ID
+     * Updates an interviewerAvailability object for the given candidate and interviewerAvailability id
      *
-     * @param iId                        the interviewer ID
-     * @param iaId                       the interviewerAvailability ID
+     * @param iId                        the interviewer id
+     * @param iaId                       the interviewerAvailability id
      * @param interviewerAvailabilityDto the interviewerAvailability data transfer object
      * @return the interviewerAvailability data transfer object
      */

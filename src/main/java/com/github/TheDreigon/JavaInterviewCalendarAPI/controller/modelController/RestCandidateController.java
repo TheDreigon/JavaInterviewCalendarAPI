@@ -62,16 +62,16 @@ public class RestCandidateController {
     /**
      * Retrieves a representation of the given candidate
      *
-     * @param id the candidate id
+     * @param cId the candidate id
      * @return the asked candidate
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<CandidateDto> getCandidateById(@PathVariable("id") Integer id) {
+    @GetMapping("/{cId}")
+    public ResponseEntity<CandidateDto> getCandidateById(@PathVariable("cId") Integer cId) {
 
         log.info("Candidate - Get Method called");
 
         try {
-            CandidateDto candidateDto = candidateService.getCandidate(id);
+            CandidateDto candidateDto = candidateService.getCandidate(cId);
             return new ResponseEntity<>(candidateDto, HttpStatus.OK);
 
         } catch (CandidateNotFoundException e) {
@@ -124,13 +124,13 @@ public class RestCandidateController {
     /**
      * Edits a candidate
      *
+     * @param cId            the candidate id
      * @param candidateDto  the candidate DTO
-     * @param id            the candidate id
      * @param bindingResult the binding result
      * @return the edited candidate
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<CandidateDto> editCandidate(@Valid @RequestBody CandidateDto candidateDto, BindingResult bindingResult, @PathVariable("id") Integer id) {
+    @PutMapping("/{cId}")
+    public ResponseEntity<CandidateDto> editCandidate(@PathVariable("cId") Integer cId, @Valid @RequestBody CandidateDto candidateDto, BindingResult bindingResult) {
 
         log.info("Candidate - Put Method called");
 
@@ -140,7 +140,7 @@ public class RestCandidateController {
         } else {
 
             try {
-                CandidateDto editedCandidateDto = candidateService.updateCandidate(candidateDto, id);
+                CandidateDto editedCandidateDto = candidateService.updateCandidate(cId, candidateDto);
 
                 return new ResponseEntity<>(editedCandidateDto, HttpStatus.OK);
 
@@ -158,16 +158,16 @@ public class RestCandidateController {
     /**
      * Deletes a candidate
      *
-     * @param id the candidate id
+     * @param cId the candidate id
      * @return the http confirmation status
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteCandidate(@PathVariable("id") Integer id) {
+    @DeleteMapping("/{cId}")
+    public ResponseEntity<HttpStatus> deleteCandidate(@PathVariable("cId") Integer cId) {
 
         log.info("Candidate - Delete Method called");
 
         try {
-            candidateService.deleteCandidate(id);
+            candidateService.deleteCandidate(cId);
 
             return new ResponseEntity<>(HttpStatus.OK);
 

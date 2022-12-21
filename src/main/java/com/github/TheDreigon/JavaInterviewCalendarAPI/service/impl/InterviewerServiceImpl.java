@@ -66,9 +66,9 @@ public class InterviewerServiceImpl implements InterviewerService {
      */
     @Transactional(readOnly = true)
     @Override
-    public InterviewerDto getInterviewer(Integer id) throws InterviewerNotFoundException {
+    public InterviewerDto getInterviewer(Integer iId) throws InterviewerNotFoundException {
 
-        Interviewer retrievedInterviewer = interviewerDao.findById(id).orElseThrow(InterviewerNotFoundException::new);
+        Interviewer retrievedInterviewer = interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
 
         return interviewerToInterviewerDto.convert(retrievedInterviewer);
     }
@@ -87,13 +87,13 @@ public class InterviewerServiceImpl implements InterviewerService {
     }
 
     /**
-     * @see InterviewerService#updateInterviewer(InterviewerDto, Integer)
+     * @see InterviewerService#updateInterviewer(Integer, InterviewerDto)
      */
     @Transactional
     @Override
-    public InterviewerDto updateInterviewer(InterviewerDto interviewerDto, Integer id) throws InterviewerNotFoundException {
+    public InterviewerDto updateInterviewer(Integer iId, InterviewerDto interviewerDto) throws InterviewerNotFoundException {
 
-        Interviewer retrievedInterviewer = interviewerDao.findById(id).orElseThrow(InterviewerNotFoundException::new);
+        Interviewer retrievedInterviewer = interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
 
         retrievedInterviewer.setName(interviewerDto.getName());
         retrievedInterviewer.setDescription(interviewerDto.getDescription());
@@ -106,13 +106,33 @@ public class InterviewerServiceImpl implements InterviewerService {
      */
     @Transactional
     @Override
-    public void deleteInterviewer(Integer id) throws InterviewerNotFoundException {
+    public void deleteInterviewer(Integer iId) throws InterviewerNotFoundException {
 
-        interviewerDao.findById(id).orElseThrow(InterviewerNotFoundException::new);
+        interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
 
-        interviewerDao.deleteById(id);
+        interviewerDao.deleteById(iId);
     }
 
+    /**
+     * @see InterviewerService#getInterviewerAvailabilities(Integer) 
+     */
+    @Transactional
+    @Override
+    public List<InterviewerAvailabilityDto> getInterviewerAvailabilities(Integer iId) throws InterviewerNotFoundException {
+
+        interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
+
+        List<InterviewerAvailabilityDto> interviewerAvailabilityDtoList = new ArrayList<>();
+
+        for (InterviewerAvailability interviewerAvailability : interviewerAvailabilityDao.findAll()) {
+            if (Objects.equals(interviewerAvailability.getInterviewer().getId(), iId)) {
+                interviewerAvailabilityDtoList.add(interviewerAvailabilityToInterviewerAvailabilityDto.convert(interviewerAvailability));
+            }
+        }
+
+        return interviewerAvailabilityDtoList;
+    }
+    
     /**
      * @see InterviewerService#createInterviewerAvailability(Integer, InterviewerAvailabilityDto)
      */

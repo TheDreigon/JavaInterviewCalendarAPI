@@ -47,7 +47,7 @@ public class RestCandidateAvailabilityController {
     @GetMapping("/availabilities/")
     public ResponseEntity<List<CandidateAvailabilityDto>> getCandidateAvailabilities() {
 
-        log.info("CandidateAvailability - GetAll Method called");
+        log.info("CandidateAvailability - GetAll Method called - all candidates");
 
         try {
             List<CandidateAvailabilityDto> candidateAvailabilityDtoList = new ArrayList<>(candidateAvailabilityService.getCandidateAvailabilityList());
@@ -60,8 +60,27 @@ public class RestCandidateAvailabilityController {
         }
     }
 
-    ////all availabilities for a given user
+    /**
+     * Retrieves a representation of the list of candidateAvailabilities for a given candidate
+     *
+     * @param cId  the candidate id
+     * @return the list of candidateAvailabilities
+     */
+    @GetMapping("/{cId}/availabilities/")
+    public ResponseEntity<List<CandidateAvailabilityDto>> getCandidateAvailabilities(@PathVariable("cId") Integer cId) {
 
+        log.info("CandidateAvailability - GetAll Method called - given candidate");
+
+        try {
+            List<CandidateAvailabilityDto> candidateAvailabilityDtoList = new ArrayList<>(candidateService.getCandidateAvailabilities(cId));
+
+            return new ResponseEntity<>(candidateAvailabilityDtoList, HttpStatus.OK);
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
      * Retrieves a representation of the given candidateAvailability
@@ -73,7 +92,7 @@ public class RestCandidateAvailabilityController {
     @GetMapping("/{cId}/availabilities/{caId}")
     public ResponseEntity<CandidateAvailabilityDto> getCandidateAvailabilityById(@PathVariable("cId") Integer cId, @PathVariable("caId") Integer caId) {
 
-        log.info("CandidateAvailability - Get Method called");
+        log.info("CandidateAvailability - Get Method called - given candidate, given availability");
 
         try {
             CandidateAvailabilityDto candidateAvailabilityDto = candidateAvailabilityService.getCandidateAvailability(cId, caId);

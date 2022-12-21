@@ -20,12 +20,12 @@ public interface CandidateService {
     List<CandidateDto> getCandidateList();
 
     /**
-     * Retrieves a candidate data transfer object for the given candidate ID
+     * Retrieves a candidate data transfer object for the given candidate id
      *
-     * @param id the candidate ID
+     * @param cId the candidate id
      * @return the candidate data transfer object
      */
-    CandidateDto getCandidate(Integer id) throws CandidateNotFoundException;
+    CandidateDto getCandidate(Integer cId) throws CandidateNotFoundException;
 
     /**
      * Creates a candidate object
@@ -38,33 +38,41 @@ public interface CandidateService {
     /**
      * Updates a candidate object
      *
+     * @param cId           the candidate id
      * @param candidateDto the candidate data transfer object
-     * @param id           the candidate ID
      * @return the updated candidate data transfer object
      */
-    CandidateDto updateCandidate(CandidateDto candidateDto, Integer id) throws CandidateNotFoundException;
+    CandidateDto updateCandidate(Integer cId, CandidateDto candidateDto) throws CandidateNotFoundException;
 
     /**
-     * Deletes a candidate object for the given candidate ID
+     * Deletes a candidate object for the given candidate id
      *
-     * @param id the candidate ID
+     * @param cId the candidate id
      */
-    void deleteCandidate(Integer id) throws CandidateNotFoundException;
+    void deleteCandidate(Integer cId) throws CandidateNotFoundException;
+
+    /**
+     * Get all candidateAvailabilities for the given candidate id
+     *
+     * @param cId  the candidate id
+     * @return the candidateAvailability data transfer objects
+     */
+    List<CandidateAvailabilityDto> getCandidateAvailabilities(Integer cId) throws CandidateNotFoundException;
 
     /**
      * Creates a candidateAvailability object
      *
-     * @param cId                      the candidate ID
+     * @param cId                      the candidate id
      * @param candidateAvailabilityDto the candidateAvailability data transfer object
      * @return the created candidateAvailability data transfer object
      */
     CandidateAvailabilityDto createCandidateAvailability(Integer cId, CandidateAvailabilityDto candidateAvailabilityDto) throws CandidateNotFoundException;
 
     /**
-     * Deletes a candidateAvailability object for the given candidate and candidateAvailability ID
+     * Deletes a candidateAvailability object for the given candidate and candidateAvailability id
      *
-     * @param cId   the candidate ID
-     * @param caId  the candidateAvailability ID
+     * @param cId   the candidate id
+     * @param caId  the candidateAvailability id
      */
     void deleteCandidateAvailability(Integer cId, Integer caId) throws AvailabilityNotFoundException, CandidateNotFoundException;
 }

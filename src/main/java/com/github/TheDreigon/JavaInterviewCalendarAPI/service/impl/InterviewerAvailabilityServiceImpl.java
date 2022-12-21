@@ -66,6 +66,7 @@ public class InterviewerAvailabilityServiceImpl implements InterviewerAvailabili
     /**
      * @see InterviewerAvailabilityService#updateInterviewerAvailability(Integer, Integer, InterviewerAvailabilityDto) 
      */
+    @Transactional
     @Override
     public InterviewerAvailabilityDto updateInterviewerAvailability(Integer iId, Integer iaId, InterviewerAvailabilityDto interviewerAvailabilityDto) 
             throws InterviewerNotFoundException, AvailabilityNotFoundException {

@@ -62,6 +62,7 @@ public class CandidateAvailabilityServiceImpl implements CandidateAvailabilitySe
     /**
      * @see CandidateAvailabilityService#updateCandidateAvailability(Integer, Integer, CandidateAvailabilityDto)
      */
+    @Transactional
     @Override
     public CandidateAvailabilityDto updateCandidateAvailability(Integer cId, Integer caId, CandidateAvailabilityDto candidateAvailabilityDto)
             throws CandidateNotFoundException, AvailabilityNotFoundException {

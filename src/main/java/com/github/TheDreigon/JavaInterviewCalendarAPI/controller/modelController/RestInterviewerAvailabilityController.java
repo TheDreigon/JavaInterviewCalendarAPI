@@ -47,7 +47,7 @@ public class RestInterviewerAvailabilityController {
     @GetMapping("/availabilities/")
     public ResponseEntity<List<InterviewerAvailabilityDto>> getInterviewerAvailabilities() {
 
-        log.info("InterviewerAvailability - GetAll Method called");
+        log.info("InterviewerAvailability - GetAll Method called - all interviewers");
 
         try {
             List<InterviewerAvailabilityDto> interviewerAvailabilityDtoList = new ArrayList<>(interviewerAvailabilityService.getInterviewerAvailabilityList());
@@ -60,8 +60,27 @@ public class RestInterviewerAvailabilityController {
         }
     }
 
-    ////all availabilities for a given user
+    /**
+     * Retrieves a representation of the list of interviewerAvailabilities for a given interviewer
+     *
+     * @param iId  the interviewer id
+     * @return the list of interviewerAvailabilities
+     */
+    @GetMapping("/{iId}/availabilities/")
+    public ResponseEntity<List<InterviewerAvailabilityDto>> getInterviewerAvailabilities(@PathVariable("iId") Integer iId) {
 
+        log.info("InterviewerAvailability - GetAll Method called - given interviewer");
+
+        try {
+            List<InterviewerAvailabilityDto> interviewerAvailabilityDtoList = new ArrayList<>(interviewerService.getInterviewerAvailabilities(iId));
+
+            return new ResponseEntity<>(interviewerAvailabilityDtoList, HttpStatus.OK);
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
      * Retrieves a representation of the given interviewerAvailability
@@ -73,7 +92,7 @@ public class RestInterviewerAvailabilityController {
     @GetMapping("/{iId}/availabilities/{iaId}")
     public ResponseEntity<InterviewerAvailabilityDto> getInterviewerAvailabilityById(@PathVariable("iId") Integer iId, @PathVariable("iaId") Integer iaId) {
 
-        log.info("CandidateAvailability - Get Method called");
+        log.info("InterviewerAvailability - Get Method called - given interviewer, given availability");
 
         try {
             InterviewerAvailabilityDto interviewerAvailabilityDto = interviewerAvailabilityService.getInterviewerAvailability(iId, iaId);

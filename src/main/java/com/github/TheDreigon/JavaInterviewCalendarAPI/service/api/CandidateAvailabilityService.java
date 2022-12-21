@@ -18,23 +18,20 @@ public interface CandidateAvailabilityService {
      */
     List<CandidateAvailabilityDto> getCandidateAvailabilityList();
 
-    ////all availabilities for a given user
-
-
     /**
-     * Retrieves a candidateAvailability object for the given candidate and candidateAvailability ID
+     * Retrieves a candidateAvailability object for the given candidate and candidateAvailability id
      *
-     * @param cId  the candidate ID
-     * @param caId the candidateAvailability ID
+     * @param cId  the candidate id
+     * @param caId the candidateAvailability id
      * @return the candidateAvailability data transfer object
      */
-    CandidateAvailabilityDto getCandidateAvailability(Integer cId, Integer caId) throws CandidateNotFoundException, AvailabilityNotFoundException ;
+    CandidateAvailabilityDto getCandidateAvailability(Integer cId, Integer caId) throws CandidateNotFoundException, AvailabilityNotFoundException;
 
     /**
-     * Updates a candidateAvailability object for the given candidate and candidateAvailability ID
+     * Updates a candidateAvailability object for the given candidate and candidateAvailability id
      *
-     * @param cId                      the candidate ID
-     * @param caId                     the candidateAvailability ID
+     * @param cId                      the candidate id
+     * @param caId                     the candidateAvailability id
      * @param candidateAvailabilityDto the candidateAvailability data transfer object
      * @return the candidateAvailability data transfer object
      */
