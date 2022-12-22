@@ -3,7 +3,6 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.availability.InterviewerAvailabilityDtoToInterviewerAvailability;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.availability.InterviewerAvailabilityToInterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.InterviewerAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityInterviewerMismatchException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
@@ -59,7 +58,7 @@ public class InterviewerAvailabilityServiceImpl implements InterviewerAvailabili
     @Transactional(readOnly = true)
     @Override
     public InterviewerAvailabilityDto getInterviewerAvailability(Integer iId, Integer iaId)
-            throws InterviewerNotFoundException, AvailabilityNotFoundException, AvailabilityInterviewerMismatchException {
+            throws InterviewerNotFoundException, AvailabilityNotFoundException {
 
         Interviewer interviewer = interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
         InterviewerAvailability retrievedInterviewerAvailability = interviewerAvailabilityDao.findById(iaId).orElseThrow(AvailabilityNotFoundException::new);
@@ -68,9 +67,6 @@ public class InterviewerAvailabilityServiceImpl implements InterviewerAvailabili
             if (Objects.equals(interviewerAvailability.getId(), iaId)) {
 
                 return interviewerAvailabilityToInterviewerAvailabilityDto.convert(retrievedInterviewerAvailability);
-
-            } else {
-                throw new AvailabilityInterviewerMismatchException();
             }
         }
 
@@ -83,7 +79,7 @@ public class InterviewerAvailabilityServiceImpl implements InterviewerAvailabili
     @Transactional
     @Override
     public InterviewerAvailabilityDto updateInterviewerAvailability(Integer iId, Integer iaId, InterviewerAvailabilityDto interviewerAvailabilityDto)
-            throws InterviewerNotFoundException, AvailabilityNotFoundException, AvailabilityInterviewerMismatchException {
+            throws InterviewerNotFoundException, AvailabilityNotFoundException {
 
         Interviewer interviewer = interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
         InterviewerAvailability retrievedInterviewerAvailability = interviewerAvailabilityDao.findById(iaId).orElseThrow(AvailabilityNotFoundException::new);
@@ -96,12 +92,9 @@ public class InterviewerAvailabilityServiceImpl implements InterviewerAvailabili
                 retrievedInterviewerAvailability.setDayOfWeek(interviewerAvailabilityDto.getDayOfWeek());
 
                 return interviewerAvailabilityToInterviewerAvailabilityDto.convert(interviewerAvailabilityDao.save(retrievedInterviewerAvailability));
-
-            } else {
-                throw new AvailabilityInterviewerMismatchException();
             }
         }
 
-        return interviewerAvailabilityDto;
+        return null;
     }
 }

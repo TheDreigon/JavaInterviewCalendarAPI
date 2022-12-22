@@ -84,67 +84,68 @@ You can even create request collections (left sidebar) based on the HTTP request
 
 #### RestAvailabilityController:
 
-{GET [/api/availabilities/candidates]}: getCandidateAvailabilities()
+{GET [/api/availabilities/ || /api/availabilities]}: getAllAvailabilities()
 
-{GET [/api/availabilities/overlaps/candidate/{cId}/interviewer/{iId} || /api/availabilities/overlaps/interviewer/{iId}/candidate/{cId}]}: getAvailabilityOverlapsForGivenIds(Integer,Integer)
+{GET [/api/availabilities/candidates/ || /api/availabilities/candidates]}: getCandidateAvailabilities()
 
-{GET [/api/availabilities/]}: getAllAvailabilities()
+{GET [/api/availabilities/interviewers/ || /api/availabilities/interviewers]}: getInterviewerAvailabilities()
 
-{GET [/api/availabilities/interviewers]}: getInterviewerAvailabilities()
+{GET [/api/availabilities/overlaps/ || /api/availabilities/overlaps]}: getAllAvailabilityOverlaps()
 
-{GET [/api/availabilities/overlaps]}: getAllAvailabilityOverlaps()
+{GET [/api/availabilities/overlaps/candidate/{cId}/interviewer/{iId}/ || /api/availabilities/overlaps/interviewer/{iId}/candidate/{cId}/ || /api/availabilities/overlaps/candidate/{cId}/interviewer/{iId} || /api/availabilities/overlaps/inter
+viewer/{iId}/candidate/{cId}]}: getAvailabilityOverlapsForGivenIds(Integer,Integer)
 
 #### RestCandidateAvailabilityController:
 
-{GET [/api/candidates/{cId}/availabilities/{caId}]}: getCandidateAvailabilityById(Integer,Integer)
+{GET [/api/candidates/availabilities/ || /api/candidates/availabilities]}: getCandidateAvailabilities()
 
-{GET [/api/candidates/availabilities/]}: getCandidateAvailabilities()
+{GET [/api/candidates/{cId}/availabilities/ || /api/candidates/{cId}/availabilities]}: getCandidateAvailabilitiesById(Integer)
 
-{GET [/api/candidates/{cId}/availabilities/]}: getCandidateAvailabilities(Integer)
+{GET [/api/candidates/{cId}/availabilities/{caId}/ || /api/candidates/{cId}/availabilities/{caId}]}: getCandidateAvailabilityById(Integer,Integer)
 
-{POST [/api/candidates/{cId}/availabilities/]}: addCandidateAvailability(Integer,CandidateAvailabilityDto,BindingResult,UriComponentsBuilder)
+{POST [/api/candidates/{cId}/availabilities/ || /api/candidates/{cId}/availabilities]}: addCandidateAvailability(Integer,CandidateAvailabilityDto,BindingResult,UriComponentsBuilder)
 
-{PUT [/api/candidates/{cId}/availabilities/{caId}]}: editCandidateAvailability(Integer,Integer,CandidateAvailabilityDto,BindingResult)
+{PUT [/api/candidates/{cId}/availabilities/{caId}/ || /api/candidates/{cId}/availabilities/{caId}]}: editCandidateAvailability(Integer,Integer,CandidateAvailabilityDto,BindingResult)
 
-{DELETE [/api/candidates/{cId}/availabilities/{caId}]}: deleteCandidateAvailability(Integer,Integer)
+{DELETE [/api/candidates/{cId}/availabilities/{caId}/ || /api/candidates/{cId}/availabilities/{caId}]}: deleteCandidateAvailability(Integer,Integer)
 
 #### RestCandidateController:
 
-{GET [/api/candidates/]}: getCandidates()
+{GET [/api/candidates/ || /api/candidates]}: getCandidates()
 
-{POST [/api/candidates/]}: addCandidate(CandidateDto,BindingResult,UriComponentsBuilder)
+{GET [/api/candidates/{cId}/ || /api/candidates/{cId}]}: getCandidateById(Integer)
 
-{PUT [/api/candidates/{cId}]}: editCandidate(Integer,CandidateDto,BindingResult)
+{POST [/api/candidates/ || /api/candidates]}: addCandidate(CandidateDto,BindingResult,UriComponentsBuilder)
 
-{DELETE [/api/candidates/{cId}]}: deleteCandidate(Integer)
+{PUT [/api/candidates/{cId}/ || /api/candidates/{cId}]}: editCandidate(Integer,CandidateDto,BindingResult)
 
-{GET [/api/candidates/{cId}]}: getCandidateById(Integer)
+{DELETE [/api/candidates/{cId}/ || /api/candidates/{cId}]}: deleteCandidate(Integer)
 
 #### RestInterviewerAvailabilityController:
 
-{GET [/api/interviewers/availabilities/]}: getInterviewerAvailabilities()
+{GET [/api/interviewers/availabilities/ || /api/interviewers/availabilities]}: getInterviewerAvailabilities()
 
-{GET [/api/interviewers/{iId}/availabilities/]}: getInterviewerAvailabilities(Integer)
+{GET [/api/interviewers/{iId}/availabilities/ || /api/interviewers/{iId}/availabilities]}: getInterviewerAvailabilitiesById(Integer)
 
-{DELETE [/api/interviewers/{iId}/availabilities/{iaId}]}: deleteInterviewerAvailability(Integer,Integer)
+{GET [/api/interviewers/{iId}/availabilities/{iaId}/ || /api/interviewers/{iId}/availabilities/{iaId}]}: getInterviewerAvailabilityById(Integer,Integer)
 
-{POST [/api/interviewers/{iId}/availabilities/]}: addInterviewerAvailability(Integer,InterviewerAvailabilityDto,BindingResult,UriComponentsBuilder)
+{POST [/api/interviewers/{iId}/availabilities/ || /api/interviewers/{iId}/availabilities]}: addInterviewerAvailability(Integer,InterviewerAvailabilityDto,BindingResult,UriComponentsBuilder)
 
-{GET [/api/interviewers/{iId}/availabilities/{iaId}]}: getInterviewerAvailabilityById(Integer,Integer)
+{PUT [/api/interviewers/{iId}/availabilities/{iaId}/ || /api/interviewers/{iId}/availabilities/{iaId}]}: editInterviewer(Integer,Integer,InterviewerAvailabilityDto,BindingResult)
 
-{PUT [/api/interviewers/{iId}/availabilities/{iaId}]}: editInterviewer(Integer,Integer,InterviewerAvailabilityDto,BindingResult)
+{DELETE [/api/interviewers/{iId}/availabilities/{iaId}/ || /api/interviewers/{iId}/availabilities/{iaId}]}: deleteInterviewerAvailability(Integer,Integer)
 
 #### RestInterviewerController:
 
-{GET [/api/interviewers/{iId}]}: getInterviewerById(Integer)
+{GET [/api/interviewers/ || /api/interviewers]}: getInterviewers()
 
-{DELETE [/api/interviewers/{iId}]}: deleteInterviewer(Integer)
+{GET [/api/interviewers/{iId}/ || /api/interviewers/{iId}]}: getInterviewerById(Integer)
 
-{POST [/api/interviewers/]}: addInterviewer(InterviewerDto,BindingResult,UriComponentsBuilder)
+{POST [/api/interviewers/ || /api/interviewers]}: addInterviewer(InterviewerDto,BindingResult,UriComponentsBuilder)
 
-{PUT [/api/interviewers/{iId}]}: editInterviewer(Integer,InterviewerDto,BindingResult)
+{PUT [/api/interviewers/{iId}/ || /api/interviewers/{iId}]}: editInterviewer(Integer,InterviewerDto,BindingResult)
 
-{GET [/api/interviewers/]}: getInterviewers()
+{DELETE [/api/interviewers/{iId}/ || /api/interviewers/{iId}]}: deleteInterviewer(Integer)
 
 #### InterviewCalendarErrorController:
 
@@ -152,7 +153,7 @@ You can even create request collections (left sidebar) based on the HTTP request
 
 ### Closing Remarks
 
-While the application is simple for now, it will suffer maintenance and evolution. 
+While this application is relatively simple for now, it will suffer maintenance and evolution. 
 
 Different "pr" branches have different API versions. The most recent version is version 2.
 
@@ -162,6 +163,6 @@ Thank you
 
 ### NOTE:
 
-#### The current release (v2) is still in testing. There is still a bug or two present!
+#### The current release (v2) is still in progress. 
 
-#### The next steps, for v2, will be to iron out the bugs, implement the unit tests, and further polish the code.
+#### The next steps, for v2, will be to do further api testing, implement the unit tests, and polish the code.

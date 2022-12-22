@@ -19,7 +19,7 @@ public class RestIndexController {
      *
      * @return the response
      */
-    @GetMapping(path = {"/", ""})
+    @GetMapping(path = {"", "/"})
     @ResponseBody
     protected ApiVersion showVersion() {
 
