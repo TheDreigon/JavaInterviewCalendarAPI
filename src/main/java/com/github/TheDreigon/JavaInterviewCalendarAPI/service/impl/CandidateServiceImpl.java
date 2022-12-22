@@ -6,7 +6,6 @@ import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.candidate.Candid
 import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.candidate.CandidateToCandidateDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.CandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.candidate.CandidateDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityCandidateMismatchException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -154,18 +154,17 @@ public class CandidateServiceImpl implements CandidateService {
     @Transactional
     @Override
     public void deleteCandidateAvailability(Integer cId, Integer caId)
-            throws CandidateNotFoundException, AvailabilityNotFoundException, AvailabilityCandidateMismatchException {
+            throws CandidateNotFoundException, AvailabilityNotFoundException {
 
         Candidate candidate = candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
         candidateAvailabilityDao.findById(caId).orElseThrow(AvailabilityNotFoundException::new);
 
-        for (CandidateAvailability candidateAvailability : candidate.getCandidateAvailabilityList()) {
+        for (Iterator<CandidateAvailability> iterator = candidate.getCandidateAvailabilityList().iterator(); iterator.hasNext();) {
+            CandidateAvailability candidateAvailability= iterator.next();
+
             if (Objects.equals(candidateAvailability.getId(), caId)) {
-
-                candidateDao.deleteById(caId);
-
-            } else {
-                throw new AvailabilityCandidateMismatchException();
+                iterator.remove();
+                candidateAvailabilityDao.deleteById(caId);
             }
         }
     }

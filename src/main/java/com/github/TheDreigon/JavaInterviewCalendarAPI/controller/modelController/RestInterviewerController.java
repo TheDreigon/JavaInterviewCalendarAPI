@@ -43,7 +43,7 @@ public class RestInterviewerController {
      *
      * @return the list of interviewers
      */
-    @GetMapping("/")
+    @GetMapping({"", "/"})
     public ResponseEntity<List<InterviewerDto>> getInterviewers() {
 
         log.info("Interviewer - GetAll Method called");
@@ -65,7 +65,7 @@ public class RestInterviewerController {
      * @param iId the interviewer id
      * @return the asked interviewer
      */
-    @GetMapping("/{iId}")
+    @GetMapping({"/{iId}", "/{iId}/"})
     public ResponseEntity<InterviewerDto> getInterviewerById(@PathVariable("iId") Integer iId) {
 
         log.info("Interviewer - Get Method called");
@@ -92,7 +92,7 @@ public class RestInterviewerController {
      * @param uriComponentsBuilder the uri components builder
      * @return the added interviewer
      */
-    @PostMapping("/")
+    @PostMapping({"", "/"})
     public ResponseEntity<InterviewerDto> addInterviewer(@Valid @RequestBody InterviewerDto interviewerDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
         log.info("Interviewer - Post Method called");
@@ -129,7 +129,7 @@ public class RestInterviewerController {
      * @param bindingResult  the binding result
      * @return the edited interviewer
      */
-    @PutMapping("/{iId}")
+    @PutMapping({"/{iId}", "/{iId}/"})
     public ResponseEntity<InterviewerDto> editInterviewer(@PathVariable("iId") Integer iId, @Valid @RequestBody InterviewerDto interviewerDto, BindingResult bindingResult) {
 
         log.info("Interviewer - Put Method called");
@@ -161,7 +161,7 @@ public class RestInterviewerController {
      * @param iId the interviewer id
      * @return the http confirmation status
      */
-    @DeleteMapping("/{iId}")
+    @DeleteMapping({"/{iId}", "/{iId}/"})
     public ResponseEntity<HttpStatus> deleteInterviewer(@PathVariable("iId") Integer iId) {
 
         log.info("Interviewer - Delete Method called");

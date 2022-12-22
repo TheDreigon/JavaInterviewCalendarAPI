@@ -2,7 +2,6 @@ package com.github.TheDreigon.JavaInterviewCalendarAPI.service.impl;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.availability.CandidateAvailabilityToCandidateAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.CandidateAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityCandidateMismatchException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Candidate;
@@ -54,7 +53,8 @@ public class CandidateAvailabilityServiceImpl implements CandidateAvailabilitySe
      */
     @Transactional(readOnly = true)
     @Override
-    public CandidateAvailabilityDto getCandidateAvailability(Integer cId, Integer caId) throws CandidateNotFoundException, AvailabilityNotFoundException, AvailabilityCandidateMismatchException {
+    public CandidateAvailabilityDto getCandidateAvailability(Integer cId, Integer caId)
+            throws CandidateNotFoundException, AvailabilityNotFoundException {
 
         Candidate candidate = candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
         CandidateAvailability retrievedCandidateAvailability = candidateAvailabilityDao.findById(caId).orElseThrow(AvailabilityNotFoundException::new);
@@ -63,9 +63,6 @@ public class CandidateAvailabilityServiceImpl implements CandidateAvailabilitySe
             if (Objects.equals(candidateAvailability.getId(), caId)) {
 
                 return candidateAvailabilityToCandidateAvailabilityDto.convert(retrievedCandidateAvailability);
-
-            } else {
-                throw new AvailabilityCandidateMismatchException();
             }
         }
 
@@ -78,7 +75,7 @@ public class CandidateAvailabilityServiceImpl implements CandidateAvailabilitySe
     @Transactional
     @Override
     public CandidateAvailabilityDto updateCandidateAvailability(Integer cId, Integer caId, CandidateAvailabilityDto candidateAvailabilityDto)
-            throws CandidateNotFoundException, AvailabilityNotFoundException, AvailabilityCandidateMismatchException {
+            throws CandidateNotFoundException, AvailabilityNotFoundException {
 
         Candidate candidate = candidateDao.findById(cId).orElseThrow(CandidateNotFoundException::new);
         CandidateAvailability retrievedCandidateAvailability = candidateAvailabilityDao.findById(caId).orElseThrow(AvailabilityNotFoundException::new);
@@ -91,12 +88,9 @@ public class CandidateAvailabilityServiceImpl implements CandidateAvailabilitySe
                 retrievedCandidateAvailability.setDayOfWeek(candidateAvailabilityDto.getDayOfWeek());
 
                 return candidateAvailabilityToCandidateAvailabilityDto.convert(candidateAvailabilityDao.save(retrievedCandidateAvailability));
-
-            } else {
-                throw new AvailabilityCandidateMismatchException();
             }
         }
 
-        return candidateAvailabilityDto;
+        return null;
     }
 }

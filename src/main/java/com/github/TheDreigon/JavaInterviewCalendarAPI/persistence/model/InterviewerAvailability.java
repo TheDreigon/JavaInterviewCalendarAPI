@@ -28,6 +28,7 @@ public class InterviewerAvailability extends AbstractAvailability {
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "interviewer")
+    @ToString.Exclude
     private Interviewer interviewer;
 
     @Override
