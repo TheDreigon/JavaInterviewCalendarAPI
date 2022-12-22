@@ -39,6 +39,7 @@ public class Interviewer extends AbstractWorker {
             fetch = FetchType.EAGER
     )
     @JsonManagedReference
+    @ToString.Exclude
     private List<InterviewerAvailability> interviewerAvailabilityList = new ArrayList<>();
 
     public void addInterviewerAvailabilitySlot(InterviewerAvailability interviewerAvailability) {

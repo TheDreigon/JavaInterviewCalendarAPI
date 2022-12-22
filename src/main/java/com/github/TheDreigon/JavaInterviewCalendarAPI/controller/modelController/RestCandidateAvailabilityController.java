@@ -1,7 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.CandidateAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityCandidateMismatchException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.CandidateNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.CandidateAvailability;
@@ -45,7 +44,7 @@ public class RestCandidateAvailabilityController {
      *
      * @return the list of candidateAvailabilities
      */
-    @GetMapping("/availabilities/")
+    @GetMapping({"/availabilities", "/availabilities/"})
     public ResponseEntity<List<CandidateAvailabilityDto>> getCandidateAvailabilities() {
 
         log.info("CandidateAvailability - GetAll Method called - all candidates");
@@ -67,8 +66,8 @@ public class RestCandidateAvailabilityController {
      * @param cId  the candidate id
      * @return the list of candidateAvailabilities
      */
-    @GetMapping("/{cId}/availabilities/")
-    public ResponseEntity<List<CandidateAvailabilityDto>> getCandidateAvailabilities(@PathVariable("cId") Integer cId) {
+    @GetMapping({"/{cId}/availabilities", "/{cId}/availabilities/"})
+    public ResponseEntity<List<CandidateAvailabilityDto>> getCandidateAvailabilitiesById(@PathVariable("cId") Integer cId) {
 
         log.info("CandidateAvailability - GetAll Method called - given candidate");
 
@@ -94,16 +93,18 @@ public class RestCandidateAvailabilityController {
      * @param caId the candidateAvailability id
      * @return the asked candidateAvailability
      */
-    @GetMapping("/{cId}/availabilities/{caId}")
+    @GetMapping({"/{cId}/availabilities/{caId}", "/{cId}/availabilities/{caId}/"})
     public ResponseEntity<CandidateAvailabilityDto> getCandidateAvailabilityById(@PathVariable("cId") Integer cId, @PathVariable("caId") Integer caId) {
 
         log.info("CandidateAvailability - Get Method called - given candidate, given availability");
 
         try {
-            CandidateAvailabilityDto candidateAvailabilityDto = candidateAvailabilityService.getCandidateAvailability(cId, caId);
-            return new ResponseEntity<>(candidateAvailabilityDto, HttpStatus.OK);
+            CandidateAvailabilityDto retrievedCandidateAvailabilityDto = candidateAvailabilityService.getCandidateAvailability(cId, caId);
 
-        } catch (CandidateNotFoundException | AvailabilityNotFoundException | AvailabilityCandidateMismatchException e) {
+            if (retrievedCandidateAvailabilityDto == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(retrievedCandidateAvailabilityDto, HttpStatus.OK);
+
+        } catch (CandidateNotFoundException | AvailabilityNotFoundException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -120,9 +121,9 @@ public class RestCandidateAvailabilityController {
      * @param candidateAvailabilityDto the candidateAvailability DTO
      * @param bindingResult            the binding result object
      * @param uriComponentsBuilder     the uri components builder
-     * @return the added availability
+     * @return the added candidateAvailability
      */
-    @PostMapping("/{cId}/availabilities/")
+    @PostMapping({"/{cId}/availabilities", "/{cId}/availabilities/"})
     public ResponseEntity<CandidateAvailabilityDto> addCandidateAvailability(@PathVariable("cId") Integer cId, @Valid @RequestBody CandidateAvailabilityDto candidateAvailabilityDto,
                                                                              BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
@@ -165,7 +166,7 @@ public class RestCandidateAvailabilityController {
      * @param bindingResult            the binding result
      * @return the edited candidateAvailability
      */
-    @PutMapping("/{cId}/availabilities/{caId}")
+    @PutMapping({"/{cId}/availabilities/{caId}", "/{cId}/availabilities/{caId}/"})
     public ResponseEntity<CandidateAvailabilityDto> editCandidateAvailability(@PathVariable("cId") Integer cId, @PathVariable("caId") Integer caId,
                                                                               @Valid @RequestBody CandidateAvailabilityDto candidateAvailabilityDto, BindingResult bindingResult) {
 
@@ -179,9 +180,10 @@ public class RestCandidateAvailabilityController {
             try {
                 CandidateAvailabilityDto editedCandidateAvailabilityDto = candidateAvailabilityService.updateCandidateAvailability(cId, caId, candidateAvailabilityDto);
 
+                if (editedCandidateAvailabilityDto == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 return new ResponseEntity<>(editedCandidateAvailabilityDto, HttpStatus.OK);
 
-            } catch (CandidateNotFoundException | AvailabilityNotFoundException |AvailabilityCandidateMismatchException e) {
+            } catch (CandidateNotFoundException | AvailabilityNotFoundException e) {
                 log.error(e.getMessage());
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -199,7 +201,7 @@ public class RestCandidateAvailabilityController {
      * @param caId the candidateAvailability id
      * @return the http confirmation status
      */
-    @DeleteMapping("/{cId}/availabilities/{caId}")
+    @DeleteMapping({"/{cId}/availabilities/{caId}", "/{cId}/availabilities/{caId}/"})
     public ResponseEntity<HttpStatus> deleteCandidateAvailability(@PathVariable("cId") Integer cId, @PathVariable("caId") Integer caId) {
 
         log.info("CandidateAvailability - Delete Method called");
@@ -209,7 +211,7 @@ public class RestCandidateAvailabilityController {
 
             return new ResponseEntity<>(HttpStatus.OK);
 
-        } catch (CandidateNotFoundException | AvailabilityNotFoundException | AvailabilityCandidateMismatchException e) {
+        } catch (CandidateNotFoundException | AvailabilityNotFoundException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

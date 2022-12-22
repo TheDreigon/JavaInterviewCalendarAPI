@@ -43,7 +43,7 @@ public class RestCandidateController {
      *
      * @return the list of candidates
      */
-    @GetMapping("/")
+    @GetMapping({"", "/"})
     public ResponseEntity<List<CandidateDto>> getCandidates() {
 
         log.info("Candidate - GetAll Method called");
@@ -65,7 +65,7 @@ public class RestCandidateController {
      * @param cId the candidate id
      * @return the asked candidate
      */
-    @GetMapping("/{cId}")
+    @GetMapping({"/{cId}", "/{cId}/"})
     public ResponseEntity<CandidateDto> getCandidateById(@PathVariable("cId") Integer cId) {
 
         log.info("Candidate - Get Method called");
@@ -92,7 +92,7 @@ public class RestCandidateController {
      * @param uriComponentsBuilder the uri components builder
      * @return the added candidate
      */
-    @PostMapping("/")
+    @PostMapping({"", "/"})
     public ResponseEntity<CandidateDto> addCandidate(@Valid @RequestBody CandidateDto candidateDto, BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
         log.info("Candidate - Post Method called");
@@ -129,7 +129,7 @@ public class RestCandidateController {
      * @param bindingResult the binding result
      * @return the edited candidate
      */
-    @PutMapping("/{cId}")
+    @PutMapping({"/{cId}", "/{cId}/"})
     public ResponseEntity<CandidateDto> editCandidate(@PathVariable("cId") Integer cId, @Valid @RequestBody CandidateDto candidateDto, BindingResult bindingResult) {
 
         log.info("Candidate - Put Method called");
@@ -161,7 +161,7 @@ public class RestCandidateController {
      * @param cId the candidate id
      * @return the http confirmation status
      */
-    @DeleteMapping("/{cId}")
+    @DeleteMapping({"/{cId}", "/{cId}/"})
     public ResponseEntity<HttpStatus> deleteCandidate(@PathVariable("cId") Integer cId) {
 
         log.info("Candidate - Delete Method called");

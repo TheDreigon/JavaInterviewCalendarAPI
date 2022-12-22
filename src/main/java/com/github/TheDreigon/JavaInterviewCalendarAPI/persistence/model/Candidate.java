@@ -39,6 +39,7 @@ public class Candidate extends AbstractWorker {
             fetch = FetchType.EAGER
     )
     @JsonManagedReference
+    @ToString.Exclude
     private List<CandidateAvailability> candidateAvailabilityList = new ArrayList<>();
 
     public void addCandidateAvailability(CandidateAvailability candidateAvailability) {

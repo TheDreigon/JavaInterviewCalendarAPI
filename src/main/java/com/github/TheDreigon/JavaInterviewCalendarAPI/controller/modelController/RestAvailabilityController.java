@@ -49,7 +49,7 @@ public class RestAvailabilityController {
      *
      * @return the list of availabilities
      */
-    @GetMapping("/")
+    @GetMapping({"", "/"})
     public ResponseEntity<List<? extends AvailabilityDto>> getAllAvailabilities() {
 
         log.info("Availability - GetAll Method called - Candidates and Interviewers");
@@ -73,7 +73,7 @@ public class RestAvailabilityController {
      *
      * @return the list of candidateAvailabilities
      */
-    @GetMapping("/candidates")
+    @GetMapping({"/candidates", "/candidates/"})
     public ResponseEntity<List<CandidateAvailabilityDto>> getCandidateAvailabilities() {
 
         log.info("CandidateAvailability - GetAll Method called");
@@ -94,7 +94,7 @@ public class RestAvailabilityController {
      *
      * @return the list of interviewerAvailabilities
      */
-    @GetMapping("/interviewers")
+    @GetMapping({"/interviewers", "/interviewers/"})
     public ResponseEntity<List<InterviewerAvailabilityDto>> getInterviewerAvailabilities() {
 
         log.info("InterviewerAvailability - GetAll Method called");
@@ -115,7 +115,7 @@ public class RestAvailabilityController {
      *
      * @return the list of all candidate and interviewer overlapping availabilities
      */
-    @GetMapping({"/overlaps"})
+    @GetMapping({"/overlaps", "/overlaps/"})
     public ResponseEntity<List<AvailabilityDto>> getAllAvailabilityOverlaps() {
 
         log.info("Availability - GetAll Method called - Overlaps");
@@ -136,8 +136,9 @@ public class RestAvailabilityController {
      *
      * @return the list of overlapping availabilities for the given ids
      */
-    @GetMapping({"/overlaps/candidate/{cId}/interviewer/{iId}", "/overlaps/interviewer/{iId}/candidate/{cId}"})
-    public ResponseEntity<List<AvailabilityDto>> getAvailabilityOverlapsForGivenIds(@PathVariable("cId") Integer cId, @PathVariable("cId") Integer iId) {
+    @GetMapping({"/overlaps/candidate/{cId}/interviewer/{iId}", "/overlaps/interviewer/{iId}/candidate/{cId}",
+            "/overlaps/candidate/{cId}/interviewer/{iId}/", "/overlaps/interviewer/{iId}/candidate/{cId}/"})
+    public ResponseEntity<List<AvailabilityDto>> getAvailabilityOverlapsForGivenIds(@PathVariable("cId") Integer cId, @PathVariable("iId") Integer iId) {
 
         log.info("Availability - Get Method called - Overlaps - given Candidate and Interviewer ids");
 

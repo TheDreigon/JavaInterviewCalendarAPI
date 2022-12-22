@@ -6,7 +6,6 @@ import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.interviewer.Inte
 import com.github.TheDreigon.JavaInterviewCalendarAPI.converter.interviewer.InterviewerToInterviewerDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.InterviewerAvailabilityDto;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.interviewer.InterviewerDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityInterviewerMismatchException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.Interviewer;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -155,18 +155,17 @@ public class InterviewerServiceImpl implements InterviewerService {
     @Transactional
     @Override
     public void deleteInterviewerAvailability(Integer iId, Integer iaId)
-            throws InterviewerNotFoundException, AvailabilityNotFoundException, AvailabilityInterviewerMismatchException {
+            throws InterviewerNotFoundException, AvailabilityNotFoundException {
 
         Interviewer interviewer = interviewerDao.findById(iId).orElseThrow(InterviewerNotFoundException::new);
         interviewerAvailabilityDao.findById(iaId).orElseThrow(AvailabilityNotFoundException::new);
 
-        for (InterviewerAvailability interviewerAvailability : interviewer.getInterviewerAvailabilityList()) {
+        for (Iterator<InterviewerAvailability> iterator = interviewer.getInterviewerAvailabilityList().iterator(); iterator.hasNext();) {
+            InterviewerAvailability interviewerAvailability= iterator.next();
+
             if (Objects.equals(interviewerAvailability.getId(), iaId)) {
-
-                interviewerDao.deleteById(iaId);
-
-            } else {
-                throw new AvailabilityInterviewerMismatchException();
+                iterator.remove();
+                interviewerAvailabilityDao.deleteById(iaId);
             }
         }
     }

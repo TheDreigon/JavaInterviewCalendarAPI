@@ -1,7 +1,6 @@
 package com.github.TheDreigon.JavaInterviewCalendarAPI.controller.modelController;
 
 import com.github.TheDreigon.JavaInterviewCalendarAPI.dto.availability.InterviewerAvailabilityDto;
-import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityInterviewerMismatchException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.AvailabilityNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.exception.InterviewerNotFoundException;
 import com.github.TheDreigon.JavaInterviewCalendarAPI.persistence.model.InterviewerAvailability;
@@ -45,7 +44,7 @@ public class RestInterviewerAvailabilityController {
      *
      * @return the list of interviewerAvailabilities
      */
-    @GetMapping("/availabilities/")
+    @GetMapping({"/availabilities", "/availabilities/"})
     public ResponseEntity<List<InterviewerAvailabilityDto>> getInterviewerAvailabilities() {
 
         log.info("InterviewerAvailability - GetAll Method called - all interviewers");
@@ -67,8 +66,8 @@ public class RestInterviewerAvailabilityController {
      * @param iId  the interviewer id
      * @return the list of interviewerAvailabilities
      */
-    @GetMapping("/{iId}/availabilities/")
-    public ResponseEntity<List<InterviewerAvailabilityDto>> getInterviewerAvailabilities(@PathVariable("iId") Integer iId) {
+    @GetMapping({"/{iId}/availabilities", "/{iId}/availabilities/"})
+    public ResponseEntity<List<InterviewerAvailabilityDto>> getInterviewerAvailabilitiesById(@PathVariable("iId") Integer iId) {
 
         log.info("InterviewerAvailability - GetAll Method called - given interviewer");
 
@@ -94,16 +93,18 @@ public class RestInterviewerAvailabilityController {
      * @param iaId the interviewerAvailability id
      * @return the asked interviewerAvailability
      */
-    @GetMapping("/{iId}/availabilities/{iaId}")
+    @GetMapping({"/{iId}/availabilities/{iaId}", "/{iId}/availabilities/{iaId}/"})
     public ResponseEntity<InterviewerAvailabilityDto> getInterviewerAvailabilityById(@PathVariable("iId") Integer iId, @PathVariable("iaId") Integer iaId) {
 
         log.info("InterviewerAvailability - Get Method called - given interviewer, given availability");
 
         try {
-            InterviewerAvailabilityDto interviewerAvailabilityDto = interviewerAvailabilityService.getInterviewerAvailability(iId, iaId);
-            return new ResponseEntity<>(interviewerAvailabilityDto, HttpStatus.OK);
+            InterviewerAvailabilityDto retrievedInterviewerAvailabilityDto = interviewerAvailabilityService.getInterviewerAvailability(iId, iaId);
 
-        } catch (InterviewerNotFoundException | AvailabilityNotFoundException | AvailabilityInterviewerMismatchException e) {
+            if (retrievedInterviewerAvailabilityDto == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(retrievedInterviewerAvailabilityDto, HttpStatus.OK);
+
+        } catch (InterviewerNotFoundException | AvailabilityNotFoundException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -122,7 +123,7 @@ public class RestInterviewerAvailabilityController {
      * @param uriComponentsBuilder       the uri components builder
      * @return the added interviewerAvailability
      */
-    @PostMapping("/{iId}/availabilities/")
+    @PostMapping({"/{iId}/availabilities", "/{iId}/availabilities/"})
     public ResponseEntity<InterviewerAvailabilityDto> addInterviewerAvailability(@PathVariable("iId") Integer iId, @Valid @RequestBody InterviewerAvailabilityDto interviewerAvailabilityDto,
                                                                                  BindingResult bindingResult, UriComponentsBuilder uriComponentsBuilder) {
 
@@ -165,7 +166,7 @@ public class RestInterviewerAvailabilityController {
      * @param bindingResult              the binding result
      * @return the edited interviewerAvailability
      */
-    @PutMapping("/{iId}/availabilities/{iaId}")
+    @PutMapping({"/{iId}/availabilities/{iaId}", "/{iId}/availabilities/{iaId}/"})
     public ResponseEntity<InterviewerAvailabilityDto> editInterviewer(@PathVariable("iId") Integer iId, @PathVariable("iaId") Integer iaId,
                                                           @Valid @RequestBody InterviewerAvailabilityDto interviewerAvailabilityDto, BindingResult bindingResult) {
 
@@ -179,9 +180,10 @@ public class RestInterviewerAvailabilityController {
             try {
                 InterviewerAvailabilityDto editedInterviewerAvailabilityDto = interviewerAvailabilityService.updateInterviewerAvailability(iId, iaId, interviewerAvailabilityDto);
 
+                if (editedInterviewerAvailabilityDto == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 return new ResponseEntity<>(editedInterviewerAvailabilityDto, HttpStatus.OK);
 
-            } catch (InterviewerNotFoundException | AvailabilityNotFoundException | AvailabilityInterviewerMismatchException e) {
+            } catch (InterviewerNotFoundException | AvailabilityNotFoundException e) {
                 log.error(e.getMessage());
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -199,7 +201,7 @@ public class RestInterviewerAvailabilityController {
      * @param iaId the interviewerAvailability id
      * @return the http confirmation status
      */
-    @DeleteMapping("/{iId}/availabilities/{iaId}")
+    @DeleteMapping({"/{iId}/availabilities/{iaId}", "/{iId}/availabilities/{iaId}/"})
     public ResponseEntity<HttpStatus> deleteInterviewerAvailability(@PathVariable("iId") Integer iId, @PathVariable("iaId") Integer iaId) {
 
         log.info("InterviewerAvailability - Delete Method called");
@@ -209,7 +211,7 @@ public class RestInterviewerAvailabilityController {
 
             return new ResponseEntity<>(HttpStatus.OK);
 
-        } catch (InterviewerNotFoundException | AvailabilityNotFoundException | AvailabilityInterviewerMismatchException e) {
+        } catch (InterviewerNotFoundException | AvailabilityNotFoundException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

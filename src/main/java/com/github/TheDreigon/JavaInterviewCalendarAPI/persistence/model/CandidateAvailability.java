@@ -28,6 +28,7 @@ public class CandidateAvailability extends AbstractAvailability {
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "candidate")
+    @ToString.Exclude
     private Candidate candidate;
 
     @Override
